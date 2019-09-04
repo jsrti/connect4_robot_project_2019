@@ -56,7 +56,6 @@ public class teht2main {
 		
 		while(isLooping) {
 			
-			Delay.msDelay(1000);
 			colorProvider.fetchSample(colorSample, 0);
 			distance.fetchSample(wallSample, 0);
 			
