@@ -18,14 +18,14 @@ public class ColorCalibration {
 	public int testColor(float[] color) {
 		
 		System.out.println();
-		System.out.println(colors[0][0]);
-		System.out.print(colors[0][1]);
+		System.out.println(colors[0][0]+" ");
+		System.out.print(colors[0][1]+" ");
 		System.out.print(colors[0][2]);
-		System.out.println(colors[1][0]);
-		System.out.print(colors[1][1]);
+		System.out.println(colors[1][0]+" ");
+		System.out.print(colors[1][1]+" ");
 		System.out.print(colors[1][2]);
-		System.out.println(colors[2][0]);
-		System.out.print(colors[2][1]);
+		System.out.println(colors[2][0]+" ");
+		System.out.print(colors[2][1]+" ");
 		System.out.print(colors[2][2]);
 		System.out.println();
 		
@@ -34,14 +34,12 @@ public class ColorCalibration {
 		
 		for (int i = 0; i < colors.length; i++) {
 			for (int n = 0; n < colors[i].length; n++) {
-				System.out.println(colors[i][n]);
-				colors[i][n]*=765;
-				color[n]*=765;
+				//System.out.println(colors[i][n]);
 				
 				results[n] = color[n] - colors[i][n];
 				
 				//System.out.println(color[n]);
-				System.out.println(colors[i][n]);
+				//System.out.println(colors[i][n]);
 				//System.out.println();	
 				//System.out.println(results[n]);
 				//System.out.println();	
