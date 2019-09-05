@@ -29,7 +29,7 @@ public class Movement {
 		motor1.endSynchronization();
 	}
 
-	public void stopMoving() {
+	public void stop() {
 		motor1.startSynchronization();
 		motor1.stop();
 		motor2.stop();
