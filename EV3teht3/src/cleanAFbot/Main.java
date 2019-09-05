@@ -1,0 +1,5 @@
+package cleanAFbot;
+
+class Main {
+
+}
