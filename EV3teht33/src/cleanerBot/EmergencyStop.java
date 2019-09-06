@@ -14,10 +14,7 @@ public class EmergencyStop implements Behavior {
 	
 	@Override
 	public boolean takeControl() {
-		if(Button.ENTER.isDown()) {
-			return true;
-		}
-		return false;
+		return Button.ENTER.isDown();
 	}
 
 	@Override
