@@ -15,12 +15,12 @@ public class ColorTester {
 
 	private void calibrateFloor(float[] floor) {
 		colors[0] = floor.clone();
-		System.out.println("✓");
+		System.out.println("- ok");
 	}
 
 	private void calibrateLine1(float[] line1) {
 		colors[1] = line1.clone();
-		System.out.println("✓");
+		System.out.println("- ok");
 	}
 	
 	public ColorTester(Port colorPort) {
