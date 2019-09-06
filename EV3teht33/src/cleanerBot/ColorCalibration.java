@@ -11,7 +11,7 @@ public class ColorCalibration {
 	private SampleProvider colorProvider;
 	private float[] colorSample;
 	
-	private float[][] colors = new float[3][3];
+	private float[][] colors = new float[3][2];
 
 	private void calibrateFloor(float[] floor) {
 		colors[0] = floor.clone();
@@ -19,10 +19,6 @@ public class ColorCalibration {
 
 	private void calibrateLine1(float[] line1) {
 		colors[1] = line1.clone();
-	}
-
-	private void calibrateLine2(float[] line2) {
-		colors[2] = line2.clone();
 	}
 	
 	public ColorCalibration(Port colorPort) {
@@ -32,20 +28,15 @@ public class ColorCalibration {
 	}
 	
 	public void startCalibration() {
-		System.out.println("Show the color of the floor, and then press the button");
+		System.out.println("Calibrate floor");
 		Button.ENTER.waitForPressAndRelease();
 		colorProvider.fetchSample(colorSample, 0);
 		calibrateFloor(colorSample);
 
-		System.out.println("Show the color of the first line, and then press the button");
+		System.out.println("Calibrate line");
 		Button.ENTER.waitForPressAndRelease();
 		colorProvider.fetchSample(colorSample, 0);
 		calibrateLine1(colorSample);
-
-		System.out.println("Show the color of the second line, and then press the button");
-		Button.ENTER.waitForPressAndRelease();
-		colorProvider.fetchSample(colorSample, 0);
-		calibrateLine2(colorSample);
 	}
 	
 	public int testColor() {
