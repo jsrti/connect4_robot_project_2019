@@ -1,12 +1,13 @@
 package cleanerBot;
 
 import lejos.robotics.subsumption.Behavior;
-import lejos.utility.Delay;
 
 public class ObstacleCheck implements Behavior {
 	private volatile boolean suppressed = false;
 	DistanceSensor distanceSensor;
 	private Movement movement;
+	long backStartTime;
+	long turnStartTime;
 
 	public ObstacleCheck(DistanceSensor distanceSensor, Movement movement) {
 		this.distanceSensor = distanceSensor;
@@ -25,11 +26,18 @@ public class ObstacleCheck implements Behavior {
 	public void action() {
 		System.out.print("Obstacle detected");
 		suppressed = false;
+		
+		backStartTime = System.currentTimeMillis();
 		movement.move(300, 300, true);
-		Delay.msDelay(1000);
+		while(!suppressed && (System.currentTimeMillis()-backStartTime)<1000) {
+			Thread.yield();
+		}
+		turnStartTime = System.currentTimeMillis();
 		movement.tankTurn(300, 300, true);
-		Delay.msDelay(1000);
-		movement.move(300, 300, true);
+		while(!suppressed && (System.currentTimeMillis()-turnStartTime)<1000) {
+			Thread.yield();
+		}
+		
 		if(suppressed) {
 			movement.stop();
 		}

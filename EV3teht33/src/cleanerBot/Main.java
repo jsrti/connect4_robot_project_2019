@@ -29,7 +29,7 @@ public class Main {
 		DriveForward driveForward = new DriveForward(movement);
 		LineCheck lineCheck = new LineCheck(colorCalibrator, movement);
 		ObstacleCheck obstacleCheck = new ObstacleCheck(distanceSensor, movement);
-		EmergencyStop emergencyStop = new EmergencyStop(movement);
+		EmergencyStop emergencyStop = new EmergencyStop();
 		
 		behaviors.add(driveForward);
 		behaviors.add(lineCheck);
