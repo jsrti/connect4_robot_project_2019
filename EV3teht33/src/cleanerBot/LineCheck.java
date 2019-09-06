@@ -16,7 +16,7 @@ public class LineCheck implements Behavior {
 	@Override
 	public boolean takeControl() {
 		int color = colorSensor.testColor();
-		if (color > 0) {
+		if (color > 0) { //If the color is closer to the color of the line returns true
 			return true;
 		}
 		return false;
@@ -24,13 +24,13 @@ public class LineCheck implements Behavior {
 
 	@Override
 	public void action() {
-		startTime = System.currentTimeMillis();
-		System.out.print("Line detected");
+		// Gets the time so that the turn can be timed in a while sentence instead of a using Delay
+		startTime = System.currentTimeMillis(); 
+		System.out.print("Line detected"); // Feedback for the user
 		suppressed = false;
-		movement.tankTurn(300, 300, true);
-		while (!suppressed && (System.currentTimeMillis() - startTime) < 2600) {
-			Thread.yield();
-		}
+		movement.tankTurn(300, 300, true); // Turns so that it wont go over the line
+		// Loops until arbitrator suppresses it or 2.6 seconds which is the time the bot takes to turn almost 180 degrees
+		while (!suppressed && (System.currentTimeMillis() - startTime) < 2600) Thread.yield();
 		if (suppressed) {
 			movement.stop();
 		}
