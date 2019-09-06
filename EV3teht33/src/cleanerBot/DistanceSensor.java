@@ -6,7 +6,7 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 
 public class DistanceSensor {
-	
+
 	private SensorModes wallSensor;
 	private SampleProvider distance;
 	private float[] wallSample;
@@ -16,7 +16,7 @@ public class DistanceSensor {
 		distance = ((EV3IRSensor) wallSensor).getDistanceMode();
 		wallSample = new float[distance.sampleSize()];
 	}
-	
+
 	public float distance() {
 		distance.fetchSample(wallSample, 0);
 		return wallSample[0];

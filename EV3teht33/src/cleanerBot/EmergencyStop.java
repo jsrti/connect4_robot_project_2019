@@ -5,10 +5,10 @@ import lejos.robotics.subsumption.Behavior;
 
 public class EmergencyStop implements Behavior {
 	private volatile boolean suppressed = false;
-	
+
 	public EmergencyStop() {
 	}
-	
+
 	@Override
 	public boolean takeControl() {
 		return Button.DOWN.isDown();
