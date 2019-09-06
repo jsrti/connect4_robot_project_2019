@@ -18,6 +18,7 @@ public class DriveForward implements Behavior {
 
 	@Override
 	public void action() {
+		System.out.println("Moving forward");
 		suppressed = false;
 		movement.move(300, 300, false);
 		while (!suppressed)Thread.yield();
