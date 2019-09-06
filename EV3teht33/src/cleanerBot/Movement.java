@@ -36,6 +36,22 @@ public class Movement {
 		motor1.endSynchronization();
 	}
 	
+	public void tankTurn(int leftSpeed, int rightSpeed, boolean leftTurn) {
+		
+		motor1.setSpeed(leftSpeed);
+		motor2.setSpeed(rightSpeed);
+		motor1.startSynchronization();
+		
+		if(leftTurn) {
+			motor1.backward();
+			motor2.forward();
+		} else {
+			motor1.forward();
+			motor2.backward();
+		}
+		
+		motor1.endSynchronization();
+	}
 
 	public void stop() {
 		motor1.startSynchronization();
