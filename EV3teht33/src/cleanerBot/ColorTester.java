@@ -5,7 +5,11 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.port.Port;
-
+/**
+ * For color calibration and testing
+ * @author Kim, Jetro, Pietari
+ *
+ */
 public class ColorTester {
 	private SensorModes colorSensor;
 	private SampleProvider colorProvider;
