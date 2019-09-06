@@ -28,9 +28,11 @@ public class Main {
 		
 		DriveForward driveForward = new DriveForward(movement);
 		LineCheck lineCheck = new LineCheck(colorCalibrator, movement);
+		ObstacleCheck obstacleCheck = new ObstacleCheck(distanceSensor, movement);
 		
 		behaviors.add(driveForward);
 		behaviors.add(lineCheck);
+		behaviors.add(obstacleCheck);
 		
 		Behavior[]behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]); 
 		
@@ -40,8 +42,6 @@ public class Main {
 		System.out.println("Press the button to start");
 		Button.ENTER.waitForPressAndRelease();
 		arbitrator.go();
-		//int testedColor = colorCalibrator.testColor();
-		//float distance = distanceSensor.distance();
 		
 		((Device) colorPort).close();
 		((Device) IRPort).close();
