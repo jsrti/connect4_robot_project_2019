@@ -41,9 +41,9 @@ public class Main {
 		arbitrator = new Arbitrator(behaviorArray);
 		
 		colorCalibrator.startCalibration();
-		System.out.print("Please test the emergency stop button. (Down)");
+		System.out.println("Please test the emergency stop button. (Down)");
 		Button.DOWN.waitForPressAndRelease();
-		System.out.print("yep, it works");
+		System.out.println("yep, it works");
 		System.out.println("Press the button to start");
 		Button.ENTER.waitForPressAndRelease();
 		arbitrator.go();
