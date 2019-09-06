@@ -25,6 +25,7 @@ public class EmergencyStop implements Behavior {
 		System.out.print("EMERGENCY STOP");
 		suppressed = false;
 		movement.stop();
+		Delay.msDelay(10);
 		System.out.print("Press ENTER to continue");
 		Button.ENTER.waitForPressAndRelease();
 	}
