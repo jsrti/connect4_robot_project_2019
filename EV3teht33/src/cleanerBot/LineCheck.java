@@ -1,12 +1,12 @@
 package cleanerBot;
 
 import lejos.robotics.subsumption.Behavior;
-import lejos.utility.Delay;
 
 public class LineCheck implements Behavior {
 	private volatile boolean suppressed = false;
 	ColorTester colorSensor;
 	private Movement movement;
+	long startTime;
 
 	public LineCheck(ColorTester colorSensor, Movement movement) {
 		this.colorSensor = colorSensor;
@@ -24,10 +24,13 @@ public class LineCheck implements Behavior {
 
 	@Override
 	public void action() {
+		startTime = System.currentTimeMillis();
 		System.out.print("Line detected");
 		suppressed = false;
 		movement.tankTurn(300, 300, true);
-		Delay.msDelay(2600);
+		while(!suppressed && (System.currentTimeMillis()-startTime)<2600) {
+			Thread.yield();
+		}
 		if(suppressed) {
 			movement.stop();
 		}
