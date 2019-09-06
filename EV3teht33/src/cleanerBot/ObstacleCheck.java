@@ -37,6 +37,7 @@ public class ObstacleCheck implements Behavior {
 		while(!suppressed && (System.currentTimeMillis()-turnStartTime)<1000) {
 			Thread.yield();
 		}
+		movement.move(300, 300, true);
 		
 		if(suppressed) {
 			movement.stop();
