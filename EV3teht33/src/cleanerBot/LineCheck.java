@@ -4,10 +4,10 @@ import lejos.robotics.subsumption.Behavior;
 
 public class LineCheck implements Behavior {
 	private volatile boolean suppressed = false;
-	ColorCalibration colorSensor;
+	ColorTester colorSensor;
 	private Movement movement;
 
-	public LineCheck(ColorCalibration colorSensor, Movement movement) {
+	public LineCheck(ColorTester colorSensor, Movement movement) {
 		this.colorSensor = colorSensor;
 		this.movement = movement;
 	}
@@ -24,7 +24,7 @@ public class LineCheck implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-		movement.move(300, 300, 1);
+		movement.move(300, 300, true);
 		while(!suppressed) Thread.yield();
 		if(suppressed) {
 			movement.stop();

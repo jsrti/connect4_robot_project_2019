@@ -19,7 +19,7 @@ public class DriveForward implements Behavior {
 	@Override
 	public void action() {
 		suppressed = false;
-		movement.move(300, 300, 0);
+		movement.move(300, 300, false);
 		while (!suppressed)Thread.yield();
 		movement.stop();
 	}

@@ -22,7 +22,7 @@ public class Main {
 		RegulatedMotor motor1 = new EV3LargeRegulatedMotor(MotorPort.B);
 		RegulatedMotor motor2 = new EV3LargeRegulatedMotor(MotorPort.C);
 		
-		ColorCalibration colorCalibrator = new ColorCalibration(colorPort);
+		ColorTester colorCalibrator = new ColorTester(colorPort);
 		DistanceSensor distanceSensor = new DistanceSensor(IRPort);
 		Movement movement = new Movement(motor1, motor2);
 		

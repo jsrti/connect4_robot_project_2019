@@ -6,7 +6,7 @@ import lejos.hardware.sensor.SensorModes;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.port.Port;
 
-public class ColorCalibration {
+public class ColorTester {
 	private SensorModes colorSensor;
 	private SampleProvider colorProvider;
 	private float[] colorSample;
@@ -23,7 +23,7 @@ public class ColorCalibration {
 		System.out.println("✓");
 	}
 	
-	public ColorCalibration(Port colorPort) {
+	public ColorTester(Port colorPort) {
 		colorSensor = new EV3ColorSensor(colorPort);
 		colorProvider = ((EV3ColorSensor) colorSensor).getRGBMode();
 		colorSample = new float[colorProvider.sampleSize()];
