@@ -1,36 +1,32 @@
 package cleanerBot;
 
+import lejos.hardware.Button;
 import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 
-public class LineCheck implements Behavior {
+public class EmergencyStop implements Behavior {
 	private volatile boolean suppressed = false;
-	ColorTester colorSensor;
 	private Movement movement;
-
-	public LineCheck(ColorTester colorSensor, Movement movement) {
-		this.colorSensor = colorSensor;
+	
+	public EmergencyStop(Movement movement) {
 		this.movement = movement;
 	}
 	
 	@Override
 	public boolean takeControl() {
-		int color = colorSensor.testColor();
-		if(color>0) {
+		if(Button.ENTER.isDown()) {
 			return true;
 		}
-		return false;	
+		return false;
 	}
 
 	@Override
 	public void action() {
-		System.out.print("Line detected");
+		System.out.print("EMERGENCY STOP");
 		suppressed = false;
-		movement.tankTurn(300, 300, true);
-		Delay.msDelay(2000);
-		if(suppressed) {
-			movement.stop();
-		}
+		movement.stop();
+		System.out.print("Press ENTER to continue");
+		Button.ENTER.waitForPressAndRelease();
 	}
 
 	@Override

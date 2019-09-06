@@ -29,10 +29,12 @@ public class Main {
 		DriveForward driveForward = new DriveForward(movement);
 		LineCheck lineCheck = new LineCheck(colorCalibrator, movement);
 		ObstacleCheck obstacleCheck = new ObstacleCheck(distanceSensor, movement);
+		EmergencyStop emergencyStop = new EmergencyStop(movement);
 		
 		behaviors.add(driveForward);
 		behaviors.add(lineCheck);
 		behaviors.add(obstacleCheck);
+		behaviors.add(emergencyStop);
 		
 		Behavior[]behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]); 
 		
