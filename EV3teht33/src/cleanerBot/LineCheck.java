@@ -1,6 +1,7 @@
 package cleanerBot;
 
 import lejos.robotics.subsumption.Behavior;
+import lejos.utility.Delay;
 
 public class LineCheck implements Behavior {
 	private volatile boolean suppressed = false;
