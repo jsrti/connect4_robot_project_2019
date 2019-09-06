@@ -3,12 +3,10 @@ package cleanerBot;
 import lejos.robotics.subsumption.Behavior;
 
 /**
+ * Behavior for the robot when it (IR sensor) detects an obstacle. The robot
+ * moves backwards, turns and continues moving to the original direction
  * 
  * @author jetro, kim, pietari, olli 6.9.2019
- *
- *         Behavior for the robot when it (IR sensor) detects an obstacle. The
- *         robot moves backwards, turns and continues moving to the original
- *         direction
  */
 public class ObstacleCheck implements Behavior {
 	private final int detectionDistance = 10; // obstacle detection distance in centimeters
