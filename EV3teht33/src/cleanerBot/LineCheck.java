@@ -25,8 +25,8 @@ public class LineCheck implements Behavior {
 	public void action() {
 		System.out.print("Line detected");
 		suppressed = false;
-		movement.move(300, 300, true);
-		while(!suppressed) Thread.yield();
+		movement.tankTurn(300, 300, true);
+		Delay.msDelay(2000);
 		if(suppressed) {
 			movement.stop();
 		}
