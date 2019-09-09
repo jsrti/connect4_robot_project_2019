@@ -26,6 +26,19 @@ public class Main {
 		// Initializes the needed classes
 		ColorTester colorCalibrator = new ColorTester(colorPort);
 		DistanceSensor distanceSensor = new DistanceSensor(IRPort);
+		
+		// Testing that the IR sensor works properly
+		boolean testOK = false;
+		while(!testOK) {
+			System.out.println("Press ENTER near a wall (1-10 cm) to test the distance sensor");
+			Button.ENTER.waitForPressAndRelease();
+			float distance = distanceSensor.distance();
+			if(distance>10||distance<1) {
+				System.out.println("Range check failed, check distance.");
+				System.out.printf("Sensor output: %f", distance);
+			}
+		}
+		
 		Movement movement = new Movement(motor1, motor2);
 
 		DriveForward driveForward = new DriveForward(movement);
@@ -48,7 +61,7 @@ public class Main {
 		System.out.println("Please test the emergency stop button. (Down)");
 		Button.DOWN.waitForPressAndRelease();
 		System.out.println("yep, it works");
-		System.out.println("Press the button to start");
+		System.out.println("Press ENTER to start");
 		Button.ENTER.waitForPressAndRelease();
 		// Starts the bot's default cycle
 		arbitrator.go();
