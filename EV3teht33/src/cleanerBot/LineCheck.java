@@ -26,7 +26,7 @@ public class LineCheck implements Behavior {
 	public void action() {
 		// Gets the time so that the turn can be timed in a while sentence instead of a using Delay
 		startTime = System.currentTimeMillis(); 
-		System.out.print("Line detected"); // Feedback for the user
+		System.out.println("Line detected"); // Feedback for the user
 		suppressed = false;
 		movement.tankTurn(300, 300, true); // Turns so that it wont go over the line
 		// Loops until arbitrator suppresses it or 2.6 seconds which is the time the bot takes to turn almost 180 degrees
