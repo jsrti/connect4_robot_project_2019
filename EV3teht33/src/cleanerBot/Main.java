@@ -28,15 +28,16 @@ public class Main {
 		DistanceSensor distanceSensor = new DistanceSensor(IRPort);
 		
 		// Testing that the IR sensor works properly
+		int rangeMin = 1;
+		int rangeMax = 10;
 		boolean testOK = false;
 		while(!testOK) {
-			System.out.println("Press ENTER near a wall (1-10 cm) to test the distance sensor");
+			System.out.printf("Press ENTER near a wall (%d-%d cm)", rangeMin, rangeMax);
 			Button.ENTER.waitForPressAndRelease();
-			float distance = distanceSensor.distance();
-			if(distance>10||distance<1) {
-				System.out.println("Range check failed, check distance.");
-				System.out.printf("Sensor output: %f", distance);
-			}
+			testOK = distanceSensor.testSensorRange(rangeMin, rangeMax);
+		}
+		if(testOK) {
+			System.out.println("IR range test OK");
 		}
 		
 		Movement movement = new Movement(motor1, motor2);
