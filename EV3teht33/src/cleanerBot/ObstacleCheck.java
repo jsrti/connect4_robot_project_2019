@@ -43,7 +43,7 @@ public class ObstacleCheck implements Behavior {
 	 */
 	@Override
 	public void action() {
-		System.out.print("Obstacle detected");
+		System.out.println("Obstacle detected");
 		suppressed = false;
 
 		backStartTime = System.currentTimeMillis();
