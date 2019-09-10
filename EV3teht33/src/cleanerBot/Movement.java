@@ -127,6 +127,7 @@ public class Movement {
 		// Reopening motors for movement
 		motorLeft = new EV3LargeRegulatedMotor(motorPortLeft);
 		motorRight = new EV3LargeRegulatedMotor(motorPortRight);
+		motorLeft.synchronizeWith(new RegulatedMotor[] { motorRight });
 		return testOk;
 	}
 }
