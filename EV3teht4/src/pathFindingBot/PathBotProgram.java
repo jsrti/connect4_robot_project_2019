@@ -18,42 +18,49 @@ import lejos.hardware.port.MotorPort;
 
 public class PathBotProgram {
 	public static void main(String[] args) {
-		final double HALKAISIJA = 3.1f;
-		final double RAIDELEVEYS = 20.3f;
+		final double HALKAISIJA = 3.15f;
+		final double RAIDELEVEYS = 17.9f;
 		RegulatedMotor mA = new EV3LargeRegulatedMotor(MotorPort.B);
 		RegulatedMotor mC = new EV3LargeRegulatedMotor(MotorPort.C);
 		DifferentialPilot pilotti = new DifferentialPilot(HALKAISIJA, RAIDELEVEYS, mA, mC);
 		// metri eteenpï¿½in
 		//pilotti.travel(80);
 		// kï¿½ï¿½nny kolme kierrosta oikealle
-		//pilotti.rotate(4 * 360);
+		//pilotti.rotate(3 * 360);
 		// kaarta pitkin: 50 cm sï¿½de, 90 asteen keskuskulma
 		//pilotti.arc(50, 90);
-
+		
 		// luodaan kartta (LineMap), alkusijainti (Pose) ja kohde (Waypoint)
-		Rectangle suorakulmio = new Rectangle(0, 0, 150, 100);
-		Line[] janat = new Line[8];
+		Rectangle suorakulmio = new Rectangle(0, 0, 88, 135);
+		Line[] janat = new Line[10];
 		// rajaavan suorakulmion sivut
-		janat[0] = new Line(0, 0, 150, 0);
-		janat[1] = new Line(150, 0, 150, 100);
-		janat[2] = new Line(0, 100, 150, 100);
-		janat[3] = new Line(0, 0, 0, 100);
-		// pystysuora este
-		janat[4] = new Line(30, 20, 30, 60);
-		// kolmionmuotoinen alue
-		janat[5] = new Line(90, 50, 120, 20);
-		janat[6] = new Line(120, 20, 130, 50);
-		janat[7] = new Line(90, 50, 130, 50);
+		janat[0] = new Line(0, 0, 30, 0); // alareuna vasen
+		janat[1] = new Line(53, 0, 88, 0); // alareuna oikea
+		janat[2] = new Line(0, 0, 0, 135); // Vasen pitkä seinä
+		janat[3] = new Line(88, 0, 88, 135); // Oikea pitkä seinä
+		janat[4] = new Line(0, 135, 88, 135); // yläreuna seinä
+		// väliseinät
+		janat[5] = new Line(28, 0, 28, 33); // vasen lähtö seinä
+		janat[6] = new Line(56, 33, 88, 33); // oikea väliseinä
+		janat[7] = new Line(0, 64, 53, 64); // pitkä keskiseinä
+		janat[8] = new Line(53, 63, 53, 102); // lyhyt pystyseinä
+		janat[9] = new Line(22, 96, 56, 96); // lyhyt yläkeskiseinä
+
+
 		LineMap kartta = new LineMap(janat, suorakulmio);
 
 		Navigator navi = new Navigator(pilotti);
-		navi.addWaypoint(new Waypoint(20,10));
+		//navi.addWaypoint(new Waypoint(12,12));
+		//navi.addWaypoint(new Waypoint(50,0));
+		navi.addWaypoint(new Waypoint(43,80));
+		//navi.addWaypoint(new Waypoint(43,0));
 
 		ShortestPathFinder polunEtsija = new ShortestPathFinder(kartta);
 		polunEtsija.lengthenLines(10); // pidennetï¿½ï¿½n kartan viivoja joka suuntaan,jotta
 		// robotti mahtuu liikkumaan alueella (oletus: robotti tarvitsee 10 cm
 		// tilaa keskipisteensï¿½ ulkopuolelle)
-		Pose alkupiste = new Pose(10, 10, 0);
+		Pose alkupiste = new Pose(43, 0, 90);
+		navi.getPoseProvider().setPose(alkupiste);
 		try {
 			Path polku = polunEtsija.findRoute(alkupiste, navi.getWaypoint());
 			navi.setPath(polku);
