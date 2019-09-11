@@ -23,11 +23,11 @@ public class PathBotProgram {
 		RegulatedMotor mA = new EV3LargeRegulatedMotor(MotorPort.B);
 		RegulatedMotor mC = new EV3LargeRegulatedMotor(MotorPort.C);
 		DifferentialPilot pilotti = new DifferentialPilot(HALKAISIJA, RAIDELEVEYS, mA, mC);
-		// metri eteenpäin
+		// metri eteenpï¿½in
 		//pilotti.travel(80);
-		// käänny kolme kierrosta oikealle
+		// kï¿½ï¿½nny kolme kierrosta oikealle
 		//pilotti.rotate(4 * 360);
-		// kaarta pitkin: 50 cm säde, 90 asteen keskuskulma
+		// kaarta pitkin: 50 cm sï¿½de, 90 asteen keskuskulma
 		//pilotti.arc(50, 90);
 
 		// luodaan kartta (LineMap), alkusijainti (Pose) ja kohde (Waypoint)
@@ -49,13 +49,13 @@ public class PathBotProgram {
 		Navigator navi = new Navigator(pilotti);
 		navi.addWaypoint(new Waypoint(20,10));
 
-		ShortestPathFinder polunEtsijä = new ShortestPathFinder(kartta);
-		polunEtsijä.lengthenLines(10); // pidennetään kartan viivoja joka suuntaan,jotta
+		ShortestPathFinder polunEtsijÃ¤ = new ShortestPathFinder(kartta);
+		polunEtsijÃ¤.lengthenLines(10); // pidennetï¿½ï¿½n kartan viivoja joka suuntaan,jotta
 		// robotti mahtuu liikkumaan alueella (oletus: robotti tarvitsee 10 cm
-		// tilaa keskipisteensä ulkopuolelle)
+		// tilaa keskipisteensï¿½ ulkopuolelle)
 		Pose alkupiste = new Pose(10, 10, 0);
 		try {
-			Path polku = polunEtsijä.findRoute(alkupiste, navi.getWaypoint());
+			Path polku = polunEtsijÃ¤.findRoute(alkupiste, navi.getWaypoint());
 			navi.setPath(polku);
 			navi.followPath();
 			navi.waitForStop();
