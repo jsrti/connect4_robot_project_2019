@@ -12,24 +12,28 @@ import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
 import lejos.robotics.pathfinding.Path;
 import lejos.robotics.pathfinding.ShortestPathFinder;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import lejos.hardware.Button;
+import lejos.hardware.Sound;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 
 public class PathBotProgram {
 	public static void main(String[] args) {
 		final double HALKAISIJA = 3.15f;
-		final double RAIDELEVEYS = 17.9f;
+		final double RAIDELEVEYS = 17.8f;
 		RegulatedMotor mA = new EV3LargeRegulatedMotor(MotorPort.B);
 		RegulatedMotor mC = new EV3LargeRegulatedMotor(MotorPort.C);
 		DifferentialPilot pilotti = new DifferentialPilot(HALKAISIJA, RAIDELEVEYS, mA, mC);
-		// metri eteenpï¿½in
-		//pilotti.travel(80);
-		// kï¿½ï¿½nny kolme kierrosta oikealle
-		//pilotti.rotate(3 * 360);
-		// kaarta pitkin: 50 cm sï¿½de, 90 asteen keskuskulma
-		//pilotti.arc(50, 90);
-		
+
+		// pilotti.rotate(3 * 360);
+		// pilotti.travel(80);
+		// pilotti.rotate(3 * 360);
+		// Button.ENTER.waitForPressAndRelease();
+
 		// luodaan kartta (LineMap), alkusijainti (Pose) ja kohde (Waypoint)
 		Rectangle suorakulmio = new Rectangle(0, 0, 88, 135);
 		Line[] janat = new Line[10];
@@ -46,29 +50,31 @@ public class PathBotProgram {
 		janat[8] = new Line(53, 63, 53, 102); // lyhyt pystyseinä
 		janat[9] = new Line(22, 96, 56, 96); // lyhyt yläkeskiseinä
 
-
 		LineMap kartta = new LineMap(janat, suorakulmio);
 
 		Navigator navi = new Navigator(pilotti);
-		//navi.addWaypoint(new Waypoint(12,12));
-		//navi.addWaypoint(new Waypoint(50,0));
-		navi.addWaypoint(new Waypoint(43,80));
-		//navi.addWaypoint(new Waypoint(43,0));
+		List<Waypoint> wayPoints = new ArrayList<>();
+		wayPoints.add(new Waypoint(12, 12));
+		wayPoints.add(new Waypoint(79, 11));
+		wayPoints.add(new Waypoint(43, 80));
+		wayPoints.add(new Waypoint(43, 0));
 
 		ShortestPathFinder polunEtsija = new ShortestPathFinder(kartta);
-		polunEtsija.lengthenLines(10); // pidennetï¿½ï¿½n kartan viivoja joka suuntaan,jotta
-		// robotti mahtuu liikkumaan alueella (oletus: robotti tarvitsee 10 cm
-		// tilaa keskipisteensï¿½ ulkopuolelle)
+		polunEtsija.lengthenLines(10);
 		Pose alkupiste = new Pose(43, 0, 90);
 		navi.getPoseProvider().setPose(alkupiste);
-		try {
-			Path polku = polunEtsija.findRoute(alkupiste, navi.getWaypoint());
-			navi.setPath(polku);
-			navi.followPath();
-			navi.waitForStop();
-		} catch (DestinationUnreachableException e) {
-			System.out.println("EI TOIMI!!!!!!");
-			Button.ENTER.waitForPressAndRelease();
+		for (int i = 0; i < wayPoints.size(); i++) {
+			try {
+				Path polku = polunEtsija.findRoute(navi.getPoseProvider().getPose(), wayPoints.get(i));
+				navi.setPath(polku);
+				navi.followPath();
+				navi.waitForStop();
+				Sound.twoBeeps();
+			} catch (DestinationUnreachableException e) {
+				System.out.println("Destination unreachable");
+				Button.ENTER.waitForPressAndRelease();
+			}
 		}
+
 	}
 }
