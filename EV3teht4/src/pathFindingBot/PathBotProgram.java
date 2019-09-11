@@ -23,32 +23,44 @@ import lejos.hardware.port.MotorPort;
 
 public class PathBotProgram {
 	public static void main(String[] args) {
-		final double HALKAISIJA = 3.15f;
-		final double RAIDELEVEYS = 17.8f;
+		final double HALKAISIJA = 3.2f;
+		final double RAIDELEVEYS = 17.4f;
 		RegulatedMotor mA = new EV3LargeRegulatedMotor(MotorPort.B);
 		RegulatedMotor mC = new EV3LargeRegulatedMotor(MotorPort.C);
 		DifferentialPilot pilotti = new DifferentialPilot(HALKAISIJA, RAIDELEVEYS, mA, mC);
 
-		// pilotti.rotate(3 * 360);
-		// pilotti.travel(80);
-		// pilotti.rotate(3 * 360);
-		// Button.ENTER.waitForPressAndRelease();
+		//pilotti.rotate(3 * 360);
+		//pilotti.travel(100);
+		//Button.ENTER.waitForPressAndRelease();
+		//pilotti.rotate(3 * 360);
+		//Button.ENTER.waitForPressAndRelease();
 
 		// luodaan kartta (LineMap), alkusijainti (Pose) ja kohde (Waypoint)
-		Rectangle suorakulmio = new Rectangle(0, 0, 88, 135);
-		Line[] janat = new Line[10];
+		Rectangle suorakulmio = new Rectangle(0, 0, 86, 133);
+		Line[] janat = new Line[15];
 		// rajaavan suorakulmion sivut
-		janat[0] = new Line(0, 0, 30, 0); // alareuna vasen
-		janat[1] = new Line(53, 0, 88, 0); // alareuna oikea
-		janat[2] = new Line(0, 0, 0, 135); // Vasen pitkï¿½ seinï¿½
-		janat[3] = new Line(88, 0, 88, 135); // Oikea pitkï¿½ seinï¿½
-		janat[4] = new Line(0, 135, 88, 135); // ylï¿½reuna seinï¿½
-		// vï¿½liseinï¿½t
-		janat[5] = new Line(28, 0, 28, 33); // vasen lï¿½htï¿½ seinï¿½
-		janat[6] = new Line(56, 33, 88, 33); // oikea vï¿½liseinï¿½
-		janat[7] = new Line(0, 64, 53, 64); // pitkï¿½ keskiseinï¿½
-		janat[8] = new Line(53, 63, 53, 102); // lyhyt pystyseinï¿½
-		janat[9] = new Line(22, 96, 56, 96); // lyhyt ylï¿½keskiseinï¿½
+		janat[0] = new Line(0, 0, 27, 0); // alareuna vasen
+		janat[1] = new Line(55, 0, 86, 0); // alareuna oikea
+		janat[2] = new Line(0, 0, 0, 133); // Vasen pitkä seinä
+		janat[3] = new Line(86, 0, 86, 133); // Oikea pitkä seinä
+		janat[4] = new Line(0, 133, 86, 133); // yläreuna seinä
+		
+		// väliseinät
+		janat[5] = new Line(27, 0, 27, 33); // vasen lähtö seinä
+		janat[6] = new Line(32, 0, 32, 33); 
+		
+		janat[7] = new Line(54, 30, 86, 30); // oikea väliseinä
+		janat[8] = new Line(54, 36, 86, 36); 
+		
+		janat[9] = new Line(0, 62, 55, 62); // pitkä keskiseinä
+		janat[10] = new Line(0, 68, 55, 68); 
+		
+		janat[11] = new Line(51, 68, 51, 94); // lyhyt pystyseinä
+		janat[12] = new Line(57, 68, 57, 94);
+		
+		janat[13] = new Line(22, 94, 55, 94); // lyhyt yläkeskiseinä
+		janat[14] = new Line(22, 102, 55, 102); 
+		
 
 		LineMap kartta = new LineMap(janat, suorakulmio);
 
