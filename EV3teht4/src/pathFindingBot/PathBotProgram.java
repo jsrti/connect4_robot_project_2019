@@ -40,15 +40,15 @@ public class PathBotProgram {
 		// rajaavan suorakulmion sivut
 		janat[0] = new Line(0, 0, 30, 0); // alareuna vasen
 		janat[1] = new Line(53, 0, 88, 0); // alareuna oikea
-		janat[2] = new Line(0, 0, 0, 135); // Vasen pitkä seinä
-		janat[3] = new Line(88, 0, 88, 135); // Oikea pitkä seinä
-		janat[4] = new Line(0, 135, 88, 135); // yläreuna seinä
-		// väliseinät
-		janat[5] = new Line(28, 0, 28, 33); // vasen lähtö seinä
-		janat[6] = new Line(56, 33, 88, 33); // oikea väliseinä
-		janat[7] = new Line(0, 64, 53, 64); // pitkä keskiseinä
-		janat[8] = new Line(53, 63, 53, 102); // lyhyt pystyseinä
-		janat[9] = new Line(22, 96, 56, 96); // lyhyt yläkeskiseinä
+		janat[2] = new Line(0, 0, 0, 135); // Vasen pitkï¿½ seinï¿½
+		janat[3] = new Line(88, 0, 88, 135); // Oikea pitkï¿½ seinï¿½
+		janat[4] = new Line(0, 135, 88, 135); // ylï¿½reuna seinï¿½
+		// vï¿½liseinï¿½t
+		janat[5] = new Line(28, 0, 28, 33); // vasen lï¿½htï¿½ seinï¿½
+		janat[6] = new Line(56, 33, 88, 33); // oikea vï¿½liseinï¿½
+		janat[7] = new Line(0, 64, 53, 64); // pitkï¿½ keskiseinï¿½
+		janat[8] = new Line(53, 63, 53, 102); // lyhyt pystyseinï¿½
+		janat[9] = new Line(22, 96, 56, 96); // lyhyt ylï¿½keskiseinï¿½
 
 		LineMap kartta = new LineMap(janat, suorakulmio);
 
@@ -63,6 +63,7 @@ public class PathBotProgram {
 		polunEtsija.lengthenLines(10);
 		Pose alkupiste = new Pose(43, 0, 90);
 		navi.getPoseProvider().setPose(alkupiste);
+		
 		for (int i = 0; i < wayPoints.size(); i++) {
 			try {
 				Path polku = polunEtsija.findRoute(navi.getPoseProvider().getPose(), wayPoints.get(i));
