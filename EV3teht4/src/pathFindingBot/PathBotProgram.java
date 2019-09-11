@@ -49,13 +49,13 @@ public class PathBotProgram {
 		Navigator navi = new Navigator(pilotti);
 		navi.addWaypoint(new Waypoint(20,10));
 
-		ShortestPathFinder polunEtsijä = new ShortestPathFinder(kartta);
-		polunEtsijä.lengthenLines(10); // pidennet��n kartan viivoja joka suuntaan,jotta
+		ShortestPathFinder polunEtsija = new ShortestPathFinder(kartta);
+		polunEtsija.lengthenLines(10); // pidennet��n kartan viivoja joka suuntaan,jotta
 		// robotti mahtuu liikkumaan alueella (oletus: robotti tarvitsee 10 cm
 		// tilaa keskipisteens� ulkopuolelle)
 		Pose alkupiste = new Pose(10, 10, 0);
 		try {
-			Path polku = polunEtsijä.findRoute(alkupiste, navi.getWaypoint());
+			Path polku = polunEtsija.findRoute(alkupiste, navi.getWaypoint());
 			navi.setPath(polku);
 			navi.followPath();
 			navi.waitForStop();
