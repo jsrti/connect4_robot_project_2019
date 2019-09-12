@@ -12,6 +12,11 @@ import lejos.robotics.navigation.Waypoint;
 import lejos.robotics.pathfinding.Path;
 import lejos.robotics.pathfinding.ShortestPathFinder;
 
+/**
+ * pathfinding and navigation
+ * @author Pietari Järvi, Jetro Saarti, Olli Kaivola, Kim Widberg 12.9.2019
+ *
+ */
 public class PathNavigating {
 
 	private List<Waypoint> wayPoints = new ArrayList<>();

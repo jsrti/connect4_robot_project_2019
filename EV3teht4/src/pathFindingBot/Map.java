@@ -4,6 +4,11 @@ import lejos.robotics.geometry.Line;
 import lejos.robotics.geometry.Rectangle;
 import lejos.robotics.mapping.LineMap;
 
+/**
+ * Creates a map for navigation
+ * @author Pietari Järvi, Kim Widberg, Olli Kaivola, Jetro Saarti 12.9.2019
+ *
+ */
 public class Map {
 
 	/**

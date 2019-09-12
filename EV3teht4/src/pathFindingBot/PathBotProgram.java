@@ -9,7 +9,7 @@ import lejos.hardware.port.MotorPort;
 
 /**
  * Robot that finds the shortest path to waypoints/goals and tries to avoid obstacles(walls).
- * @author Pietari Järvi, Jetro Saarti, Kim Widberg, Olli Kaivola
+ * @author Pietari Järvi, Jetro Saarti, Kim Widberg, Olli Kaivola 12.9.2019
  *
  */
 public class PathBotProgram {
