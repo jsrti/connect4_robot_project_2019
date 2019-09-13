@@ -39,19 +39,24 @@ public class PathBotProgram {
 		PathNavigating navigate = new PathNavigating(lineMap, pilot, ROBOTRADIUS, startingPose);
 
 		/*
-		// Adding waypoints to the map
-		navigate.addWaypoint(12, 11);
-		navigate.addWaypoint(78, 11);
-		navigate.addWaypoint(39, 84);
-		navigate.addWaypoint(43, 0);
+		(12, 11);
+		(78, 11);
+		(39, 84);
+		(43, 0);
 		*/
-
-		navigate.addWaypoint(communication.receiveWaypoint());
-		navigate.addWaypoint(communication.receiveWaypoint());
+		
+		int waypointCount = communication.receiveWaypointCount();
+		System.out.println("count: " + waypointCount);
+		
+		for(int i = 0; i<waypointCount; i++) {
+			navigate.addWaypoint(communication.receiveWaypoint());
+		}
+		navigate.addWaypoint(new Waypoint(startingPose.getX(), startingPose.getY())); // Returns home
 
 		// Button check before starting pathfinding
-		System.out.println("Press ENTER to start");
-		Button.ENTER.waitForPressAndRelease();
+		System.out.println("Waiting for start command");
+		communication.waitForGoCommand();
+		System.out.println("Starting...");
 
 		for (int i = 0; i < navigate.getWaypointCount(); i++) {
 			Sample s = navigate.startNavigating(i);

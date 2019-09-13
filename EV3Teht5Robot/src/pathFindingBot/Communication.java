@@ -37,6 +37,15 @@ public class Communication {
 		System.out.println("CONNECTED");
 	}
 	
+	public void waitForGoCommand() {
+		try {
+			in.readInt();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendSample(Sample s) {
 		try {
 			oos.writeObject(s);
@@ -47,12 +56,24 @@ public class Communication {
 		}
 	}
 	
+	public int receiveWaypointCount() {
+		int count = 0; 
+		
+		try {
+			count = in.readInt();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
 	public Waypoint receiveWaypoint(){
-		Waypoint point = new Waypoint(0,0);
+		Waypoint point = new Waypoint(0,5);
 		try {
 			point.loadObject(in);
 			System.out.println("X " + point.x);
-			System.out.println("\nY " + point.y);
+			System.out.println("Y " + point.y);
 		}catch(IOException e) {
 			System.out.println("Couldn't load waypoints");
 			System.err.println(e);

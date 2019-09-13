@@ -65,6 +65,7 @@ public class PathNavigating {
 	public Sample startNavigating(int currentWaypointNumber) {
 		
 		Sample s = null;
+		long startTime = System.currentTimeMillis();
 			
 		try {
 			Path path = pathFinder.findRoute(navi.getPoseProvider().getPose(), wayPoints.get(currentWaypointNumber));
@@ -74,9 +75,9 @@ public class PathNavigating {
 			
 			Sound.twoBeeps(); // Taking a sample at a waypoint
 			
-			long currentTimeMillis = System.currentTimeMillis();
+			long duration = System.currentTimeMillis() - startTime;
 			Pose currentPose = navi.getPoseProvider().getPose();
-			s = new Sample((int)currentPose.getX(), (int)currentPose.getY(), currentWaypointNumber, currentTimeMillis);
+			s = new Sample((int)currentPose.getX(), (int)currentPose.getY(), currentWaypointNumber, duration);
 			
 		} catch (DestinationUnreachableException e) {
 			System.out.println("Destination unreachable");
