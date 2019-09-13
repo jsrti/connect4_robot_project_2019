@@ -35,7 +35,7 @@ public class Sample implements Serializable {
 	@Override
 	public String toString() {
 		Date date = new Date(currentTimeMillis);
-		String returnable = "#" + waypointNumber + 1;
+		String returnable = "#" + (waypointNumber + 1);
 		returnable += " X: " + x;
 		returnable += " Y: " + y;
 		returnable += " Time: " + date;
