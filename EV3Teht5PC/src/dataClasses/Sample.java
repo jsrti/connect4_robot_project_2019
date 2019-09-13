@@ -1,4 +1,4 @@
-package pcRobotHost;
+package dataClasses;
 
 import java.io.Serializable;
 

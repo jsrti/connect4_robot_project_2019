@@ -3,10 +3,12 @@ package pcRobotHost;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import dataClasses.Sample;
 import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
@@ -19,6 +21,7 @@ import lejos.robotics.navigation.Waypoint;
 public class CommunicationPC {
 	private DataOutputStream out = null;
 	private DataInputStream in = null;
+	private ObjectInputStream oIn = null;
 	private Socket s = null;
 	private int luku = 0;
 	
@@ -27,6 +30,7 @@ public class CommunicationPC {
 			s = new Socket("10.0.1.1", 1111);
 			out = new DataOutputStream(s.getOutputStream());
 			in = new DataInputStream(s.getInputStream());
+			oIn = new ObjectInputStream(in); 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -69,5 +73,19 @@ public class CommunicationPC {
 			System.out.println("Couldn't dump starting pose");
 			System.err.println(e);
 		}
+	}
+	
+	public Sample receiveSample() {
+		Sample s = null;
+		try {
+			s = (Sample)oIn.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return s;
 	}
 }
