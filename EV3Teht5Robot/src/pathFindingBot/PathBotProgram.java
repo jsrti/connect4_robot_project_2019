@@ -5,13 +5,14 @@ import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
+import dataClasses.Sample;
 import lejos.hardware.Button;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 
 /**
  * Robot that finds the shortest path to waypoints/goals and tries to avoid obstacles(walls).
- * @author Pietari Järvi, Jetro Saarti, Kim Widberg, Olli Kaivola 12.9.2019
+ * @author Pietari Jï¿½rvi, Jetro Saarti, Kim Widberg, Olli Kaivola 12.9.2019
  *
  */
 public class PathBotProgram {
@@ -44,14 +45,22 @@ public class PathBotProgram {
 		navigate.addWaypoint(39, 84);
 		navigate.addWaypoint(43, 0);
 		*/
-		
+
+		navigate.addWaypoint(communication.receiveWaypoint());
 		navigate.addWaypoint(communication.receiveWaypoint());
 
 		// Button check before starting pathfinding
 		System.out.println("Press ENTER to start");
 		Button.ENTER.waitForPressAndRelease();
 
-		navigate.startNavigating();
+		for (int i = 0; i < navigate.getWaypointCount(); i++) {
+			Sample s = navigate.startNavigating(i);
+			communication.sendSample(s);
+			System.out.println("Found waypoint: " + s.getWaypointNumber());
+		}
+		
+		System.out.println("Press ENTER to exit");
+		Button.ENTER.waitForPressAndRelease();
 		
 	}
 }

@@ -1,4 +1,4 @@
-package pathFindingBot;
+package dataClasses;
 
 import java.io.Serializable;
 

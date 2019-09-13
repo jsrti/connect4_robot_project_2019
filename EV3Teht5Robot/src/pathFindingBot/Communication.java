@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Date;
 
+import dataClasses.Sample;
+import lejos.hardware.Sound;
 import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
@@ -24,6 +26,7 @@ public class Communication {
 		try {
 			serveri = new ServerSocket(1111);
 			System.out.println("waiting for connection");
+			Sound.beep();
 			s = serveri.accept();
 			in = new DataInputStream(s.getInputStream());
 			out = new DataOutputStream(s.getOutputStream());
@@ -37,6 +40,7 @@ public class Communication {
 	public void sendSample(Sample s) {
 		try {
 			oos.writeObject(s);
+			oos.flush();
 			System.out.println("Sample sent");
 		}catch(IOException e) {
 			System.out.println("Couldn't send sample");

@@ -2,6 +2,8 @@ package pathFindingBot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dataClasses.Sample;
 import lejos.hardware.Sound;
 import lejos.robotics.mapping.LineMap;
 import lejos.robotics.navigation.DestinationUnreachableException;
@@ -14,7 +16,7 @@ import lejos.robotics.pathfinding.ShortestPathFinder;
 
 /**
  * pathfinding and navigation
- * @author Pietari Järvi, Jetro Saarti, Olli Kaivola, Kim Widberg 12.9.2019
+ * @author Pietari Jï¿½rvi, Jetro Saarti, Olli Kaivola, Kim Widberg 12.9.2019
  *
  */
 public class PathNavigating {
@@ -34,6 +36,7 @@ public class PathNavigating {
 	 */
 	public PathNavigating(LineMap map, DifferentialPilot pilot, float robotRadius, Pose startingPose) {
 		navi = new Navigator(pilot);
+		navi.getPoseProvider().setPose(startingPose);
 		pathFinder = new ShortestPathFinder(map);
 		pathFinder.lengthenLines(robotRadius);
 		this.startingPose = startingPose;
@@ -50,32 +53,35 @@ public class PathNavigating {
 	public void addWaypoint(Waypoint w) {
 		wayPoints.add(w);
 	}
+	
+	public int getWaypointCount() {
+		return wayPoints.size();
+	}
 
 	/**
 	 * Sets the starting point to the robot and navigates from waypoint to waypoint
 	 * until the final waypoint is reached.
 	 */
-	public void startNavigating() {
-		navi.getPoseProvider().setPose(startingPose);
-
-		for (int i = 0; i < wayPoints.size(); i++) {
-			try {
-				Path path = pathFinder.findRoute(navi.getPoseProvider().getPose(), wayPoints.get(i));
-				navi.setPath(path);
-				navi.followPath();
-				navi.waitForStop();
-				
-				Sound.twoBeeps(); // Taking a sample at a waypoint
-				currentWaypointNumber++;
-				
-				long currentTimeMillis = System.currentTimeMillis();
-				Pose currentPose = navi.getPoseProvider().getPose();
-				Sample s = new Sample((int)currentPose.getX(), (int)currentPose.getY(), currentWaypointNumber, currentTimeMillis);
-				
-			} catch (DestinationUnreachableException e) {
-				System.out.println("Destination unreachable");
-			}
+	public Sample startNavigating(int currentWaypointNumber) {
+		
+		Sample s = null;
+			
+		try {
+			Path path = pathFinder.findRoute(navi.getPoseProvider().getPose(), wayPoints.get(currentWaypointNumber));
+			navi.setPath(path);
+			navi.followPath();
+			navi.waitForStop();
+			
+			Sound.twoBeeps(); // Taking a sample at a waypoint
+			
+			long currentTimeMillis = System.currentTimeMillis();
+			Pose currentPose = navi.getPoseProvider().getPose();
+			s = new Sample((int)currentPose.getX(), (int)currentPose.getY(), currentWaypointNumber, currentTimeMillis);
+			
+		} catch (DestinationUnreachableException e) {
+			System.out.println("Destination unreachable");
 		}
+		return s;
 	}
 
 }
