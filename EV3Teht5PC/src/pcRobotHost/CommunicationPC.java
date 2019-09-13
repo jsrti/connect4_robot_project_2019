@@ -46,8 +46,29 @@ public class CommunicationPC {
 		}
 	}
 	
+	public void go() {
+		try {
+			out.writeInt(1);
+			out.flush();
+		} catch (IOException e) {
+			System.err.println(e);
+			System.out.println("Failed to send waypoint count");
+		}
+	}
+	
+	public void sendWaypointCount(int count) {
+		try {
+			out.writeInt(count);
+			out.flush();
+		} catch (IOException e) {
+			System.err.println(e);
+			System.out.println("Failed to send waypoint count");
+		}
+	}
+	
 	public void sendWaypoint(Waypoint point){
 		try {
+			System.out.println(point.x + " " + point.y);
 			point.dumpObject(out);
 			System.out.println("Waypoint dumped");
 		}catch(IOException e) {
