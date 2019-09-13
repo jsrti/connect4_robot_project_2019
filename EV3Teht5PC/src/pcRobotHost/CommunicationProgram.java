@@ -1,38 +1,30 @@
 package pcRobotHost;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
+
+import lejos.robotics.navigation.Pose;
+import lejos.robotics.navigation.Waypoint;
 
 public class CommunicationProgram {
 
 	public static void main(String[] args) {
-		DataOutputStream out = null;
-		DataInputStream in = null;
-		Socket s;
+		CommunicationPC communication = new CommunicationPC();
+		MapPC map = new MapPC();
+		Pose startingPose = new Pose(43,0,90);
+		Waypoint waypoint = new Waypoint(39,84);
+		
+		communication.openConnection();
+		communication.sendLineMap(map.createDefaultMap());
+		communication.sendPose(startingPose);
+		communication.sendWaypoint(waypoint);
+		
 		try {
-			s = new Socket("10.0.1.1", 1111);
-			out = new DataOutputStream(s.getOutputStream());
-			in = new DataInputStream(s.getInputStream());
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.in.read();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			for (int i = 1; i <= 5; i++) { // Kirjoitetaan output-virtaan luvut 1-5.
-				out.writeInt(i);
-				out.flush(); // aina kirjoittamisen jälkeen
-			}
-		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		while(true) {
-			
-		}
+		communication.closeConnection();
 	}
 }
