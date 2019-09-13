@@ -22,12 +22,10 @@ public class CommunicationProgram {
 		communication.sendWaypoint(waypoint1);
 		
 		Sample s = communication.receiveSample();
-		System.out.println("Reached waypoint " + s.getWaypointNumber());
-		System.out.println("X: " +  s.getX());
+		System.out.println(s);
 		
 		s = communication.receiveSample();
-		System.out.println("Reached waypoint " + s.getWaypointNumber());
-		System.out.println("X: " +  s.getX());
+		System.out.println(s);
 		
 		try {
 			System.in.read();

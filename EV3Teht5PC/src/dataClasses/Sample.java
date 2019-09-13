@@ -1,6 +1,7 @@
 package dataClasses;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Sample implements Serializable {
 	private int x;
@@ -29,5 +30,15 @@ public class Sample implements Serializable {
 
 	public int getWaypointNumber() {
 		return waypointNumber;
+	}
+	
+	@Override
+	public String toString() {
+		Date date = new Date(currentTimeMillis);
+		String returnable = "#" + waypointNumber + 1;
+		returnable += " X: " + x;
+		returnable += " Y: " + y;
+		returnable += " Time: " + date;
+		return returnable;
 	}
 }
