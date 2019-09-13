@@ -23,6 +23,7 @@ public class PathNavigating {
 	private Navigator navi;
 	private ShortestPathFinder pathFinder;
 	private Pose startingPose;
+	private int currentWaypointNumber = 0;
 
 	/**
 	 * 
@@ -46,8 +47,8 @@ public class PathNavigating {
 	 * @param x
 	 * @param y
 	 */
-	public void addWaypoint(int x, int y) {
-		wayPoints.add(new Waypoint(x, y));
+	public void addWaypoint(Waypoint w) {
+		wayPoints.add(w);
 	}
 
 	/**
@@ -63,7 +64,14 @@ public class PathNavigating {
 				navi.setPath(path);
 				navi.followPath();
 				navi.waitForStop();
+				
 				Sound.twoBeeps(); // Taking a sample at a waypoint
+				currentWaypointNumber++;
+				
+				long currentTimeMillis = System.currentTimeMillis();
+				Pose currentPose = navi.getPoseProvider().getPose();
+				Sample s = new Sample((int)currentPose.getX(), (int)currentPose.getY(), currentWaypointNumber, currentTimeMillis);
+				
 			} catch (DestinationUnreachableException e) {
 				System.out.println("Destination unreachable");
 			}
