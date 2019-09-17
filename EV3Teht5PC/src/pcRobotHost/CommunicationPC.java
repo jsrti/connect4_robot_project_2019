@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -14,8 +13,8 @@ import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
 
 /**
- * PC COMMUNICATION!!!!!!1!!1K1K1o!Ko!K
- * @author Pietari
+ * 
+ * @author Pietari Järvi, Jetro Saarti, Kim Widberg, Olli Kaivola
  *
  */
 public class CommunicationPC {
@@ -23,8 +22,10 @@ public class CommunicationPC {
 	private DataInputStream in = null;
 	private ObjectInputStream oIn = null;
 	private Socket s = null;
-	private int luku = 0;
 	
+	/**
+	 * Opens socket connection and data streams
+	 */
 	public void openConnection() {
 		try {
 			s = new Socket("10.0.1.1", 1111);
@@ -38,6 +39,9 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Closes socket connection
+	 */
 	public void closeConnection() {
 		try {
 			s.close();
@@ -46,6 +50,9 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Start command for robot
+	 */
 	public void go() {
 		try {
 			out.writeInt(1);
@@ -56,6 +63,10 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Robot expects to get the number of waypoints that this method sends as parameter
+	 * @param count
+	 */
 	public void sendWaypointCount(int count) {
 		try {
 			out.writeInt(count);
@@ -66,6 +77,10 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Sends a waypoint object to the robot
+	 * @param point
+	 */
 	public void sendWaypoint(Waypoint point){
 		try {
 			System.out.println(point.x + " " + point.y);
@@ -77,6 +92,10 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Sends a LineMap object to the robot
+	 * @param map
+	 */
 	public void sendLineMap(LineMap map) {
 		try {
 			map.dumpObject(out);
@@ -86,6 +105,10 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Sends a Pose object to the robot
+	 * @param startingPose
+	 */
 	public void sendPose(Pose startingPose) {
 		try {
 			startingPose.dumpObject(out);
@@ -96,6 +119,10 @@ public class CommunicationPC {
 		}
 	}
 	
+	/**
+	 * Receives a sample from the robot when the robot reaches a waypoint
+	 * @return
+	 */
 	public Sample receiveSample() {
 		Sample s = null;
 		try {

@@ -6,7 +6,11 @@ import java.util.Scanner;
 import dataClasses.Sample;
 import lejos.robotics.navigation.Pose;
 import lejos.robotics.navigation.Waypoint;
-
+/**
+ * PC main class
+ * @author Pietari Järvi, Jetro Saarti, Kim Widberg, Olli Kaivola
+ *
+ */
 public class CommunicationProgram {
 
 	public static void main(String[] args) {
@@ -80,6 +84,7 @@ public class CommunicationProgram {
 			e.printStackTrace();
 		}
 		
+		userInput.close();
 		communication.closeConnection();
 	}
 }
