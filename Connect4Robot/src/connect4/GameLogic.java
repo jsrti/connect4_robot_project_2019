@@ -42,7 +42,7 @@ public class GameLogic {
 
 	// etsii seuraavan tyhjän slotin nykyisestä sijainnista eteenpäin. lähdettävä
 	// tässä vaiheessa nollasta, eli nollaus ennen tätä
-	public Point checkNextEmptySlot() {
+	private Point checkNextEmptySlot() {
 		Point nextEmptyPoint = null;
 		for (int i = (int) currentPos.getX(); i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
