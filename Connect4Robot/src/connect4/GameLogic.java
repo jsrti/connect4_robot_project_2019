@@ -53,5 +53,16 @@ public class GameLogic {
 		}
 		return nextEmptyPoint;
 	}
+	
+	//"askeleet" seuraavaan tarkistettavaan pisteeseen anturin nykyisestä sijainnista
+	public Point movementStepsToNextEmpty() {
+		Point nextEmpty = checkNextEmptySlot();
+		Point xySteps = new Point();
+		
+		xySteps.x = nextEmpty.x-currentPos.x;
+		xySteps.y = nextEmpty.y-currentPos.y;
+		
+		return xySteps;
+	}
 
 }
