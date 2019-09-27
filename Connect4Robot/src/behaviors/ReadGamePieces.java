@@ -13,8 +13,10 @@ import sensors.ColorTester;
 
 public class ReadGamePieces implements Behavior {
 
-	private final int motorSpeed = 50;
-	private RegulatedMotor motor;
+	private boolean suppressed = false;
+	private final int sensorMotorSpeed = 50;
+	private final int movementSpeed = 50;
+	private RegulatedMotor sensorMotor;
 	
 	private ColorTester colorCalibrator;
 	private Movement movement;
@@ -23,36 +25,68 @@ public class ReadGamePieces implements Behavior {
 	public ReadGamePieces(ColorTester colorCalibrator, Movement movement, Port motorPort, GameLogic gameLogic) {
 		this.colorCalibrator = colorCalibrator;
 		this.movement = movement;
-		this.motor = new EV3MediumRegulatedMotor(motorPort);
-		motor.setSpeed(motorSpeed);
+		this.sensorMotor = new EV3MediumRegulatedMotor(motorPort);
+		sensorMotor.setSpeed(sensorMotorSpeed);
 		this.gameLogic = gameLogic;
 	}
 
 	@Override
 	public boolean takeControl() {
+		//otetaan kontrolli, kun robotin vuoro ja laudan luku kesken (pelattu nappula löytämättä)
+		if(gameLogic.getIsRobotsTurn()&&!gameLogic.getGameBoardReadComplete()) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public void action() {
-		//moveToNextEmpty
-		//read color
-		//if!=empty -> update gameLogic+gameBoardReadComplete, suppress
+		while(!suppressed) {
+			//haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
+			Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
+			
+			//sensorin liikutus haluttuun paikkaan
+			moveSensor(stepsToNextEmpty);
+			//read color
+			//if!=empty -> update gameLogic+gameBoardReadComplete, suppress
+		}
 
 	}
 
 	@Override
 	public void suppress() {
-		//paluu alkupisteeseen
+		//TODO: paluu alkupisteeseen (behaviour)
+		suppressed = true;
 	}
 	
-	private void moveSensor(boolean moveUpwards, Point steps) {
+	private void moveSensor(Point steps) {
+		int stepsMovedUp = 0; //pidetään ylhäällä liikutus stepit, parametrina saadaan kokonaismäärä
+		int stepsMovedDown = 0;
 		
+		//tarkistetaan x-liikkumissuunta
+		boolean xDirectionForward = true;
+		if(steps.x>0) {
+			xDirectionForward = true;
+		}else {
+			xDirectionForward = false;
+		}
+		//x-suunnassa liikkuminen (pyörät)
+		movement.move(stepsMovedDown, xDirectionForward);
+		
+		
+		//jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen)
+		if(steps.y<0) {
+			sensorMotor.backward();
+		}else {
+			sensorMotor.forward();
+		}
+		/*
 		if (moveUpwards) {
 			motor.forward();
 		}else {
 			motor.backward();
 		}
+		*/
 	}
 	
 }

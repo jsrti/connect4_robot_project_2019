@@ -16,6 +16,14 @@ public class GameLogic {
 
 	private boolean turnCalculationReceived = false;
 	private boolean hasDroppedPiece = false;
+	
+	public boolean getIsRobotsTurn() {
+		return isRobotsTurn;
+	}
+	
+	public boolean getGameBoardReadComplete() {
+		return gameBoardReadComplete;
+	}
 
 	public GameLogic() {
 		gameGrid = new int[columns][rows];
@@ -38,8 +46,8 @@ public class GameLogic {
 		currentPos.x--;
 	}
 
-	// etsii seuraavan tyhjän slotin nykyisestä sijainnista eteenpäin. lähdettävä
-	// tässä vaiheessa nollasta, eli nollaus ennen tätä
+	// etsii seuraavan tyhjï¿½n slotin nykyisestï¿½ sijainnista eteenpï¿½in. lï¿½hdettï¿½vï¿½
+	// tï¿½ssï¿½ vaiheessa nollasta, eli nollaus ennen tï¿½tï¿½
 	private Point checkNextEmptySlot() {
 		Point nextEmptyPoint = null;
 		for (int i = (int) currentPos.getX(); i < columns; i++) {
@@ -52,8 +60,8 @@ public class GameLogic {
 		return nextEmptyPoint;
 	}
 	
-	//"askeleet" seuraavaan tarkistettavaan pisteeseen anturin nykyisestä sijainnista
-	public Point movementStepsToNextEmpty() {
+	//"askeleet" seuraavaan tarkistettavaan pisteeseen anturin nykyisestï¿½ sijainnista
+	public Point stepsToNextEmpty() {
 		Point nextEmpty = checkNextEmptySlot();
 		Point xySteps = new Point();
 		
