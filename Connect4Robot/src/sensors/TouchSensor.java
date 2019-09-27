@@ -14,7 +14,7 @@ public class TouchSensor {
 		float[] touchSample = {0};
 		touchSensor.getTouchMode().fetchSample(touchSample, 0);
 		
-		if (Math.round(touchSample[0]) == 1) {
+		if (touchSample[0] != 0) {
 			return true;
 		}
 		return false;
