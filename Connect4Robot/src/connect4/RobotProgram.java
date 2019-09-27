@@ -14,7 +14,7 @@ import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 import sensors.ColorTester;
 public class RobotProgram {
-	
+
 	public static void main(String[] args) {
 		Arbitrator arbitrator;
 		ArrayList<Behavior> behaviors = new ArrayList<>();
@@ -28,6 +28,7 @@ public class RobotProgram {
 
 		// Initializes the needed classes
 		ColorTester colorCalibrator = new ColorTester(colorPort);
+		GameLogic gameLogic = new GameLogic();
 
 
 		Movement movement = new Movement(motorMovementPort);
@@ -45,7 +46,7 @@ public class RobotProgram {
 			}
 		}
 		DriveForward driveForward = new DriveForward(movement);
-		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, movement);
+		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, movement, gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
 
 		// Adds the behaviors in the order of importance from least to most

@@ -1,9 +1,7 @@
 package connect4;
 
 import java.awt.Point;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class GameLogic {
 	int columns = 7;

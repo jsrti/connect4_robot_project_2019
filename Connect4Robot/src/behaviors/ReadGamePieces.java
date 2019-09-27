@@ -1,5 +1,6 @@
 package behaviors;
 
+import connect4.GameLogic;
 import connect4.Movement;
 import lejos.robotics.subsumption.Behavior;
 import sensors.ColorTester;
@@ -8,10 +9,12 @@ public class ReadGamePieces implements Behavior {
 
 	private ColorTester colorCalibrator;
 	private Movement movement;
+	private GameLogic gameLogic;
 
-	public ReadGamePieces(ColorTester colorCalibrator, Movement movement) {
+	public ReadGamePieces(ColorTester colorCalibrator, Movement movement, GameLogic gameLogic) {
 		this.colorCalibrator = colorCalibrator;
 		this.movement = movement;
+		this.gameLogic = gameLogic;
 	}
 
 	@Override
