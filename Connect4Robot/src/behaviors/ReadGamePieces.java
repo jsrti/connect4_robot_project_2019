@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import connect4.GameLogic;
 import connect4.Movement;
+import lejos.hardware.Sound;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.Port;
@@ -17,13 +18,13 @@ public class ReadGamePieces implements Behavior {
 	private final int sensorMotorSpeed = 50;
 	private final int movementSpeed = 50;
 	private RegulatedMotor sensorMotor;
-	
-	private ColorTester colorCalibrator;
+
+	private ColorTester colorTester;
 	private Movement movement;
 	private GameLogic gameLogic;
 
-	public ReadGamePieces(ColorTester colorCalibrator, Movement movement, Port motorPort, GameLogic gameLogic) {
-		this.colorCalibrator = colorCalibrator;
+	public ReadGamePieces(ColorTester colorTester, Movement movement, Port motorPort, GameLogic gameLogic) {
+		this.colorTester = colorTester;
 		this.movement = movement;
 		this.sensorMotor = new EV3MediumRegulatedMotor(motorPort);
 		sensorMotor.setSpeed(sensorMotorSpeed);
@@ -32,8 +33,9 @@ public class ReadGamePieces implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		//otetaan kontrolli, kun robotin vuoro ja laudan luku kesken (pelattu nappula löytämättä)
-		if(gameLogic.getIsRobotsTurn()&&!gameLogic.getGameBoardReadComplete()) {
+		// otetaan kontrolli, kun robotin vuoro ja laudan luku kesken (pelattu nappula
+		// löytämättä)
+		if (gameLogic.getIsRobotsTurn() && !gameLogic.getGameBoardReadComplete()) {
 			return true;
 		}
 		return false;
@@ -41,52 +43,76 @@ public class ReadGamePieces implements Behavior {
 
 	@Override
 	public void action() {
-		while(!suppressed) {
-			//haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
+		while (!suppressed) {
+			// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
 			Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
-			
-			//sensorin liikutus haluttuun paikkaan
+
+			// sensorin liikutus haluttuun paikkaan
 			moveSensor(stepsToNextEmpty);
-			//read color
-			//if!=empty -> update gameLogic+gameBoardReadComplete, suppress
+			// read color
+			// if!=empty -> update gameLogic+gameBoardReadComplete, suppress
 		}
 
 	}
 
 	@Override
 	public void suppress() {
-		//TODO: paluu alkupisteeseen (behaviour)
+		// TODO: paluu alkupisteeseen (behaviour)
 		suppressed = true;
 	}
-	
+
 	private void moveSensor(Point steps) {
-		int stepsMovedUp = 0; //pidetään ylhäällä liikutus stepit, parametrina saadaan kokonaismäärä
-		int stepsMovedDown = 0;
-		
-		//tarkistetaan x-liikkumissuunta
+		int stepsMovedY = 0; // pidetään ylhäällä liikutus stepit, parametrina saadaan kokonaismäärä
+		int stepsMovedX = 0;
+
+		// tarkistetaan x-liikkumissuunta
 		boolean xDirectionForward = true;
-		if(steps.x>0) {
+		if (steps.x > 0) {
 			xDirectionForward = true;
-		}else {
+		} else {
 			xDirectionForward = false;
 		}
-		//x-suunnassa liikkuminen (pyörät)
-		movement.move(stepsMovedDown, xDirectionForward);
-		
-		
-		//jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen)
-		if(steps.y<0) {
+		// x-suunnassa liikkuminen (pyörät)
+		movement.move(movementSpeed, xDirectionForward);
+
+		int lastColor = colorTester.testColor(); // edellinen väri, johon uutta tunnistettua väriä verrataan (toiminto
+													// värin vaihtuessa)
+		for (int i = 0; i < Math.abs(steps.x); i++) {
+			// luetaan väriä, kunnes tunnistetaan uusi väri
+			boolean foundNewPiece = false;
+			while (!foundNewPiece) {
+				int color = colorTester.testColor();
+				if (color != lastColor) {
+					Sound.twoBeeps(); //piippaa, kun tunnistetaan uusi väri
+					switch (color) {
+					case ColorTester.COLOR_BOARD:
+						lastColor = color; //laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
+						break;
+					case ColorTester.COLOR_PLAYERPIECE:
+					case ColorTester.COLOR_ROBOTPIECE:
+						foundNewPiece = true;
+						if(xDirectionForward) {
+							stepsMovedX += 1;
+						}else {
+							stepsMovedX -= 1;
+						}
+						
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			// luetaan väri, pysähdytään
+		}
+
+		// jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen)
+		if (steps.y < 0) {
 			sensorMotor.backward();
-		}else {
+		} else {
 			sensorMotor.forward();
 		}
-		/*
-		if (moveUpwards) {
-			motor.forward();
-		}else {
-			motor.backward();
-		}
-		*/
+
 	}
-	
+
 }

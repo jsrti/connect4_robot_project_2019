@@ -16,9 +16,13 @@ public class ColorTester {
 	private SensorModes colorSensor;
 	private SampleProvider colorProvider;
 	private float[] colorSample;
-
+	
 	// An array for the calibrated colors
-	private float[][] colors = new float[3][2];
+	private float[][] colors = new float[3][3];
+	
+	public static final int COLOR_BOARD = 0;
+	public static final int COLOR_PLAYERPIECE = 1;
+    public static final int COLOR_ROBOTPIECE = 2;
 
 	/**
 	 * Saves the gameboard color so it can be compared to the color fetched in
@@ -29,7 +33,7 @@ public class ColorTester {
 	private void calibrateGameboardColor(float[] gameboardColor) {
 		// Clones the array so that the calibrated color wont change with the given
 		// array
-		colors[0] = gameboardColor.clone();
+		colors[COLOR_BOARD] = gameboardColor.clone();
 		System.out.println("- ok");
 	}
 
@@ -42,7 +46,7 @@ public class ColorTester {
 	private void calibratePlayerPieceColor(float[] playerPiece) {
 		// Clones the array so that the calibrated color wont change with the given
 		// array
-		colors[1] = playerPiece.clone();
+		colors[COLOR_PLAYERPIECE] = playerPiece.clone();
 		System.out.println("- ok");
 	}
 
@@ -55,7 +59,7 @@ public class ColorTester {
 	private void calibrateRobotPieceColor(float[] robotPiece) {
 		// Clones the array so that the calibrated color wont change with the given
 		// array
-		colors[2] = robotPiece.clone();
+		colors[COLOR_ROBOTPIECE] = robotPiece.clone();
 		System.out.println("- ok");
 	}
 
