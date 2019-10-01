@@ -21,9 +21,9 @@ public class RobotProgram {
 
 		// Gets the sensors and motors from the ports
 		Port colorPort = LocalEV3.get().getPort("S1");
-		Port motorMovementPort = MotorPort.A;
+		Port motorMovementPort = MotorPort.D;
 		Port motorColorSensorPort = MotorPort.B;
-		Port motorPieceFeederPort = MotorPort.C;
+		Port motorPieceFeederPort = MotorPort.A;
 
 
 		// Initializes the needed classes
