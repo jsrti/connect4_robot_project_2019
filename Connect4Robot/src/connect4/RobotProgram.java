@@ -46,7 +46,7 @@ public class RobotProgram {
 			}
 		}
 		DriveForward driveForward = new DriveForward(motorFunctions);
-		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, motorColorSensorPort, gameLogic);
+		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
 
 		// Adds the behaviors in the order of importance from least to most

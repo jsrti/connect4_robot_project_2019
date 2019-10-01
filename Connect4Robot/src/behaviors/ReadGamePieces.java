@@ -17,17 +17,14 @@ public class ReadGamePieces implements Behavior {
 	private boolean suppressed = false;
 	private final int sensorMotorSpeed = 50;
 	private final int movementSpeed = 50;
-	private RegulatedMotor sensorMotor;
 
 	private ColorTester colorTester;
 	private MotorFunctions motorFunctions;
 	private GameLogic gameLogic;
 
-	public ReadGamePieces(ColorTester colorTester, MotorFunctions motorFunctions, Port motorPort, GameLogic gameLogic) {
+	public ReadGamePieces(ColorTester colorTester, MotorFunctions motorFunctions, GameLogic gameLogic) {
 		this.colorTester = colorTester;
 		this.motorFunctions = motorFunctions;
-		this.sensorMotor = new EV3MediumRegulatedMotor(motorPort);
-		sensorMotor.setSpeed(sensorMotorSpeed);
 		this.gameLogic = gameLogic;
 	}
 
@@ -106,13 +103,14 @@ public class ReadGamePieces implements Behavior {
 			// luetaan väri, pysähdytään
 		}
 
-		// jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen)
+		/* jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen)
 		if (steps.y < 0) {
 			sensorMotor.backward();
 		} else {
 			sensorMotor.forward();
 		}
-
+		
+		*/
 	}
 
 }
