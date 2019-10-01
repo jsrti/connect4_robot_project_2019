@@ -1,7 +1,5 @@
 package connect4;
 
-import java.util.Arrays;
-
 import util.Point;
 
 public class GameLogic {
@@ -47,13 +45,15 @@ public class GameLogic {
 	}
 
 	// etsii seuraavan tyhj�n slotin nykyisest� sijainnista eteenp�in. l�hdett�v�
-	// t�ss� vaiheessa nollasta, eli nollaus ennen t�t�
+	// t�ss� vaiheessa nollasta, eli nollaus ennen t�t�. palautetaan ensimmäinen löydetty tyhjä
 	private Point checkNextEmptySlot() {
 		Point nextEmptyPoint = null;
-		for (int i = (int) currentPos.x; i < columns; i++) {
+		for (int i = currentPos.x; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (gameGrid[i][j] == 0) {
 					nextEmptyPoint = new Point(i, j);
+					System.out.println("Steps to next empty slot: " + nextEmptyPoint);
+					return nextEmptyPoint;
 				}
 			}
 		}

@@ -16,4 +16,8 @@ public class Point implements Serializable {
 		this.y = 0;
 	}
 	
+	@Override
+	public String toString() {
+		return "X: " + x + " Y: " + y;
+	}
 }

@@ -65,9 +65,6 @@ public class ReadGamePieces implements Behavior {
 	}
 
 	private void moveSensor(Point steps) {
-		int stepsMovedY = 0; // pidetään ylhäällä liikutus stepit, parametrina saadaan kokonaismäärä
-		int stepsMovedX = 0;
-
 		// tarkistetaan x-liikkumissuunta
 		boolean xDirectionForward = true;
 		if (steps.x > 0) {
@@ -98,29 +95,25 @@ public class ReadGamePieces implements Behavior {
 						System.out.println("Tunnistettu väri: " + color);
 
 						foundNewSlot = true;
-						if (xDirectionForward) {
-							stepsMovedX += 1;
-						} else {
-							stepsMovedX -= 1;
-						}
-
 						break;
 					default:
 						break;
 					}
 				}
 			}
-			motorFunctions.stopMovement();
-			// luetaan väri -> jos tyhjä, haetaan reitti seuraavaan oletettuun tyhjään ->
-			// kun löydetään muu kuin tyhjä, lopetetaan haku -> välitetään tieto
-			// gameLogicille
-			// -> gameLogic tallentaa nappulan värin -> lähetetään tieto tietokoneelle, joka
-			// laskee siirron
-
-			// robotin vuoron lopussa nappulan pudotuksen jälkeen luetaan pudotuskohdassa
-			// ylin tyhjänä ollut slotti
-			// (pudotuspaikka), tarkistetaan, onko nappula pudonnut, vai onko edelleen tyhjä
 		}
+		motorFunctions.stopMovement(); //pysähdytään, kun saavutettu kohdepiste
+		
+		
+		// luetaan väri -> jos tyhjä, haetaan reitti seuraavaan oletettuun tyhjään ->
+		// kun löydetään muu kuin tyhjä, lopetetaan haku -> välitetään tieto
+		// gameLogicille
+		// -> gameLogic tallentaa nappulan värin -> lähetetään tieto tietokoneelle, joka
+		// laskee siirron
+
+		// robotin vuoron lopussa nappulan pudotuksen jälkeen luetaan pudotuskohdassa
+		// ylin tyhjänä ollut slotti
+		// (pudotuspaikka), tarkistetaan, onko nappula pudonnut, vai onko edelleen tyhjä
 
 		/*
 		 * jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen) if
