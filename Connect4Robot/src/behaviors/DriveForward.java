@@ -1,6 +1,6 @@
 package behaviors;
 
-import connect4.Movement;
+import connect4.MotorFunctions;
 import lejos.robotics.subsumption.Behavior;
 
 /**
@@ -10,10 +10,10 @@ import lejos.robotics.subsumption.Behavior;
  */
 public class DriveForward implements Behavior {
 	private volatile boolean suppressed = false;
-	private Movement movement; // movement reference (motor functions)
+	private MotorFunctions motorFunctions; // movement reference (motor functions)
 
-	public DriveForward(Movement movement) {
-		this.movement = movement;
+	public DriveForward(MotorFunctions motorFunctions) {
+		this.motorFunctions = motorFunctions;
 	}
 
 	/**
@@ -37,10 +37,10 @@ public class DriveForward implements Behavior {
 		 * robot moves forward (predefined speed) until the behavior is suppressed and
 		 * then stops the motors
 		 */
-		movement.move(300, false);
+		motorFunctions.rotateMovementMotor(300, false);
 		while (!suppressed)
 			Thread.yield();
-		movement.stop();
+		motorFunctions.stop();
 	}
 
 	@Override

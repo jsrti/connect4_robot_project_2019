@@ -3,7 +3,7 @@ package behaviors;
 import java.awt.Point;
 
 import connect4.GameLogic;
-import connect4.Movement;
+import connect4.MotorFunctions;
 import lejos.hardware.Sound;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
@@ -20,12 +20,12 @@ public class ReadGamePieces implements Behavior {
 	private RegulatedMotor sensorMotor;
 
 	private ColorTester colorTester;
-	private Movement movement;
+	private MotorFunctions motorFunctions;
 	private GameLogic gameLogic;
 
-	public ReadGamePieces(ColorTester colorTester, Movement movement, Port motorPort, GameLogic gameLogic) {
+	public ReadGamePieces(ColorTester colorTester, MotorFunctions motorFunctions, Port motorPort, GameLogic gameLogic) {
 		this.colorTester = colorTester;
-		this.movement = movement;
+		this.motorFunctions = motorFunctions;
 		this.sensorMotor = new EV3MediumRegulatedMotor(motorPort);
 		sensorMotor.setSpeed(sensorMotorSpeed);
 		this.gameLogic = gameLogic;
@@ -73,7 +73,7 @@ public class ReadGamePieces implements Behavior {
 			xDirectionForward = false;
 		}
 		// x-suunnassa liikkuminen (pyörät)
-		movement.move(movementSpeed, xDirectionForward);
+		motorFunctions.rotateMovementMotor(movementSpeed, xDirectionForward);
 
 		int lastColor = colorTester.testColor(); // edellinen väri, johon uutta tunnistettua väriä verrataan (toiminto
 													// värin vaihtuessa)

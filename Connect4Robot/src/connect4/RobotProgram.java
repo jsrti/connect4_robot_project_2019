@@ -31,13 +31,13 @@ public class RobotProgram {
 		GameLogic gameLogic = new GameLogic();
 
 
-		Movement movement = new Movement(motorMovementPort);
+		MotorFunctions motorFunctions = new MotorFunctions(motorMovementPort, motorPieceFeederPort, motorColorSensorPort);
 		// Testing if motors are connected to the ports. Loops if one or both of the
 		// motors are not detected.
 		boolean motorPortTest = false;
 		while (!motorPortTest) {
 			System.out.println("Testing motor ports");
-			if (movement.testMotorPorts()) {
+			if (motorFunctions.testMotorPorts()) {
 				System.out.println("\nMotor port test ok\n");
 				motorPortTest = true;
 			} else {
@@ -45,8 +45,8 @@ public class RobotProgram {
 				Delay.msDelay(2000);
 			}
 		}
-		DriveForward driveForward = new DriveForward(movement);
-		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, movement, motorColorSensorPort, gameLogic);
+		DriveForward driveForward = new DriveForward(motorFunctions);
+		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, motorColorSensorPort, gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
 
 		// Adds the behaviors in the order of importance from least to most
