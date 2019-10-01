@@ -88,13 +88,16 @@ public class ReadGamePieces implements Behavior {
 			while (!foundNewPiece) {
 				int color = colorTester.testColor();
 				if (color != lastColor) {
-					Sound.twoBeeps(); //piippaa, kun tunnistetaan uusi väri
 					switch (color) {
 					case ColorTester.COLOR_BOARD:
 						lastColor = color; //laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
 						break;
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
+						lastColor = color;
+						Sound.twoBeeps(); //piippaa, kun tunnistetaan uusi väri
+						System.out.println("Tunnistettu väri: " + color);
+						
 						foundNewPiece = true;
 						if(xDirectionForward) {
 							stepsMovedX += 1;
@@ -108,6 +111,7 @@ public class ReadGamePieces implements Behavior {
 					}
 				}
 			}
+			motorFunctions.stopMovement();
 			// luetaan väri, pysähdytään
 		}
 
