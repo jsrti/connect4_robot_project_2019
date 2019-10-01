@@ -55,8 +55,16 @@ public class MotorFunctions {
 	/**
 	 * Stops motor
 	 */
-	public void stop() {
+	public void stopMovement() {
 		movementMotor.stop();
+	}
+	
+	public void stopDispenser() {
+		dispenserMotor.stop();
+	}
+	
+	public void stopLifter() {
+		colorSensorLifterMotor.stop();
 	}
 
 	/**

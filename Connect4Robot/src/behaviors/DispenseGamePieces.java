@@ -1,9 +1,13 @@
 package behaviors;
 
+import connect4.MotorFunctions;
 import lejos.robotics.subsumption.Behavior;
+import lejos.utility.Delay;
 
 public class DispenseGamePieces implements Behavior {
-
+	private volatile boolean suppressed = false;
+	private MotorFunctions motorFunctions; // movement reference (motor functions)
+	
 	@Override
 	public boolean takeControl() {
 		return false;
@@ -11,13 +15,18 @@ public class DispenseGamePieces implements Behavior {
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
+
+		suppressed = false;
+		motorFunctions.rotateDispenserMotor(10, true);
+		Delay.msDelay(1000);
+		motorFunctions.stopDispenser();
+		
 		
 	}
 
 	@Override
 	public void suppress() {
-		// TODO Auto-generated method stub
+		suppressed = true;
 		
 	}
 

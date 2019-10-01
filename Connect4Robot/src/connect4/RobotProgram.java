@@ -1,6 +1,7 @@
 package connect4;
 import java.util.ArrayList;
 
+import behaviors.DispenseGamePieces;
 import behaviors.DriveForward;
 import behaviors.EmergencyStop;
 import behaviors.ReadGamePieces;
@@ -48,11 +49,15 @@ public class RobotProgram {
 		DriveForward driveForward = new DriveForward(motorFunctions);
 		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
+		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces();
 
 		// Adds the behaviors in the order of importance from least to most
+		/*
 		behaviors.add(driveForward);
 		behaviors.add(readGamePieces);
 		behaviors.add(emergencyStop);
+		*/
+		behaviors.add(dispenseGamePieces);
 
 		Behavior[] behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]);
 

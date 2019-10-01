@@ -40,7 +40,7 @@ public class DriveForward implements Behavior {
 		motorFunctions.rotateMovementMotor(300, false);
 		while (!suppressed)
 			Thread.yield();
-		motorFunctions.stop();
+		motorFunctions.stopMovement();
 	}
 
 	@Override
