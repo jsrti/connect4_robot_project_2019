@@ -1,13 +1,14 @@
 package connect4;
 
-import java.awt.Point;
 import java.util.Arrays;
+
+import util.Point;
 
 public class GameLogic {
 	int columns = 7;
 	int rows = 6;
 
-	private int[][] gameGrid;
+	private int[][] gameGrid = new int[columns][rows];
 
 	private Point currentPos = new Point(0, 0);
 
@@ -27,7 +28,6 @@ public class GameLogic {
 
 	public GameLogic() {
 		gameGrid = new int[columns][rows];
-		Arrays.fill(gameGrid, 0);
 	}
 
 	public void increaseCurrentVerticalPos() {
@@ -50,7 +50,7 @@ public class GameLogic {
 	// t�ss� vaiheessa nollasta, eli nollaus ennen t�t�
 	private Point checkNextEmptySlot() {
 		Point nextEmptyPoint = null;
-		for (int i = (int) currentPos.getX(); i < columns; i++) {
+		for (int i = (int) currentPos.x; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (gameGrid[i][j] == 0) {
 					nextEmptyPoint = new Point(i, j);

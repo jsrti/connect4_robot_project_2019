@@ -49,7 +49,7 @@ public class RobotProgram {
 		DriveForward driveForward = new DriveForward(motorFunctions);
 		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
-		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces();
+		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(motorFunctions);
 
 		// Adds the behaviors in the order of importance from least to most
 		/*
@@ -71,6 +71,7 @@ public class RobotProgram {
 		System.out.println("Press ENTER to start");
 		Button.ENTER.waitForPressAndRelease();
 		// Starts the bot's default cycle
+		System.out.println("Arbitrator soon!");
 		arbitrator.go();
 
 		((Device) colorPort).close();

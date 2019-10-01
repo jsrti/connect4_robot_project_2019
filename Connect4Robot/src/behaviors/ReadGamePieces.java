@@ -1,6 +1,5 @@
 package behaviors;
 
-import java.awt.Point;
 
 import connect4.GameLogic;
 import connect4.MotorFunctions;
@@ -11,6 +10,7 @@ import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.subsumption.Behavior;
 import sensors.ColorTester;
+import util.Point;
 
 public class ReadGamePieces implements Behavior {
 

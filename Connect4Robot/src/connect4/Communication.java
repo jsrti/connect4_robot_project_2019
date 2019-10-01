@@ -1,6 +1,5 @@
 package connect4;
 
-import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
