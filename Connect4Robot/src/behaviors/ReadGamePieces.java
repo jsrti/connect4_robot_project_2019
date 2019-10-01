@@ -15,9 +15,9 @@ import util.Point;
 
 public class ReadGamePieces implements Behavior {
 
-	private boolean suppressed = false;
-	private final int sensorMotorSpeed = 50;
-	private final int movementSpeed = 50;
+	private volatile boolean suppressed = false;
+	private final int sensorMotorSpeed = 20;
+	private final int movementSpeed = 30;
 
 	private ColorTester colorTester;
 	private MotorFunctions motorFunctions;
@@ -36,7 +36,7 @@ public class ReadGamePieces implements Behavior {
 		if (gameLogic.getIsRobotsTurn() && !gameLogic.getGameBoardReadComplete()) {
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -44,8 +44,9 @@ public class ReadGamePieces implements Behavior {
 		while (!suppressed) {
 			
 			motorFunctions.rotateLifterMotor(sensorMotorSpeed, true);
-			Delay.msDelay(2000);
+			Delay.msDelay(5000);
 			motorFunctions.stopLifter();
+			suppressed = true;
 			
 			
 			// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)

@@ -52,12 +52,10 @@ public class RobotProgram {
 		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(motorFunctions);
 
 		// Adds the behaviors in the order of importance from least to most
-		/*
-		behaviors.add(driveForward);
+		//behaviors.add(driveForward);
 		behaviors.add(readGamePieces);
-		behaviors.add(emergencyStop);
-		*/
-		behaviors.add(dispenseGamePieces);
+		//behaviors.add(emergencyStop);
+		//behaviors.add(dispenseGamePieces);
 
 		Behavior[] behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]);
 
