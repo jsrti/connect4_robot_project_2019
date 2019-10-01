@@ -9,6 +9,7 @@ import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.subsumption.Behavior;
+import lejos.utility.Delay;
 import sensors.ColorTester;
 import util.Point;
 
@@ -41,6 +42,12 @@ public class ReadGamePieces implements Behavior {
 	@Override
 	public void action() {
 		while (!suppressed) {
+			
+			motorFunctions.rotateLifterMotor(sensorMotorSpeed, true);
+			Delay.msDelay(2000);
+			motorFunctions.stopLifter();
+			
+			
 			// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
 			Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
 
