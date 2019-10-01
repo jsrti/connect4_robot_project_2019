@@ -18,11 +18,12 @@ public class ColorTester {
 	private float[] colorSample;
 	
 	// An array for the calibrated colors
-	private float[][] colors = new float[3][3];
+	private float[][] colors = new float[4][3];
 	
 	public static final int COLOR_BOARD = 0;
 	public static final int COLOR_PLAYERPIECE = 1;
     public static final int COLOR_ROBOTPIECE = 2;
+    public static final int COLOR_EMPTY = 3;
 
 	/**
 	 * Saves the gameboard color so it can be compared to the color fetched in
@@ -62,6 +63,13 @@ public class ColorTester {
 		colors[COLOR_ROBOTPIECE] = robotPiece.clone();
 		System.out.println("- ok");
 	}
+	
+	private void calibrateEmptyColor(float[] robotPiece) {
+		// Clones the array so that the calibrated color wont change with the given
+		// array
+		colors[COLOR_EMPTY] = robotPiece.clone();
+		System.out.println("- ok");
+	}
 
 	public ColorTester(Port colorPort) {
 		// Setting up the color sensor for use
@@ -94,6 +102,11 @@ public class ColorTester {
 		Button.ENTER.waitForPressAndRelease();
 		colorProvider.fetchSample(colorSample, 0);
 		calibrateRobotPieceColor(colorSample);
+		
+		System.out.print("Calibrate empty color ");
+		Button.ENTER.waitForPressAndRelease();
+		colorProvider.fetchSample(colorSample, 0);
+		calibrateEmptyColor(colorSample);
 	}
 
 	/**
@@ -106,8 +119,8 @@ public class ColorTester {
 		colorProvider.fetchSample(colorSample, 0);
 
 		// Arrays needed to save intermediate values
-		float[] results = new float[3];
-		double[] endResults = new double[3];
+		float[] results = new float[4];
+		double[] endResults = new double[4];
 
 		// Repeats for every color value in each calibrated color
 		for (int i = 0; i < colors.length; i++) {
@@ -116,7 +129,7 @@ public class ColorTester {
 				results[n] = colorSample[n] - colors[i][n];
 				results[n] *= results[n];
 			}
-			endResults[i] = Math.sqrt(results[0] + results[1] + results[2]);
+			endResults[i] = Math.sqrt(results[0] + results[1] + results[2] + results[3]);
 		}
 
 		int closest = 0;

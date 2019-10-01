@@ -1,6 +1,5 @@
 package behaviors;
 
-
 import connect4.GameLogic;
 import connect4.MotorFunctions;
 import lejos.hardware.Sound;
@@ -42,13 +41,12 @@ public class ReadGamePieces implements Behavior {
 	@Override
 	public void action() {
 		while (!suppressed) {
-			
+
 			motorFunctions.rotateLifterMotor(sensorMotorSpeed, true);
 			Delay.msDelay(5000);
 			motorFunctions.stopLifter();
 			suppressed = true;
-			
-			
+
 			// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
 			Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
 
@@ -84,27 +82,28 @@ public class ReadGamePieces implements Behavior {
 													// värin vaihtuessa)
 		for (int i = 0; i < Math.abs(steps.x); i++) {
 			// luetaan väriä, kunnes tunnistetaan uusi väri
-			boolean foundNewPiece = false;
-			while (!foundNewPiece) {
+			boolean foundNewSlot = false;
+			while (!foundNewSlot) {
 				int color = colorTester.testColor();
 				if (color != lastColor) {
 					switch (color) {
 					case ColorTester.COLOR_BOARD:
-						lastColor = color; //laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
+						lastColor = color; // laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
 						break;
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
+					case ColorTester.COLOR_EMPTY:
 						lastColor = color;
-						Sound.twoBeeps(); //piippaa, kun tunnistetaan uusi väri
+						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
 						System.out.println("Tunnistettu väri: " + color);
-						
-						foundNewPiece = true;
-						if(xDirectionForward) {
+
+						foundNewSlot = true;
+						if (xDirectionForward) {
 							stepsMovedX += 1;
-						}else {
+						} else {
 							stepsMovedX -= 1;
 						}
-						
+
 						break;
 					default:
 						break;
@@ -112,17 +111,22 @@ public class ReadGamePieces implements Behavior {
 				}
 			}
 			motorFunctions.stopMovement();
-			// luetaan väri, pysähdytään
+			// luetaan väri -> jos tyhjä, haetaan reitti seuraavaan oletettuun tyhjään ->
+			// kun löydetään muu kuin tyhjä, lopetetaan haku -> välitetään tieto
+			// gameLogicille
+			// -> gameLogic tallentaa nappulan värin -> lähetetään tieto tietokoneelle, joka
+			// laskee siirron
+
+			// robotin vuoron lopussa nappulan pudotuksen jälkeen luetaan pudotuskohdassa
+			// ylin tyhjänä ollut slotti
+			// (pudotuspaikka), tarkistetaan, onko nappula pudonnut, vai onko edelleen tyhjä
 		}
 
-		/* jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen)
-		if (steps.y < 0) {
-			sensorMotor.backward();
-		} else {
-			sensorMotor.forward();
-		}
-		
-		*/
+		/*
+		 * jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen) if
+		 * (steps.y < 0) { sensorMotor.backward(); } else { sensorMotor.forward(); }
+		 * 
+		 */
 	}
 
 }
