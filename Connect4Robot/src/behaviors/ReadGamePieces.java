@@ -42,18 +42,21 @@ public class ReadGamePieces implements Behavior {
 	public void action() {
 		while (!suppressed) {
 
-			motorFunctions.rotateLifterMotor(sensorMotorSpeed, true);
-			Delay.msDelay(5000);
-			motorFunctions.stopLifter();
-			suppressed = true;
+			boolean newPieceFound = false;
+			
+			while(!newPieceFound) {
+				// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
+				Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
 
-			// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
-			Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
-
-			// sensorin liikutus haluttuun paikkaan
-			moveSensor(stepsToNextEmpty);
-			// read color
-			// if!=empty -> update gameLogic+gameBoardReadComplete, suppress
+				// siirrytään seuraavan edellisellä vuorolla tyhjänä olleeseen kohtaan, lopetetaan haku, kun löytyy pelattu nappula
+				int destinationColor = moveSensor(stepsToNextEmpty);
+				if(destinationColor == ColorTester.COLOR_PLAYERPIECE||destinationColor == ColorTester.COLOR_ROBOTPIECE) {
+					newPieceFound = true; //lopetetaan haku, kun kohdepisteessä nappula
+					//TODO: ilmoitetaan löydetty nappula ja sijainti gameLogicille
+					suppressed = true;
+				}
+			}
+			
 		}
 
 	}
@@ -64,7 +67,7 @@ public class ReadGamePieces implements Behavior {
 		suppressed = true;
 	}
 
-	private void moveSensor(Point steps) {
+	private int moveSensor(Point steps) {
 		// tarkistetaan x-liikkumissuunta
 		boolean xDirectionForward = true;
 		if (steps.x > 0) {
@@ -90,9 +93,9 @@ public class ReadGamePieces implements Behavior {
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
 					case ColorTester.COLOR_EMPTY:
-						lastColor = color;
+						lastColor = color; 
 						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
-						System.out.println("Tunnistettu väri: " + color);
+						System.out.println("Tunnistettu vari: " + color);
 
 						foundNewSlot = true;
 						break;
@@ -103,6 +106,44 @@ public class ReadGamePieces implements Behavior {
 			}
 		}
 		motorFunctions.stopMovement(); //pysähdytään, kun saavutettu kohdepiste
+		
+		// tarkistetaan y-liikkumissuunta
+				boolean yDirectionUp = true;
+				if (steps.y > 0) {
+					yDirectionUp = true;
+				} else {
+					yDirectionUp = false;
+				}
+		motorFunctions.rotateLifterMotor(sensorMotorSpeed, yDirectionUp);
+		
+		for (int i = 0; i < Math.abs(steps.y); i++) {
+			// luetaan väriä, kunnes tunnistetaan uusi väri
+			boolean foundNewSlot = false;
+			while (!foundNewSlot) {
+				int color = colorTester.testColor();
+				if (color != lastColor) {
+					switch (color) {
+					case ColorTester.COLOR_BOARD:
+						lastColor = color; // laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
+						break;
+					case ColorTester.COLOR_PLAYERPIECE:
+					case ColorTester.COLOR_ROBOTPIECE:
+					case ColorTester.COLOR_EMPTY:
+						lastColor = color; 
+						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
+						System.out.println("Tunnistettu vari: " + color);
+
+						foundNewSlot = true;
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
+		motorFunctions.stopLifter();
+		
+		return lastColor; //palautetaan viimeisin tunnistettu väri (kohdepiste)
 		
 		
 		// luetaan väri -> jos tyhjä, haetaan reitti seuraavaan oletettuun tyhjään ->

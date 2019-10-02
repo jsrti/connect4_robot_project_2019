@@ -6,6 +6,7 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
+import lejos.utility.Delay;
 
 /**
  * Class that controls the motor functions; moving, turning and stopping the
@@ -26,6 +27,7 @@ public class MotorFunctions {
 		this.movementMotor = new EV3LargeRegulatedMotor(motorPort);
 		this.dispenserMotor = new EV3MediumRegulatedMotor(dispenserMotorPort);
 		this.colorSensorLifterMotor = new EV3MediumRegulatedMotor(colorSensorLifterMotorPort);
+		colorSensorLifterMotor.rotateTo(180);
 	}
 
 	public void rotateMovementMotor(int motorSpeed, boolean moveForwards) {
@@ -39,7 +41,6 @@ public class MotorFunctions {
 	
 	public void rotateLifterMotor(int motorSpeed, boolean moveForwards) {
 		rotateMotor(colorSensorLifterMotor, motorSpeed, moveForwards);
-
 	}
 	
 	private void rotateMotor(BaseRegulatedMotor motor,int motorSpeed, boolean moveForwards) {
