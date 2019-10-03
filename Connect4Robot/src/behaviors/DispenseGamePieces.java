@@ -30,6 +30,11 @@ public class DispenseGamePieces implements Behavior {
 		motorFunctions.stopDispenser();
 		suppressed = true;
 		
+		
+		//TODO: siirtyy oikeaan kohtaan (pudotuspaikan Point(x,y) saadaan tietokoneelta, liikutaan kohdalle ja nostetaan
+		// anturi tarkkailemaan pudotusta. Liikutetaan dispencerMotoria, kunnes huomataan värin vaihtuneen, vuoro päättyy (suppress)
+		// HUOM: jos osuu kosketusanturiin ääripäässä, ilmoitetaan lataustarve ja jatketaan pelaajan kuittauksen jälkeen
+		// default behavior: ReturnToStart
 	}
 
 	@Override

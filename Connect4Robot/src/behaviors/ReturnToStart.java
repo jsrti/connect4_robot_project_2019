@@ -4,21 +4,27 @@ import lejos.robotics.subsumption.Behavior;
 
 public class ReturnToStart implements Behavior {
 
+	private volatile boolean suppressed = false;
+	
 	@Override
 	public boolean takeControl() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void action() {
-		// TODO Auto-generated method stub
+		
+		while(!suppressed) {
+			// TODO: robotti liikkuu aloitusasemaan (x- siirtymä anturiin asti, joka merkkinä pisteestä -1)
+			// jos värianturi liian alhaalla, nostetaan sitä (jotta mahtuu liikkumaan pelilaudan ohi)
+			// -> päivitetään gameLogic sijainti
+		}
 
 	}
 
 	@Override
 	public void suppress() {
-		// TODO Auto-generated method stub
+		suppressed = true;
 
 	}
 

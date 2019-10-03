@@ -50,15 +50,14 @@ public class ReadGamePieces implements Behavior {
 
 				// siirrytään seuraavan edellisellä vuorolla tyhjänä olleeseen kohtaan, lopetetaan haku, kun löytyy pelattu nappula
 				int destinationColor = moveSensor(stepsToNextEmpty);
+				gameLogic.setLocation(stepsToNextEmpty);
 				if(destinationColor == ColorTester.COLOR_PLAYERPIECE||destinationColor == ColorTester.COLOR_ROBOTPIECE) {
 					newPieceFound = true; //lopetetaan haku, kun kohdepisteessä nappula
-					//TODO: ilmoitetaan löydetty nappula ja sijainti gameLogicille
+					//TODO: ilmoitetaan löydetty nappula ja sijainti gameLogicille, muuten jatketaan hakemalla uusi kohde
 					suppressed = true;
 				}
 			}
-			
 		}
-
 	}
 
 	@Override
