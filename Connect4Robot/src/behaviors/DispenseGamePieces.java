@@ -1,16 +1,25 @@
 package behaviors;
 
+import connect4.GameLogic;
 import connect4.MotorFunctions;
 import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
+import sensors.ColorTester;
+import sensors.TouchSensor;
 
 public class DispenseGamePieces implements Behavior {
 	private volatile boolean suppressed = false;
 	private MotorFunctions motorFunctions; // movement reference (motor functions)
+	private TouchSensor feederEndButton;
+	private GameLogic gameLogic;
+	private ColorTester colorTester;
 	
 	
-	public DispenseGamePieces(MotorFunctions motorFunctions) {
+	public DispenseGamePieces(MotorFunctions motorFunctions, TouchSensor feederEndButton, GameLogic gameLogic, ColorTester colorTester) {
 		this.motorFunctions = motorFunctions;
+		this.feederEndButton = feederEndButton;
+		this.gameLogic = gameLogic;
+		this.colorTester = colorTester;
 	}
 	
 	@Override

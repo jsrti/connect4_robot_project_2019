@@ -5,6 +5,7 @@ import behaviors.DispenseGamePieces;
 import behaviors.DriveForward;
 import behaviors.EmergencyStop;
 import behaviors.ReadGamePieces;
+import behaviors.ReturnToStart;
 import lejos.hardware.Button;
 import lejos.hardware.Device;
 import lejos.hardware.ev3.LocalEV3;
@@ -14,6 +15,7 @@ import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 import sensors.ColorTester;
+import sensors.TouchSensor;
 public class RobotProgram {
 	
 	public static void main(String[] args) {
@@ -22,6 +24,8 @@ public class RobotProgram {
 
 		// Gets the sensors and motors from the ports
 		Port colorPort = LocalEV3.get().getPort("S1");
+		Port feederEndPort = LocalEV3.get().getPort("S2");
+		Port startPositionButtonPort = LocalEV3.get().getPort("S3");
 		Port motorMovementPort = MotorPort.D;
 		Port motorColorSensorPort = MotorPort.B;
 		Port motorPieceFeederPort = MotorPort.A;
@@ -30,6 +34,8 @@ public class RobotProgram {
 		// Initializes the needed classes
 		ColorTester colorCalibrator = new ColorTester(colorPort);
 		GameLogic gameLogic = new GameLogic();
+		TouchSensor startPositionButton = new TouchSensor(startPositionButtonPort);
+		TouchSensor feederEndButton = new TouchSensor(feederEndPort);
 
 
 		MotorFunctions motorFunctions = new MotorFunctions(motorMovementPort, motorPieceFeederPort, motorColorSensorPort);
@@ -46,10 +52,11 @@ public class RobotProgram {
 				Delay.msDelay(2000);
 			}
 		}
-		DriveForward driveForward = new DriveForward(motorFunctions);
+		//DriveForward driveForward = new DriveForward(motorFunctions);
 		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
-		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(motorFunctions);
+		ReturnToStart returnToStart = new ReturnToStart(motorFunctions, startPositionButton, gameLogic);
+		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(motorFunctions, feederEndButton, gameLogic, colorCalibrator);
 
 		// Adds the behaviors in the order of importance from least to most
 		//behaviors.add(driveForward);
