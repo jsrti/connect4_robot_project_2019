@@ -6,6 +6,7 @@ import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 import sensors.ColorTester;
 import sensors.TouchSensor;
+import util.Point;
 
 public class DispenseGamePieces implements Behavior {
 	private volatile boolean suppressed = false;
@@ -29,6 +30,7 @@ public class DispenseGamePieces implements Behavior {
 
 	@Override
 	public void action() {
+		/*
 		System.out.println("Starting dispenser");
 		suppressed = false;
 		motorFunctions.rotateDispenserMotor(20, true);
@@ -38,6 +40,7 @@ public class DispenseGamePieces implements Behavior {
 		Delay.msDelay(3000);
 		motorFunctions.stopDispenser();
 		suppressed = true;
+		*/
 		
 		
 		//TODO: siirtyy oikeaan kohtaan (pudotuspaikan Point(x,y) saadaan tietokoneelta, liikutaan kohdalle ja nostetaan

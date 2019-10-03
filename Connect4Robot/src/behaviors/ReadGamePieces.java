@@ -50,10 +50,16 @@ public class ReadGamePieces implements Behavior {
 
 				// siirrytään seuraavan edellisellä vuorolla tyhjänä olleeseen kohtaan, lopetetaan haku, kun löytyy pelattu nappula
 				int destinationColor = moveSensor(stepsToNextEmpty);
-				gameLogic.setLocation(stepsToNextEmpty);
+				gameLogic.locationChange(stepsToNextEmpty);
 				if(destinationColor == ColorTester.COLOR_PLAYERPIECE||destinationColor == ColorTester.COLOR_ROBOTPIECE) {
 					newPieceFound = true; //lopetetaan haku, kun kohdepisteessä nappula
 					//TODO: ilmoitetaan löydetty nappula ja sijainti gameLogicille, muuten jatketaan hakemalla uusi kohde
+					Point currentLocation = gameLogic.getLocation();
+					
+					//Liikutetaan anturia ylöspäin, jotta robotti mahtuu liikkumaan pelilaudan ohi
+					if(currentLocation.y<2) {
+						moveSensor(new Point(0, 2));
+					}
 					suppressed = true;
 				}
 			}
@@ -62,7 +68,6 @@ public class ReadGamePieces implements Behavior {
 
 	@Override
 	public void suppress() {
-		// TODO: paluu alkupisteeseen (behaviour)
 		suppressed = true;
 	}
 

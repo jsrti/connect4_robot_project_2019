@@ -8,7 +8,7 @@ import sensors.TouchSensor;
 public class ReturnToStart implements Behavior {
 
 	private volatile boolean suppressed = false;
-	MotorFunctions motorFunctions;
+	private MotorFunctions motorFunctions;
 	private TouchSensor startPositionButton;
 	private GameLogic gameLogic;
 	
@@ -26,10 +26,13 @@ public class ReturnToStart implements Behavior {
 	@Override
 	public void action() {
 		
+		//Robotti liikkuu aloitusasemaan (x- siirtymä anturiin asti
+		int movementSpeed = 80;
 		while(!suppressed) {
-			// TODO: robotti liikkuu aloitusasemaan (x- siirtymä anturiin asti, joka merkkinä pisteestä -1)
-			// jos värianturi liian alhaalla (y 1-2), nostetaan sitä (jotta mahtuu liikkumaan pelilaudan ohi)
-			// -> päivitetään gameLogic sijainti
+			motorFunctions.rotateMovementMotor(movementSpeed, true);
+			// TODO: tarkkaillaan nappulanpainallusta
+			motorFunctions.stopMovement();
+			// TODO: -> päivitetään gameLogic sijainti
 		}
 
 	}

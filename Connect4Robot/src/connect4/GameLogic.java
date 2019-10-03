@@ -32,6 +32,11 @@ public class GameLogic {
 		currentLocation = point;
 	}
 	
+	public void locationChange(Point point) {
+		currentLocation.x += point.x;
+		currentLocation.y += point.y;
+	}
+	
 	public Point getLocation() {
 		return currentLocation;
 	}
