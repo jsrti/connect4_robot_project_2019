@@ -1,27 +1,34 @@
 package model;
 
 public class Board {
-	private static int[][] board;
+	private int[][] grid;
 	
 	public Board() {
-		board = new int[7][6];
-		for (int x = 0; x < board.length; x++) {
-			for (int y = 0; y < board[x].length; y++) {
-				System.out.println(x);
-				System.out.println(y);
-				board[x][y] = 0;
+		grid = new int[7][6];
+	}
+	
+	public int[] getNextFreeSpaces() {
+		int[] indexes = new int[7];
+		for (int x = 0; x < grid.length; x++) {
+			for (int y = 0; y < grid[x].length; y++) {
+				if (grid[x][y] == 0) {
+					indexes[x] = y;
+					break;
+				}
 			}
 		}
+		return indexes;
 	}
-	public static void main(String[] args) {
-		board = new int[7][6];
-		System.out.println(board.length);
-		System.out.println(board[0].length);
-		for (int x = 0; x < board.length; x++) {
-			for (int y = 0; y < board[x].length; y++) {
-				System.out.println("X: " + x + " Y: " + y);
-				System.out.println(board[x][y]);
-				board[x][y] = 2;
+
+	public int[][] getGrid() {
+		return grid;
+	}
+	
+	public void setPiece(int x, int player) {
+		for (int y = 0; y < grid[x].length; y++) {
+			if (grid[x][y] == 0) {
+				grid[x][y] = player;
+				break;
 			}
 		}
 	}
