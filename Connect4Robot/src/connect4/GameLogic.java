@@ -8,7 +8,8 @@ public class GameLogic {
 
 	private int[][] gameGrid = new int[columns][rows];
 
-	private Point currentLocation = new Point(0, 0);
+	//aloituspiste, y-yläasennossa, jotta mahtuu liikkumaan aloituspisteeseen (moottorin oltava ylä-asennossa)
+	private Point currentLocation = new Point(0, 5); 
 
 	private boolean isRobotsTurn = false; // Player's turn by default
 	private boolean gameBoardReadComplete = false;
@@ -40,12 +41,16 @@ public class GameLogic {
 	public Point getLocation() {
 		return currentLocation;
 	}
+	
+	public void setPieceToCurrentLocation(int color) {
+		gameGrid[currentLocation.x][currentLocation.y]=color;
+	}
 
 	// etsii seuraavan tyhj�n slotin nykyisest� sijainnista eteenp�in. l�hdett�v�
 	// t�ss� vaiheessa nollasta, eli nollaus ennen t�t�. palautetaan ensimmäinen löydetty tyhjä
 	private Point checkNextEmptySlot() {
 		Point nextEmptyPoint = null;
-		for (int i = currentLocation.x; i < columns; i++) {
+		for (int i = currentLocation.x+1; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (gameGrid[i][j] == 0) {
 					nextEmptyPoint = new Point(i, j);

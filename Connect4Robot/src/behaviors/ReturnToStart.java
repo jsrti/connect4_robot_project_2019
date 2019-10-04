@@ -21,7 +21,9 @@ public class ReturnToStart implements Behavior {
 	
 	@Override
 	public boolean takeControl() {
-		return true;
+		if(!suppressed)
+			return true;
+		return false;
 	}
 
 	@Override

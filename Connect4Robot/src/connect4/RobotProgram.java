@@ -60,10 +60,11 @@ public class RobotProgram {
 
 		// Adds the behaviors in the order of importance from least to most
 		//behaviors.add(driveForward);
-		//behaviors.add(returnToStart);
-		//behaviors.add(readGamePieces);
+		behaviors.add(readGamePieces);
+		behaviors.add(returnToStart);
+		
 		//behaviors.add(emergencyStop);
-		behaviors.add(dispenseGamePieces);
+		//behaviors.add(dispenseGamePieces);
 
 		Behavior[] behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]);
 

@@ -8,18 +8,18 @@ public class PieceXYReadMove {
 
 	private MotorFunctions motorFunctions;
 	private GameLogic gameLogic;
-	ColorTester  colorTester;
-	
+	ColorTester colorTester;
+
 	public PieceXYReadMove(MotorFunctions motorFunctions, GameLogic gameLogic, ColorTester colorTester) {
 		this.motorFunctions = motorFunctions;
 		this.gameLogic = gameLogic;
 		this.colorTester = colorTester;
 	}
-	
+
 	public int moveSensor(Point steps) {
 		int sensorMotorSpeed = 20;
 		int movementSpeed = 30;
-		
+
 		// tarkistetaan x-liikkumissuunta
 		boolean xDirectionForward = true;
 		if (steps.x > 0) {
@@ -45,7 +45,11 @@ public class PieceXYReadMove {
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
 					case ColorTester.COLOR_EMPTY:
-						lastColor = color; 
+						//vältetään mahdollisia virhetunnistuksia
+						if(lastColor!=ColorTester.COLOR_BOARD) {
+							break;
+						}
+						lastColor = color;
 						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
 						System.out.println("Tunnistettu vari: " + color);
 
@@ -57,17 +61,17 @@ public class PieceXYReadMove {
 				}
 			}
 		}
-		motorFunctions.stopMovement(); //pysähdytään, kun saavutettu kohdepiste
-		
+		motorFunctions.stopMovement(); // pysähdytään, kun saavutettu kohdepiste
+
 		// tarkistetaan y-liikkumissuunta
-				boolean yDirectionUp = true;
-				if (steps.y > 0) {
-					yDirectionUp = true;
-				} else {
-					yDirectionUp = false;
-				}
+		boolean yDirectionUp = true;
+		if (steps.y > 0) {
+			yDirectionUp = true;
+		} else {
+			yDirectionUp = false;
+		}
 		motorFunctions.rotateLifterMotor(sensorMotorSpeed, yDirectionUp);
-		
+
 		for (int i = 0; i < Math.abs(steps.y); i++) {
 			// luetaan väriä, kunnes tunnistetaan uusi väri
 			boolean foundNewSlot = false;
@@ -81,7 +85,11 @@ public class PieceXYReadMove {
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
 					case ColorTester.COLOR_EMPTY:
-						lastColor = color; 
+						//vältetään mahdollisia virhetunnistuksia
+						if(lastColor!=ColorTester.COLOR_BOARD) {
+							break;
+						}
+						lastColor = color;
 						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
 						System.out.println("Tunnistettu vari: " + color);
 
@@ -94,10 +102,10 @@ public class PieceXYReadMove {
 			}
 		}
 		motorFunctions.stopLifter();
-		
-		return lastColor; //palautetaan viimeisin tunnistettu väri (kohdepiste)
-		
-		
+		gameLogic.locationChange(steps);
+
+		return lastColor; // palautetaan viimeisin tunnistettu väri (kohdepiste)
+
 		// luetaan väri -> jos tyhjä, haetaan reitti seuraavaan oletettuun tyhjään ->
 		// kun löydetään muu kuin tyhjä, lopetetaan haku -> välitetään tieto
 		// gameLogicille
