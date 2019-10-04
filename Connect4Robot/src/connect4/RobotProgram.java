@@ -25,7 +25,7 @@ public class RobotProgram {
 		// Gets the sensors and motors from the ports
 		Port colorPort = LocalEV3.get().getPort("S1");
 		Port feederEndPort = LocalEV3.get().getPort("S2");
-		Port startPositionButtonPort = LocalEV3.get().getPort("S3");
+		Port startPositionButtonPort = LocalEV3.get().getPort("S4");
 		Port motorMovementPort = MotorPort.D;
 		Port motorColorSensorPort = MotorPort.B;
 		Port motorPieceFeederPort = MotorPort.A;
@@ -34,11 +34,11 @@ public class RobotProgram {
 		// Initializes the needed classes
 		ColorTester colorCalibrator = new ColorTester(colorPort);
 		GameLogic gameLogic = new GameLogic();
+		MotorFunctions motorFunctions = new MotorFunctions(motorMovementPort, motorPieceFeederPort, motorColorSensorPort);
+		PieceXYReadMove pieceXYReadMove = new PieceXYReadMove(motorFunctions,gameLogic,colorCalibrator);
 		TouchSensor startPositionButton = new TouchSensor(startPositionButtonPort);
 		TouchSensor feederEndButton = new TouchSensor(feederEndPort);
-
-
-		MotorFunctions motorFunctions = new MotorFunctions(motorMovementPort, motorPieceFeederPort, motorColorSensorPort);
+		
 		// Testing if motors are connected to the ports. Loops if one or both of the
 		// motors are not detected.
 		boolean motorPortTest = false;
@@ -53,16 +53,17 @@ public class RobotProgram {
 			}
 		}
 		//DriveForward driveForward = new DriveForward(motorFunctions);
-		ReadGamePieces readGamePieces = new ReadGamePieces(colorCalibrator, motorFunctions, gameLogic);
+		ReadGamePieces readGamePieces = new ReadGamePieces(pieceXYReadMove,gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
 		ReturnToStart returnToStart = new ReturnToStart(motorFunctions, startPositionButton, gameLogic);
-		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(motorFunctions, feederEndButton, gameLogic, colorCalibrator);
+		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(pieceXYReadMove, motorFunctions, feederEndButton, gameLogic, colorCalibrator);
 
 		// Adds the behaviors in the order of importance from least to most
 		//behaviors.add(driveForward);
-		behaviors.add(readGamePieces);
+		//behaviors.add(returnToStart);
+		//behaviors.add(readGamePieces);
 		//behaviors.add(emergencyStop);
-		//behaviors.add(dispenseGamePieces);
+		behaviors.add(dispenseGamePieces);
 
 		Behavior[] behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]);
 

@@ -2,6 +2,7 @@ package behaviors;
 
 import connect4.GameLogic;
 import connect4.MotorFunctions;
+import connect4.PieceXYReadMove;
 import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 import sensors.ColorTester;
@@ -10,13 +11,15 @@ import util.Point;
 
 public class DispenseGamePieces implements Behavior {
 	private volatile boolean suppressed = false;
+	private PieceXYReadMove pieceXYReadMove;
 	private MotorFunctions motorFunctions; // movement reference (motor functions)
 	private TouchSensor feederEndButton;
 	private GameLogic gameLogic;
 	private ColorTester colorTester;
 	
 	
-	public DispenseGamePieces(MotorFunctions motorFunctions, TouchSensor feederEndButton, GameLogic gameLogic, ColorTester colorTester) {
+	public DispenseGamePieces(PieceXYReadMove pieceXYReadMove, MotorFunctions motorFunctions, TouchSensor feederEndButton, GameLogic gameLogic, ColorTester colorTester) {
+		this.pieceXYReadMove = pieceXYReadMove;
 		this.motorFunctions = motorFunctions;
 		this.feederEndButton = feederEndButton;
 		this.gameLogic = gameLogic;
@@ -47,6 +50,13 @@ public class DispenseGamePieces implements Behavior {
 		// anturi tarkkailemaan pudotusta. Liikutetaan dispencerMotoria, kunnes huomataan värin vaihtuneen, vuoro päättyy (suppress)
 		// HUOM: jos osuu kosketusanturiin ääripäässä, ilmoitetaan lataustarve ja jatketaan pelaajan kuittauksen jälkeen
 		// default behavior: ReturnToStart
+		
+		Point targetEmpty = new Point(3,3);
+		pieceXYReadMove.moveSensor(targetEmpty);
+		motorFunctions.rotateDispenserMotor(10, false);
+		while(colorTester.testColor()==ColorTester.COLOR_EMPTY);
+		motorFunctions.stopDispenser();
+		
 	}
 
 	@Override

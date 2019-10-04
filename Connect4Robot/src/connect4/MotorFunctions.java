@@ -27,7 +27,6 @@ public class MotorFunctions {
 		this.movementMotor = new EV3LargeRegulatedMotor(motorPort);
 		this.dispenserMotor = new EV3MediumRegulatedMotor(dispenserMotorPort);
 		this.colorSensorLifterMotor = new EV3MediumRegulatedMotor(colorSensorLifterMotorPort);
-		colorSensorLifterMotor.rotateTo(180);
 	}
 
 	public void rotateMovementMotor(int motorSpeed, boolean moveForwards) {

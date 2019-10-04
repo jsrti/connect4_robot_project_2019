@@ -4,6 +4,7 @@ import connect4.GameLogic;
 import connect4.MotorFunctions;
 import lejos.robotics.subsumption.Behavior;
 import sensors.TouchSensor;
+import util.Point;
 
 public class ReturnToStart implements Behavior {
 
@@ -29,10 +30,15 @@ public class ReturnToStart implements Behavior {
 		//Robotti liikkuu aloitusasemaan (x- siirtymä anturiin asti
 		int movementSpeed = 80;
 		while(!suppressed) {
-			motorFunctions.rotateMovementMotor(movementSpeed, true);
-			// TODO: tarkkaillaan nappulanpainallusta
+			motorFunctions.rotateMovementMotor(movementSpeed, false);
+			// TODO: tarkkaillaan nappulanpainallusta, thread
+			while(!startPositionButton.isButtonPressed());
 			motorFunctions.stopMovement();
-			// TODO: -> päivitetään gameLogic sijainti
+			System.out.println("Liikuttu aloituspisteeseen -1");
+			
+			// päivitetään gameLogic sijainti
+			gameLogic.setLocation(new Point(-1,gameLogic.getLocation().y));
+			suppressed = true;
 		}
 
 	}

@@ -2,6 +2,7 @@ package behaviors;
 
 import connect4.GameLogic;
 import connect4.MotorFunctions;
+import connect4.PieceXYReadMove;
 import lejos.hardware.Sound;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
@@ -15,16 +16,15 @@ import util.Point;
 public class ReadGamePieces implements Behavior {
 
 	private volatile boolean suppressed = false;
-	private final int sensorMotorSpeed = 20;
-	private final int movementSpeed = 30;
+	
 
 	private ColorTester colorTester;
 	private MotorFunctions motorFunctions;
 	private GameLogic gameLogic;
+	private PieceXYReadMove pieceXYReadMove;
 
-	public ReadGamePieces(ColorTester colorTester, MotorFunctions motorFunctions, GameLogic gameLogic) {
-		this.colorTester = colorTester;
-		this.motorFunctions = motorFunctions;
+	public ReadGamePieces(PieceXYReadMove pieceXYReadMove, GameLogic gameLogic) {
+		this.pieceXYReadMove = pieceXYReadMove;
 		this.gameLogic = gameLogic;
 	}
 
@@ -49,7 +49,7 @@ public class ReadGamePieces implements Behavior {
 				Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
 
 				// siirrytään seuraavan edellisellä vuorolla tyhjänä olleeseen kohtaan, lopetetaan haku, kun löytyy pelattu nappula
-				int destinationColor = moveSensor(stepsToNextEmpty);
+				int destinationColor = pieceXYReadMove.moveSensor(stepsToNextEmpty);
 				gameLogic.locationChange(stepsToNextEmpty);
 				if(destinationColor == ColorTester.COLOR_PLAYERPIECE||destinationColor == ColorTester.COLOR_ROBOTPIECE) {
 					newPieceFound = true; //lopetetaan haku, kun kohdepisteessä nappula
@@ -58,7 +58,7 @@ public class ReadGamePieces implements Behavior {
 					
 					//Liikutetaan anturia ylöspäin, jotta robotti mahtuu liikkumaan pelilaudan ohi
 					if(currentLocation.y<2) {
-						moveSensor(new Point(0, 2));
+						pieceXYReadMove.moveSensor(new Point(0, 2));
 					}
 					suppressed = true;
 				}
@@ -71,100 +71,6 @@ public class ReadGamePieces implements Behavior {
 		suppressed = true;
 	}
 
-	private int moveSensor(Point steps) {
-		// tarkistetaan x-liikkumissuunta
-		boolean xDirectionForward = true;
-		if (steps.x > 0) {
-			xDirectionForward = true;
-		} else {
-			xDirectionForward = false;
-		}
-		// x-suunnassa liikkuminen (pyörät)
-		motorFunctions.rotateMovementMotor(movementSpeed, xDirectionForward);
-
-		int lastColor = colorTester.testColor(); // edellinen väri, johon uutta tunnistettua väriä verrataan (toiminto
-													// värin vaihtuessa)
-		for (int i = 0; i < Math.abs(steps.x); i++) {
-			// luetaan väriä, kunnes tunnistetaan uusi väri
-			boolean foundNewSlot = false;
-			while (!foundNewSlot) {
-				int color = colorTester.testColor();
-				if (color != lastColor) {
-					switch (color) {
-					case ColorTester.COLOR_BOARD:
-						lastColor = color; // laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
-						break;
-					case ColorTester.COLOR_PLAYERPIECE:
-					case ColorTester.COLOR_ROBOTPIECE:
-					case ColorTester.COLOR_EMPTY:
-						lastColor = color; 
-						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
-						System.out.println("Tunnistettu vari: " + color);
-
-						foundNewSlot = true;
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
-		motorFunctions.stopMovement(); //pysähdytään, kun saavutettu kohdepiste
-		
-		// tarkistetaan y-liikkumissuunta
-				boolean yDirectionUp = true;
-				if (steps.y > 0) {
-					yDirectionUp = true;
-				} else {
-					yDirectionUp = false;
-				}
-		motorFunctions.rotateLifterMotor(sensorMotorSpeed, yDirectionUp);
-		
-		for (int i = 0; i < Math.abs(steps.y); i++) {
-			// luetaan väriä, kunnes tunnistetaan uusi väri
-			boolean foundNewSlot = false;
-			while (!foundNewSlot) {
-				int color = colorTester.testColor();
-				if (color != lastColor) {
-					switch (color) {
-					case ColorTester.COLOR_BOARD:
-						lastColor = color; // laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
-						break;
-					case ColorTester.COLOR_PLAYERPIECE:
-					case ColorTester.COLOR_ROBOTPIECE:
-					case ColorTester.COLOR_EMPTY:
-						lastColor = color; 
-						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
-						System.out.println("Tunnistettu vari: " + color);
-
-						foundNewSlot = true;
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
-		motorFunctions.stopLifter();
-		
-		return lastColor; //palautetaan viimeisin tunnistettu väri (kohdepiste)
-		
-		
-		// luetaan väri -> jos tyhjä, haetaan reitti seuraavaan oletettuun tyhjään ->
-		// kun löydetään muu kuin tyhjä, lopetetaan haku -> välitetään tieto
-		// gameLogicille
-		// -> gameLogic tallentaa nappulan värin -> lähetetään tieto tietokoneelle, joka
-		// laskee siirron
-
-		// robotin vuoron lopussa nappulan pudotuksen jälkeen luetaan pudotuskohdassa
-		// ylin tyhjänä ollut slotti
-		// (pudotuspaikka), tarkistetaan, onko nappula pudonnut, vai onko edelleen tyhjä
-
-		/*
-		 * jos stepit miinuksella, moottorin pyörintäsuunta sn mukaan (laskeutuminen) if
-		 * (steps.y < 0) { sensorMotor.backward(); } else { sensorMotor.forward(); }
-		 * 
-		 */
-	}
+	
 
 }

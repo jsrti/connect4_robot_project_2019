@@ -1,13 +1,13 @@
 package sensors;
 
 import lejos.hardware.port.Port;
-import lejos.hardware.sensor.EV3TouchSensor;
+import lejos.hardware.sensor.NXTTouchSensor;
 
 public class TouchSensor {
-	private EV3TouchSensor touchSensor;
+	private NXTTouchSensor touchSensor;
 	
 	public TouchSensor(Port touchSensorPort) {
-		touchSensor = new EV3TouchSensor(touchSensorPort);
+		touchSensor = new NXTTouchSensor(touchSensorPort);
 	}
 
 	public boolean isButtonPressed() {
