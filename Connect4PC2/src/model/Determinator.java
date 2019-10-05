@@ -1,11 +1,11 @@
 package model;
 
 public class Determinator {
-	private static Board game;
-	private static int[][] grid;
-	private static int[] nextMoves;
-	private static int bot;
-	private static int player;
+	private Board game;
+	private int[][] grid;
+	private int[] nextMoves;
+	private int bot;
+	private int player;
 	
 	public Determinator(Board game, int bot, int player) {
 		this.game = game;
@@ -13,26 +13,28 @@ public class Determinator {
 		this.player = player;
 	}
 	
-	public static void main(String[] args) {
-		game = new Board();
+	public int getNextMove(int botSide, int playerSide) {
+		bot = botSide;
+		player = playerSide;
 		grid = game.getGrid();
-		bot = 1;
-		player = 2;
-		game.setPiece(0, 1);
-		game.setPiece(1, 2);
-		game.setPiece(3, 1);
 		
-		System.out.println(getHorizontalValue(2, 0));
+		nextMoves = game.getNextFreeSpaces();
+		
+		for (int i = 0; i < nextMoves.length; i++) {
+			
+		}
+		
+		return 0;
 	}
 	
-	private static int getHorizontalValue(int x, int y) {
+	private int getHorizontalValue(int x, int y) {
 		
 		int points = 0;
 		boolean noEmpty = true;
 		
 		//Left side
 		int read = x;
-		System.out.println(read);
+		System.out.println("read " + read);
 		if (read > 3) {
 			read = 3;
 		}
@@ -41,38 +43,41 @@ public class Determinator {
 		int leftPeg = -1;
 		int leftStreak = 0;
 		for (int a = 1; a <= read; a++) {
-			System.out.println("hi");
 			
-			if (grid[x-a][y] != 0 && leftPeg == -1) {
-				leftPeg = grid[x-a][y];
+			int spot = grid[x-a][y];
+			
+			if (spot != 0 && leftPeg == -1) {
+				leftPeg = spot;
+				System.out.println("leftPeg = " + leftPeg + " at X: " + (x-a) + " Y: " + y);
 			}
-			else if (grid[x-a][y] == 0) {
+			else if (spot == 0) {
 				noEmpty = false;
 			}
 			
-			if (grid[x-a][y] == leftPeg) {
-				if (leftPeg == bot) {
+			if (spot == leftPeg) {
+				if (spot == bot) {
 					leftPoints += 3;
 					System.out.println("3 left");
 				}
-				else if (leftPeg == player) {
+				else if (spot == player) {
 					leftPoints += 2;
 					System.out.println("2 left");
 				}
 				
 				if (noEmpty) {
 					leftStreak++;
-					System.out.println("1 left");
+					System.out.println("left streak increased");
 				}
 			}
-			else if (grid[x-a][y] == 0) {
+			else if (spot == 0) {
 				leftPoints++;
+					System.out.println("1 left");
 			}
-			else { break; }
+			else { System.out.println("left break at " + a + " " + spot); break; }
 			
 		}
 		read = grid.length - 1 - x;
-		System.out.println(read);
+		System.out.println("read " + read);
 		if (read > 3) {
 			read = 3;
 		}
@@ -82,34 +87,288 @@ public class Determinator {
 		int rightPeg = -1;
 		int rightStreak = 0;
 		for (int a = 1; a <= read; a++) {
-			System.out.println("ho");
 			
-			if (grid[x+a][y] != 0 && rightPeg == -1) {
-				rightPeg = grid[x-a][y];
+			int spot = grid[x+a][y];
+			
+			if (spot != 0 && rightPeg == -1) {
+				rightPeg = spot;
+				System.out.println("rightPeg = " + rightPeg + " at X: " + (x+a) + " Y: " + y);
 			}
-			else if (grid[x+a][y] == 0) {
+			else if (spot == 0) {
 				noEmpty = false;
 			}
 			
-			if (grid[x+a][y] == rightPeg) {
-				if (rightPeg == bot) {
+			if (spot == rightPeg) {
+				if (spot == bot) {
 					rightPoints += 3;
-					System.out.println("3 right");
+					System.out.println("+3 right");
 				}
-				else if (rightPeg == player) {
+				else if (spot == player) {
 					rightPoints += 2;
-					System.out.println("2 right");
+					System.out.println("+2 right");
 				}
 				
 				if (noEmpty) {
 					rightStreak++;
-					System.out.println("1 right");
+					System.out.println("right streak increased");
 				}
 			}
-			else if (grid[x+a][y] == 0) {
+			else if (spot == 0) {
 				rightPoints++;
+					System.out.println("+1 right");
 			}
-			else { break; }
+			else { System.out.println("right break at " + a + " " + spot); break; }
+			
+		}
+		
+		if (rightPeg == leftPeg && (noEmpty || rightStreak + leftStreak >= 3)) {
+			points = (int)Math.pow(2, rightPoints + leftPoints);
+		}
+		else {
+			points = (int)(Math.pow(2, leftPoints) + Math.pow(2, rightPoints));
+		}
+		return points;
+	}
+	
+	private int getVerticalValue(int x, int y) {
+		int points = 0;
+		int firstPeg = -1;
+		
+		int read = y;
+		if (read > 3) {
+			read = 3;
+		}
+		
+		for (int a = 1; a <= read; a++) {
+			
+			int spot = grid[x][y-a];
+			
+			if (spot != 0 && firstPeg == -1) {
+				firstPeg = spot;
+			}
+			
+			if (spot == firstPeg) {
+				if (spot == bot) {
+					points += 3;
+					System.out.println("+3 right");
+				}
+				else if (spot == player) {
+					points += 2;
+					System.out.println("+2 right");
+				}
+			}
+			else { System.out.println("down break at " + a + " " + spot); break; }
+		}
+		
+		points = (int)Math.pow(2, points);
+		return points;
+	}
+	
+	private int getDiagonalRightValue(int x, int y) {
+		
+		int points = 0;
+		boolean noEmpty = true;
+		
+		//Left side
+		int read = y;
+		if (x < y) {
+			read = x;
+		}
+		if (read > 3) {
+			read = 3;
+		}
+		
+		int leftPoints = 0;
+		int leftPeg = -1;
+		int leftStreak = 0;
+		for (int a = 1; a <= read; a++) {
+			
+			int spot = grid[x-a][y-a];
+			
+			if (spot != 0 && leftPeg == -1) {
+				leftPeg = spot;
+				System.out.println("leftPeg = " + leftPeg + " at X: " + (x-a) + " Y: " + (y-a));
+			}
+			else if (spot == 0) {
+				noEmpty = false;
+			}
+			
+			if (spot == leftPeg) {
+				if (spot == bot) {
+					leftPoints += 3;
+					System.out.println("3 left");
+				}
+				else if (spot == player) {
+					leftPoints += 2;
+					System.out.println("2 left");
+				}
+				
+				if (noEmpty) {
+					leftStreak++;
+					System.out.println("left streak increased");
+				}
+			}
+			else if (spot == 0) {
+				leftPoints++;
+					System.out.println("1 left");
+			}
+			else { System.out.println("left break at " + a + " " + spot); break; }
+			
+		}
+		read = grid[x].length - 1 - y;
+		if (grid.length - 1 - x < grid[x].length - 1 - y) {
+			System.out.println("aaaa");
+			read = grid.length - 1 - x;
+		}
+		System.out.println("read " + read);
+		if (read > 3) {
+			read = 3;
+		}
+		
+		//Right side
+		int rightPoints = 0;
+		int rightPeg = -1;
+		int rightStreak = 0;
+		for (int a = 1; a <= read; a++) {
+			
+			int spot = grid[x+a][y+a];
+			
+			if (spot != 0 && rightPeg == -1) {
+				rightPeg = spot;
+				System.out.println("rightPeg = " + rightPeg + " at X: " + (x+a) + " Y: " + (y+a));
+			}
+			else if (spot == 0) {
+				noEmpty = false;
+			}
+			
+			if (spot == rightPeg) {
+				if (spot == bot) {
+					rightPoints += 3;
+					System.out.println("+3 right");
+				}
+				else if (spot == player) {
+					rightPoints += 2;
+					System.out.println("+2 right");
+				}
+				
+				if (noEmpty) {
+					rightStreak++;
+					System.out.println("right streak increased");
+				}
+			}
+			else if (spot == 0) {
+				rightPoints++;
+					System.out.println("+1 right");
+			}
+			else { System.out.println("right break at " + a + " " + spot); break; }
+			
+		}
+		
+		if (rightPeg == leftPeg && (noEmpty || rightStreak + leftStreak >= 3)) {
+			points = (int)Math.pow(2, rightPoints + leftPoints);
+		}
+		else {
+			points = (int)(Math.pow(2, leftPoints) + Math.pow(2, rightPoints));
+		}
+		return points;
+	}
+
+	private int getDiagonalLeftValue(int x, int y) {
+		
+		int points = 0;
+		boolean noEmpty = true;
+		
+		//Left side
+		int read = grid[x].length - 1 - y;
+		if (x < read) {
+			read = x;
+		}
+		if (read > 3) {
+			read = 3;
+		}
+		
+		int leftPoints = 0;
+		int leftPeg = -1;
+		int leftStreak = 0;
+		for (int a = 1; a <= read; a++) {
+			
+			int spot = grid[x-a][y+a];
+			
+			if (spot != 0 && leftPeg == -1) {
+				leftPeg = spot;
+				System.out.println("leftPeg = " + leftPeg + " at X: " + (x-a) + " Y: " + (y+a));
+			}
+			else if (spot == 0) {
+				noEmpty = false;
+			}
+			
+			if (spot == leftPeg) {
+				if (spot == bot) {
+					leftPoints += 3;
+					System.out.println("3 left");
+				}
+				else if (spot == player) {
+					leftPoints += 2;
+					System.out.println("2 left");
+				}
+				
+				if (noEmpty) {
+					leftStreak++;
+					System.out.println("left streak increased");
+				}
+			}
+			else if (spot == 0) {
+				leftPoints++;
+					System.out.println("1 left");
+			}
+			else { System.out.println("left break at " + a + " " + spot); break; }
+			
+		}
+		read = grid.length - 1 - x;
+		if (y < read) {
+			read = y;
+		}
+		System.out.println("read " + read);
+		if (read > 3) {
+			read = 3;
+		}
+		
+		//Right side
+		int rightPoints = 0;
+		int rightPeg = -1;
+		int rightStreak = 0;
+		for (int a = 1; a <= read; a++) {
+			
+			int spot = grid[x+a][y-a];
+			
+			if (spot != 0 && rightPeg == -1) {
+				rightPeg = spot;
+				System.out.println("rightPeg = " + rightPeg + " at X: " + (x+a) + " Y: " + (y-a));
+			}
+			else if (spot == 0) {
+				noEmpty = false;
+			}
+			
+			if (spot == rightPeg) {
+				if (spot == bot) {
+					rightPoints += 3;
+					System.out.println("+3 right");
+				}
+				else if (spot == player) {
+					rightPoints += 2;
+					System.out.println("+2 right");
+				}
+				
+				if (noEmpty) {
+					rightStreak++;
+					System.out.println("right streak increased");
+				}
+			}
+			else if (spot == 0) {
+				rightPoints++;
+					System.out.println("+1 right");
+			}
+			else { System.out.println("right break at " + a + " " + spot); break; }
 			
 		}
 		
