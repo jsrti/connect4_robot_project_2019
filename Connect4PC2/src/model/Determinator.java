@@ -33,10 +33,12 @@ public class Determinator {
 			points += getDiagonalRightValue(i, nextMoves[i]);
 			points += getDiagonalLeftValue(i, nextMoves[i]);
 			
-			points -= getHorizontalValue(i, nextMoves[i] + 1);
-			points -= getVerticalValue(i, nextMoves[i] + 1);
-			points -= getDiagonalRightValue(i, nextMoves[i] + 1);
-			points -= getDiagonalLeftValue(i, nextMoves[i] + 1);
+			if (nextMoves[i] < grid[i].length - 1) {
+				points -= getHorizontalValue(i, nextMoves[i] + 1);
+				points -= getVerticalValue(i, nextMoves[i] + 1);
+				points -= getDiagonalRightValue(i, nextMoves[i] + 1);
+				points -= getDiagonalLeftValue(i, nextMoves[i] + 1);
+			}
 			
 			movePoints[i] = points;
 		}
