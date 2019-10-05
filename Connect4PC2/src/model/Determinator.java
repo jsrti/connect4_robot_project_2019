@@ -1,5 +1,7 @@
 package model;
 
+import util.Point;
+
 public class Determinator {
 	private Board game;
 	private int[][] grid;
@@ -13,10 +15,11 @@ public class Determinator {
 		this.player = player;
 	}
 	
-	public int getNextMove(int botSide, int playerSide) {
+	public Point getNextMove(int botSide, int playerSide) {
 		bot = botSide;
 		player = playerSide;
 		grid = game.getGrid();
+		int bestMove = 0;
 		
 		nextMoves = game.getNextFreeSpaces();
 		int[] movePoints = new int[7];
@@ -38,10 +41,17 @@ public class Determinator {
 			movePoints[i] = points;
 		}
 		
+		for (int i = 1; i < movePoints.length; i++) {
+			if (movePoints[i] > movePoints[bestMove]) {
+				bestMove = i;
+			}
+		}
 		
+		Point nextMove = new Point(bestMove, nextMoves[bestMove]);
 		
-		return 0;
+		return nextMove;
 	}
+	
 	
 	private int getHorizontalValue(int x, int y) {
 		
