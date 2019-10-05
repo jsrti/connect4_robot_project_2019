@@ -19,10 +19,26 @@ public class Determinator {
 		grid = game.getGrid();
 		
 		nextMoves = game.getNextFreeSpaces();
+		int[] movePoints = new int[7];
+		
 		
 		for (int i = 0; i < nextMoves.length; i++) {
+			int points = 0;
 			
+			points += getHorizontalValue(i, nextMoves[i]);
+			points += getVerticalValue(i, nextMoves[i]);
+			points += getDiagonalRightValue(i, nextMoves[i]);
+			points += getDiagonalLeftValue(i, nextMoves[i]);
+			
+			points -= getHorizontalValue(i, nextMoves[i] + 1);
+			points -= getVerticalValue(i, nextMoves[i] + 1);
+			points -= getDiagonalRightValue(i, nextMoves[i] + 1);
+			points -= getDiagonalLeftValue(i, nextMoves[i] + 1);
+			
+			movePoints[i] = points;
 		}
+		
+		
 		
 		return 0;
 	}
