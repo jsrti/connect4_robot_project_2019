@@ -15,6 +15,45 @@ public class Determinator {
 		this.player = player;
 	}
 	
+	public int checkWins() {
+		
+		grid = game.getGrid();
+		
+		for (int x = 0; x < grid.length; x++) {
+			for (int y = 0; y < grid[x].length; y++) {
+				
+				int player = grid[x][y];
+				
+				if (player != 0) {
+					
+					int north = 1;
+					int northeast = 1;
+					int east = 1;
+					int southeast = 1;
+					
+					for (int a = 1; a < 4; a++) {
+						if (x <= grid.length - 4 && grid[x+a][y] == player) {
+							east++;
+						}
+						if (y <= grid[x].length - 4 && grid[x][y+a] == player) {
+							north++;
+						}
+						if (y <= grid[x].length - 4 && x <= grid.length - 4 && grid[x+a][y+a] == player) {
+							northeast++;
+						}
+						if (y >= 3 && x <= grid.length - 4 && grid[x+a][y-a] == player) {
+							southeast++;
+						}
+					}
+					if (north == 4 || east == 4 || northeast == 4 || southeast == 4) {
+						return player;
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	
 	public Point getNextMove(int botSide, int playerSide) {
 		bot = botSide;
 		player = playerSide;
