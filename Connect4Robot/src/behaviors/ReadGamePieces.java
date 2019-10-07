@@ -35,7 +35,7 @@ public class ReadGamePieces implements Behavior {
 		if (gameLogic.getIsRobotsTurn() && !gameLogic.getGameBoardReadComplete() && gameLogic.inStartPosition()) {
 			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -66,6 +66,7 @@ public class ReadGamePieces implements Behavior {
 
 	@Override
 	public void suppress() {
+		motorFunctions.stopLifter();
 		suppressed = true;
 	}
 

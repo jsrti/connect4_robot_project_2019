@@ -37,7 +37,9 @@ public class GameLogic {
 	}
 	
 	public Point getCalculatedMove() {
-		return calculatedMovePoint;
+		int x = calculatedMovePoint.x - currentLocation.x;
+		int y = calculatedMovePoint.y - currentLocation.y;
+		return new Point(x,y);
 	}
 	
 	public boolean getGameBoardReadComplete() {

@@ -1,6 +1,7 @@
 package connect4;
 
 import lejos.hardware.Sound;
+import lejos.utility.Delay;
 import sensors.ColorTester;
 import util.Point;
 
@@ -18,7 +19,7 @@ public class PieceXYReadMove {
 
 	public int moveSensor(Point steps) {
 		int sensorMotorSpeed = 20;
-		int movementSpeed = 30;
+		int movementSpeed = 50;
 
 		// tarkistetaan x-liikkumissuunta
 		boolean xDirectionForward = true;
@@ -41,6 +42,7 @@ public class PieceXYReadMove {
 					switch (color) {
 					case ColorTester.COLOR_BOARD:
 						lastColor = color; // laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
+						System.out.println("tunnistettu pelilauta");
 						break;
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
@@ -50,9 +52,10 @@ public class PieceXYReadMove {
 							break;
 						}
 						lastColor = color;
-						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
+						//Sound.beep(); // piippaa, kun tunnistetaan uusi väri
 						System.out.println("Tunnistettu vari: " + color);
 
+						Delay.msDelay(700);
 						foundNewSlot = true;
 						break;
 					default:
@@ -81,6 +84,7 @@ public class PieceXYReadMove {
 					switch (color) {
 					case ColorTester.COLOR_BOARD:
 						lastColor = color; // laudan tunnistuksessa tallennetaan tieto värimuutoksesta ja jatketaan
+						System.out.println("tunnistettu pelilauta");
 						break;
 					case ColorTester.COLOR_PLAYERPIECE:
 					case ColorTester.COLOR_ROBOTPIECE:
@@ -90,10 +94,11 @@ public class PieceXYReadMove {
 							break;
 						}
 						lastColor = color;
-						Sound.beep(); // piippaa, kun tunnistetaan uusi väri
+						//Sound.beep(); // piippaa, kun tunnistetaan uusi väri
 						System.out.println("Tunnistettu vari: " + color);
 
 						foundNewSlot = true;
+						Delay.msDelay(400);
 						break;
 					default:
 						break;

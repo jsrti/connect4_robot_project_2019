@@ -27,8 +27,9 @@ public class ReturnToStart implements Behavior {
 	@Override
 	public void action() {
 		
+		suppressed = false;
 		//Robotti liikkuu aloitusasemaan (x- siirtymä anturiin asti
-		int movementSpeed = 80;
+		int movementSpeed = 200;
 		while(!suppressed) {
 			motorFunctions.rotateMovementMotor(movementSpeed, false);
 			// TODO: tarkkaillaan nappulanpainallusta, thread
@@ -41,7 +42,7 @@ public class ReturnToStart implements Behavior {
 			suppressed = true;
 			
 			//TODO: poistetaan väliaikaiset testit
-			gameLogic.setCalculatedMove(new Point(3,2));
+			gameLogic.setCalculatedMove(new Point(2,3));
 			gameLogic.setIsRobotsTurn(true);
 		}
 	}

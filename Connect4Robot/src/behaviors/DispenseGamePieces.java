@@ -46,10 +46,10 @@ public class DispenseGamePieces implements Behavior {
 
 		Point target = gameLogic.getCalculatedMove();
 		pieceXYReadMove.moveSensor(target);
-		motorFunctions.rotateDispenserMotor(10, false);
+		motorFunctions.rotateDispenserMotor(15, false);
 		// TODO: maksimin tarkistus(touchSensor), thread
-		while (colorTester.testColor() == ColorTester.COLOR_EMPTY)
-			;
+		while (colorTester.testColor() == ColorTester.COLOR_EMPTY);
+		System.out.println("Pudotus tunnistettu!");
 		motorFunctions.stopDispenser();
 
 		// Liikutetaan anturia ylöspäin, jotta robotti mahtuu liikkumaan pelilaudan ohi
