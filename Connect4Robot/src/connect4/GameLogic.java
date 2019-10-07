@@ -16,13 +16,36 @@ public class GameLogic {
 
 	private boolean turnCalculationReceived = false;
 	private boolean hasDroppedPiece = false;
+	private Point calculatedMovePoint = null;
 	
 	public boolean getIsRobotsTurn() {
 		return isRobotsTurn;
 	}
 	
+	public void setIsRobotsTurn(boolean b) {
+		isRobotsTurn = b;
+	}
+	
+	public boolean inStartPosition() {
+		if(currentLocation.x<0)
+			return true;
+		return false;
+	}
+	
+	public void setCalculatedMove(Point point) {
+		calculatedMovePoint = point;
+	}
+	
+	public Point getCalculatedMove() {
+		return calculatedMovePoint;
+	}
+	
 	public boolean getGameBoardReadComplete() {
 		return gameBoardReadComplete;
+	}
+	
+	public void setGameBoardReadComplete(boolean completed) {
+		gameBoardReadComplete = completed;
 	}
 
 	public GameLogic() {
@@ -54,7 +77,7 @@ public class GameLogic {
 			for (int j = 0; j < rows; j++) {
 				if (gameGrid[i][j] == 0) {
 					nextEmptyPoint = new Point(i, j);
-					System.out.println("Steps to next empty slot: " + nextEmptyPoint);
+					System.out.println("Next empty slot: " + nextEmptyPoint);
 					return nextEmptyPoint;
 				}
 			}
@@ -69,8 +92,10 @@ public class GameLogic {
 		
 		xySteps.x = nextEmpty.x-currentLocation.x;
 		xySteps.y = nextEmpty.y-currentLocation.y;
+		System.out.println("Steps to next empty slot: " + xySteps);
 		
 		return xySteps;
 	}
+
 
 }

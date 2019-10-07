@@ -32,7 +32,7 @@ public class ReadGamePieces implements Behavior {
 	public boolean takeControl() {
 		// otetaan kontrolli, kun robotin vuoro ja laudan luku kesken (pelattu nappula
 		// löytämättä)
-		if (gameLogic.getIsRobotsTurn() && !gameLogic.getGameBoardReadComplete()) {
+		if (gameLogic.getIsRobotsTurn() && !gameLogic.getGameBoardReadComplete() && gameLogic.inStartPosition()) {
 			return true;
 		}
 		return true;
@@ -56,11 +56,8 @@ public class ReadGamePieces implements Behavior {
 					//ilmoitetaan löydetty nappula ja sijainti gameLogicille, muuten jatketaan hakemalla uusi kohde
 					gameLogic.setPieceToCurrentLocation(destinationColor);
 					Point currentLocation = gameLogic.getLocation();
-					
-					//Liikutetaan anturia ylöspäin, jotta robotti mahtuu liikkumaan pelilaudan ohi
-					if(currentLocation.y<2) {
-						pieceXYReadMove.moveSensor(new Point(0, 2));
-					}
+
+					gameLogic.setGameBoardReadComplete(true);
 					suppressed = true;
 				}
 			}

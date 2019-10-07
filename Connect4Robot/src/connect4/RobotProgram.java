@@ -16,6 +16,7 @@ import lejos.robotics.subsumption.Behavior;
 import lejos.utility.Delay;
 import sensors.ColorTester;
 import sensors.TouchSensor;
+import util.Point;
 public class RobotProgram {
 	
 	public static void main(String[] args) {
@@ -59,12 +60,12 @@ public class RobotProgram {
 		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(pieceXYReadMove, motorFunctions, feederEndButton, gameLogic, colorCalibrator);
 
 		// Adds the behaviors in the order of importance from least to most
-		//behaviors.add(driveForward);
-		behaviors.add(readGamePieces);
-		behaviors.add(returnToStart);
 		
-		//behaviors.add(emergencyStop);
-		//behaviors.add(dispenseGamePieces);
+		behaviors.add(returnToStart);
+		behaviors.add(dispenseGamePieces);
+		behaviors.add(readGamePieces);
+		behaviors.add(emergencyStop);
+		//behaviors.add(driveForward);
 
 		Behavior[] behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]);
 
@@ -79,6 +80,7 @@ public class RobotProgram {
 		Button.ENTER.waitForPressAndRelease();
 		// Starts the bot's default cycle
 		System.out.println("Arbitrator soon!");
+		
 		arbitrator.go();
 
 		((Device) colorPort).close();

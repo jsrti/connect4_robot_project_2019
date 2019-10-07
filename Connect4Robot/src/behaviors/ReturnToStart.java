@@ -21,9 +21,7 @@ public class ReturnToStart implements Behavior {
 	
 	@Override
 	public boolean takeControl() {
-		if(!suppressed)
-			return true;
-		return false;
+		return true;
 	}
 
 	@Override
@@ -41,8 +39,11 @@ public class ReturnToStart implements Behavior {
 			// päivitetään gameLogic sijainti
 			gameLogic.setLocation(new Point(-1,gameLogic.getLocation().y));
 			suppressed = true;
+			
+			//TODO: poistetaan väliaikaiset testit
+			gameLogic.setCalculatedMove(new Point(3,2));
+			gameLogic.setIsRobotsTurn(true);
 		}
-
 	}
 
 	@Override
