@@ -45,14 +45,12 @@ public class GameOverviewController {
 	 */
 	@FXML
 	private void initialize() {
-		// Initialize the person table with the two columns.
 		currentTurn.setText("Player");
 	}
 
-	@FXML
-	private void addGamePiece() {
-		int x = 0;
-		int y = 0;
+	private void addGamePiece(Point point) {
+		int x = point.x;
+		int y = point.y;
 		
 		Circle circle = new Circle();
 		pane.add(circle, x, y);
