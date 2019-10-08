@@ -66,8 +66,6 @@ public class GameOverviewController {
 		GridPane.setFillHeight(circle, true);
 		System.out.println("added");
 		i++;
-		turns.setText("" + i);
-		changeTurn();
 	}
 
 	@FXML
