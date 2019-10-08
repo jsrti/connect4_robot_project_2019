@@ -47,7 +47,8 @@ public class Determinator {
 						}
 					}
 					if (north == 4 || east == 4 || northeast == 4 || southeast == 4) {
-						System.out.printf("north: %d, northeast: %d, east: %d, southeast: %d", north, northeast, east, southeast);
+						System.out.printf("win at (%d,%d)\n", x, y);
+						System.out.printf("north: %d, northeast: %d, east: %d, southeast: %d\n", north, northeast, east, southeast);
 						return player;
 					}
 				}
