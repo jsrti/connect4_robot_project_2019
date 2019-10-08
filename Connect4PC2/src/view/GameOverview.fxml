@@ -30,7 +30,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Button layoutX="119.0" layoutY="726.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Switch turn" AnchorPane.bottomAnchor="24.0" />
+      <Button layoutX="119.0" layoutY="726.0" mnemonicParsing="false" onAction="#changeTurn" prefHeight="50.0" prefWidth="150.0" text="Switch turn" AnchorPane.bottomAnchor="24.0" />
       <Button fx:id="resetButton" layoutX="547.0" layoutY="718.0" mnemonicParsing="false" onAction="#reset" onMouseClicked="#reset" prefHeight="50.0" prefWidth="150.0" text="Reset" AnchorPane.bottomAnchor="24.0" />
       <Text layoutX="75.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Turn:" wrappingWidth="118.6708984375" AnchorPane.topAnchor="18.1015625">
          <font>
