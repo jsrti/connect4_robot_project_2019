@@ -3,6 +3,8 @@ package application;
 
 
 import java.io.IOException;
+import java.util.Scanner;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -53,6 +55,17 @@ public class Main extends Application {
 	}
 
 	    public static void main(String[] args) {
+	    	CommunicationPC communication = new CommunicationPC();
+			Scanner userInput = new Scanner(System.in);
+			
+			communication.openConnection();
+			
+			System.out.println("Press enter to start");
+			userInput.nextLine();
+			communication.go();
+			
+			userInput.close();
+			communication.closeConnection();
 	        launch(args);
 	    }
 }

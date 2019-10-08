@@ -63,29 +63,11 @@ public class CommunicationPC {
 	}
 
 	/**
-	 * Receives the gameboard array from the robot
-	 * 
-	 * @return
-	 */
-	/*
-	public int[][] receiveGameboardArray() {
-		int[][] gameBoardArray = null;
-		try {
-			gameBoardArray = (int[][]) oIn.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return gameBoardArray;
-	}
-*/
-	/**
 	 * Sends a point object to the robot
 	 * 
 	 * @param point
 	 */
-	/*
+	
 	public void sendDropPoint(Point point) {
 		try {
 			oos.writeObject(point);
@@ -95,29 +77,6 @@ public class CommunicationPC {
 			System.out.println("Couldn't send point");
 		}
 	}
-*/
-	/**
-	 * 
-	 * @return
-	 */
-	public int receiveGamePieceX() {
-		int gamePieceX = 0;
 
-		try {
-			gamePieceX = in.readInt();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return gamePieceX;
-	}
 
-	public void sendGamePieceX(int gamePieceX) {
-		try {
-			out.writeInt(gamePieceX);
-			out.flush();
-		} catch (IOException e) {
-			System.err.println(e);
-			System.out.println("Failed to send game piece");
-		}
-	}
 }
