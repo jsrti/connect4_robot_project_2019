@@ -3,18 +3,28 @@ package model;
 import util.Point;
 
 public class Determinator {
-	private Board game;
-	private int[][] grid;
-	private int[] nextMoves;
-	private int bot;
-	private int player;
+	private Board game;			// Used to handle things with the game grid.
+	private int[][] grid;		// Digital version of the game board.
+	private int[] nextMoves;	// The next possible moves, used to to check which one is the best. Provided by the Board class
+	private int bot;			// The number that indicates the bot's game pieces
+	private int player;			// The number that indicates the player's game pieces
 	
-	public Determinator(Board game, int bot, int player) {
-		this.game = game;
+	/**
+	 * 
+	 * @param board, a Board object that is used in the methods of this object.
+	 * @param bot, the number that indicates the bot's game pieces.
+	 * @param player, the number that indicates the bot's game pieces.
+	 */
+	public Determinator(Board board, int bot, int player) {
+		this.game = board;
 		this.bot = bot;
 		this.player = player;
 	}
 	
+	/**
+	 * Checks if there are any rows of four on the board
+	 * @return returns the number indicating the color of the row of four, returns 0 if there are no rows of four
+	 */
 	public int checkWins() {
 		
 		grid = game.getGrid();
@@ -23,9 +33,9 @@ public class Determinator {
 			
 			for (int y = 0; y < grid[x].length; y++) {
 				
-				int player = grid[x][y];
+				int pieceColor = grid[x][y];
 				
-				if (player != 0) {
+				if (pieceColor != 0) {
 					
 					int north = 1;
 					int northeast = 1;
@@ -33,23 +43,23 @@ public class Determinator {
 					int southeast = 1;
 					
 					for (int a = 1; a < 4; a++) {
-						if (x <= grid.length - 4 && grid[x+a][y] == player) {
+						if (x <= grid.length - 4 && grid[x+a][y] == pieceColor) {
 							east++;
 						}
-						if (y <= grid[x].length - 4 && grid[x][y+a] == player) {
+						if (y <= grid[x].length - 4 && grid[x][y+a] == pieceColor) {
 							north++;
 						}
-						if (y <= grid[x].length - 4 && x <= grid.length - 4 && grid[x+a][y+a] == player) {
+						if (y <= grid[x].length - 4 && x <= grid.length - 4 && grid[x+a][y+a] == pieceColor) {
 							northeast++;
 						}
-						if (y >= 3 && x <= grid.length - 4 && grid[x+a][y-a] == player) {
+						if (y >= 3 && x <= grid.length - 4 && grid[x+a][y-a] == pieceColor) {
 							southeast++;
 						}
 					}
 					if (north == 4 || east == 4 || northeast == 4 || southeast == 4) {
 						System.out.printf("win at (%d,%d)\n", x, y);
 						System.out.printf("north: %d, northeast: %d, east: %d, southeast: %d\n", north, northeast, east, southeast);
-						return player;
+						return pieceColor;
 					}
 				}
 			}
@@ -57,9 +67,15 @@ public class Determinator {
 		return 0;
 	}
 	
-	public Point getNextMove(int botSide, int playerSide) {
-		bot = botSide;
-		player = playerSide;
+	/**
+	 * Calculates the next move
+	 * @param botColor the number that indicates bot's color. 
+	 * @param playerColor the number that indicates the player's color
+	 * @return returns a point object that holds the moves x and y values
+	 */
+	public Point getNextMove(int botColor, int playerColor) {
+		bot = botColor;
+		player = playerColor;
 		grid = game.getGrid();
 		int bestMove = 0;
 		
@@ -81,7 +97,7 @@ public class Determinator {
 				points -= getDiagonalRightValue(i, nextMoves[i] + 1)/2;
 				points -= getDiagonalLeftValue(i, nextMoves[i] + 1)/2;
 			}
-			
+			points -= Math.abs(i - 3);
 			movePoints[i] = points;
 		}
 		
