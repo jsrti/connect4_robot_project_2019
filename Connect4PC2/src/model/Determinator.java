@@ -20,6 +20,7 @@ public class Determinator {
 		grid = game.getGrid();
 		
 		for (int x = 0; x < grid.length; x++) {
+			
 			for (int y = 0; y < grid[x].length; y++) {
 				
 				int player = grid[x][y];
@@ -46,6 +47,7 @@ public class Determinator {
 						}
 					}
 					if (north == 4 || east == 4 || northeast == 4 || southeast == 4) {
+						System.out.printf("north: %d, northeast: %d, east: %d, southeast: %d", north, northeast, east, southeast);
 						return player;
 					}
 				}
@@ -124,11 +126,11 @@ public class Determinator {
 			if (spot == leftPeg) {
 				if (spot == bot) {
 					leftPoints += 3;
-					System.out.println("3 left");
+					System.out.println("+3 left");
 				}
 				else if (spot == player) {
 					leftPoints += 2;
-					System.out.println("2 left");
+					System.out.println("+2 left");
 				}
 				
 				if (noEmpty) {
@@ -138,7 +140,7 @@ public class Determinator {
 			}
 			else if (spot == 0) {
 				leftPoints++;
-					System.out.println("1 left");
+					System.out.println("+1 left");
 			}
 			else { System.out.println("left break at " + a + " " + spot); break; }
 			
@@ -263,11 +265,11 @@ public class Determinator {
 			if (spot == leftPeg) {
 				if (spot == bot) {
 					leftPoints += 3;
-					System.out.println("3 left");
+					System.out.println("+3 left");
 				}
 				else if (spot == player) {
 					leftPoints += 2;
-					System.out.println("2 left");
+					System.out.println("+2 left");
 				}
 				
 				if (noEmpty) {
@@ -277,7 +279,7 @@ public class Determinator {
 			}
 			else if (spot == 0) {
 				leftPoints++;
-					System.out.println("1 left");
+					System.out.println("+1 left");
 			}
 			else { System.out.println("left break at " + a + " " + spot); break; }
 			
@@ -372,11 +374,11 @@ public class Determinator {
 			if (spot == leftPeg) {
 				if (spot == bot) {
 					leftPoints += 3;
-					System.out.println("3 left");
+					System.out.println("+3 left");
 				}
 				else if (spot == player) {
 					leftPoints += 2;
-					System.out.println("2 left");
+					System.out.println("+2 left");
 				}
 				
 				if (noEmpty) {
@@ -386,7 +388,7 @@ public class Determinator {
 			}
 			else if (spot == 0) {
 				leftPoints++;
-					System.out.println("1 left");
+					System.out.println("+1 left");
 			}
 			else { System.out.println("left break at " + a + " " + spot); break; }
 			
