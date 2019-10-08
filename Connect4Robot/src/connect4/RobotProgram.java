@@ -61,7 +61,7 @@ public class RobotProgram {
 		SendPlayerMoveToPC sendPlayerMoveToPC = new SendPlayerMoveToPC(gameLogic, comm);
 		ReadGamePieces readGamePieces = new ReadGamePieces(pieceXYReadMove,gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
-		ReturnToStart returnToStart = new ReturnToStart(motorFunctions, startPositionButton, gameLogic);
+		ReturnToStart returnToStart = new ReturnToStart(motorFunctions, startPositionButton, gameLogic, comm);
 		DispenseGamePieces dispenseGamePieces = new DispenseGamePieces(pieceXYReadMove, motorFunctions, feederEndButton, gameLogic, colorCalibrator);
 
 		// Adds the behaviors in the order of importance from least to most

@@ -1,5 +1,6 @@
 package behaviors;
 
+import connect4.Communication;
 import connect4.GameLogic;
 import connect4.MotorFunctions;
 import lejos.robotics.subsumption.Behavior;
@@ -12,16 +13,20 @@ public class ReturnToStart implements Behavior {
 	private MotorFunctions motorFunctions;
 	private TouchSensor startPositionButton;
 	private GameLogic gameLogic;
+	private Communication comm;
 	
-	public ReturnToStart(MotorFunctions motorFunctions, TouchSensor startPositionButton, GameLogic gameLogic) {
+	public ReturnToStart(MotorFunctions motorFunctions, TouchSensor startPositionButton, GameLogic gameLogic, Communication comm) {
 		this.motorFunctions = motorFunctions;
 		this.startPositionButton = startPositionButton;
 		this.gameLogic = gameLogic;
+		this.comm = comm;
 	}
 	
 	@Override
 	public boolean takeControl() {
-		return true;
+		if(gameLogic.getHasDroppedPiece())
+			return true;
+		return false;
 	}
 
 	@Override
@@ -39,11 +44,18 @@ public class ReturnToStart implements Behavior {
 			
 			// päivitetään gameLogic sijainti
 			gameLogic.setLocation(new Point(-1,gameLogic.getLocation().y));
-			suppressed = true;
+			
+			gameLogic.getHasDroppedPiece();
 			
 			//TODO: poistetaan väliaikaiset testit
 			gameLogic.setCalculatedMove(new Point(2,3));
 			gameLogic.setIsRobotsTurn(true);
+			
+			// lähetetään tietokoneelle tieto vuoron vaihtumisesta pelaajalle
+			comm.sendTurnChange();
+			//gameLogic.setIsRobotsTurn(false);
+			
+			suppressed = true;
 		}
 	}
 

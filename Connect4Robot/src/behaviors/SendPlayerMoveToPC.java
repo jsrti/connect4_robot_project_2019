@@ -26,6 +26,8 @@ public class SendPlayerMoveToPC implements Behavior {
 	public void action() {
 		Point point = gameLogic.getPlayerMove();
 		comm.sendDropPoint(point);
+		//aletaan odottaa tietokoneelta saatavaa siirtoa
+		gameLogic.setDropPointReceived(false);
 	}
 
 	@Override

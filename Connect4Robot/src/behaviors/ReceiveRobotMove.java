@@ -26,9 +26,8 @@ public class ReceiveRobotMove implements Behavior {
 	@Override
 	public void action() {
 		Point p = comm.receiveDropPoint();
-		gameLogic.setPlayerMove();
+		gameLogic.setCalculatedMove(p);
 		gameLogic.setDropPointReceived(true);
-		//TODO: falseksi jossain
 	}
 
 	@Override

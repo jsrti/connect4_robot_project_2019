@@ -15,7 +15,7 @@ import util.Point;
  * Class contains methods for controlling the data streams (sending and
  * receiving data) between the robot and PC (robot side)
  * 
- * @author Pietari Järvi, Olli Kaivola, Jetro Saarti, Kim Widberg
+ * @author Pietari Jï¿½rvi, Olli Kaivola, Jetro Saarti, Kim Widberg
  *
  */
 public class Communication {
@@ -100,6 +100,17 @@ public class Communication {
 	public void sendDropPoint(Point point) {
 		try {
 			oos.writeObject(point);
+			oos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendTurnChange() {
+		try {
+			out.writeBoolean(true);
+			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 package connect4;
 
+import sensors.ColorTester;
 import util.Point;
 
 public class GameLogic {
@@ -16,7 +17,7 @@ public class GameLogic {
 
 	private boolean dropPointReceived = false;
 
-	private boolean hasDroppedPiece = false;
+	private boolean hasDroppedPiece = true;
 	private Point calculatedMovePoint = null;
 	
 	private Point playerMove = null;
@@ -55,6 +56,8 @@ public class GameLogic {
 	
 	public void setCalculatedMove(Point point) {
 		calculatedMovePoint = point;
+		//tallennetaan taulukkoon tietokoneelta saatu uusi siirto
+		gameGrid[point.x][point.y] = ColorTester.COLOR_ROBOTPIECE;
 	}
 	
 	public Point getCalculatedMove() {
@@ -118,6 +121,14 @@ public class GameLogic {
 		System.out.println("Steps to next empty slot: " + xySteps);
 		
 		return xySteps;
+	}
+
+	public boolean getHasDroppedPiece() {
+		return hasDroppedPiece;
+	}
+
+	public void setHasDroppedPiece(boolean hasDroppedPiece) {
+		this.hasDroppedPiece = hasDroppedPiece;
 	}
 
 
