@@ -49,17 +49,14 @@ public class CommunicationPC {
 		}
 	}
 
-	/**
-	 * Start command for robot
-	 */
-	public void go() {
+	public boolean receiveTurnChange() {
+		boolean turnChange = false;
 		try {
-			out.writeInt(1);
-			out.flush();
+			turnChange = in.readBoolean();
 		} catch (IOException e) {
-			System.err.println(e);
-			System.out.println("Failed to send waypoint count");
+			e.printStackTrace();
 		}
+		return turnChange;
 	}
 
 	/**
@@ -67,7 +64,7 @@ public class CommunicationPC {
 	 * 
 	 * @param point
 	 */
-	
+
 	public void sendDropPoint(Point point) {
 		try {
 			oos.writeObject(point);
@@ -77,6 +74,5 @@ public class CommunicationPC {
 			System.out.println("Couldn't send point");
 		}
 	}
-
 
 }

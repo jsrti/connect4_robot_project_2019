@@ -45,9 +45,10 @@ public class GameOverviewController {
 	 */
 	@FXML
 	private void initialize() {
-		currentTurn.setText("Player");
+		//currentTurn.setText("Player");
 	}
 
+	/*
 	private void addGamePiece(Point point) {
 		int x = point.x;
 		int y = point.y;
@@ -67,6 +68,7 @@ public class GameOverviewController {
 		System.out.println("added");
 		i++;
 	}
+	*/
 
 	@FXML
 	private void changeTurn() {
