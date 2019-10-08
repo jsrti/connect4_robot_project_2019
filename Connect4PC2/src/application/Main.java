@@ -26,7 +26,7 @@ public class Main extends Application {
 
 	public void showGameOverview() {
 		try {
-			// Load root layout from fxml file.
+			// Load layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("/view/GameOverview.fxml"));
 			gameOverview = (AnchorPane) loader.load();
@@ -38,7 +38,6 @@ public class Main extends Application {
 
 			// Give the controller access to the main app.
 			GameOverviewController controller = loader.getController();
-			controller.setMainApp(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,9 +53,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		CommunicatorTask communicatorTask = new CommunicatorTask();
-		Thread communication = new Thread(communicatorTask);
-		communication.start();
+	
 		launch(args);
 	}
 
