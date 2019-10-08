@@ -48,8 +48,8 @@ public class ReturnToStart implements Behavior {
 			gameLogic.getHasDroppedPiece();
 			
 			//TODO: poistetaan väliaikaiset testit
-			gameLogic.setCalculatedMove(new Point(2,3));
-			gameLogic.setIsRobotsTurn(true);
+			//	gameLogic.setCalculatedMove(new Point(2,3));
+			//	gameLogic.setIsRobotsTurn(true);
 			
 			// lähetetään tietokoneelle tieto vuoron vaihtumisesta pelaajalle
 			comm.sendTurnChange();

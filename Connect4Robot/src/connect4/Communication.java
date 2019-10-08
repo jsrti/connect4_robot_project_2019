@@ -116,4 +116,14 @@ public class Communication {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean receiveTurnChange() {
+		boolean turnChange = false;
+		try {
+			turnChange = in.readBoolean();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return turnChange;
+	}
 }
