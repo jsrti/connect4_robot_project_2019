@@ -1,6 +1,6 @@
 package application;
 
-import java.awt.Point;
+import util.Point;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -58,6 +58,16 @@ public class CommunicationPC {
 		}
 		return turnChange;
 	}
+	
+	public void sendTurnChange() {
+		try {
+			out.writeBoolean(true);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Sends a point object to the robot
@@ -74,5 +84,21 @@ public class CommunicationPC {
 			System.out.println("Couldn't send point");
 		}
 	}
+	
+	public Point receiveDropPoint() {
+		Point point = new Point(0, 0);
+		try {
+			point = (Point) oIn.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return point;
+	}
+	
+	
 
 }

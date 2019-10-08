@@ -5,27 +5,32 @@ import java.util.concurrent.TimeUnit;
 import application.CommunicationPC;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import util.Point;
 import view.GameOverviewController;
 
 public class CommunicatorTask extends Task<Void> {
 
 	private boolean gameRunning = true;
 	private CommunicationPC comm;
-	private GameOverviewController controller;
+	private GameOverviewController con;
+	
 
-	public CommunicatorTask() {
-		this.comm = new CommunicationPC();
-		this.controller = new GameOverviewController();
+	public CommunicatorTask(CommunicationPC comm, GameOverviewController con) {
+		this.comm = comm;
 		comm.openConnection();
+		this.con = con;
 	}
 
 	@Override
 	protected Void call() throws Exception {
 		
 		while (gameRunning) {	
-				//while (!comm.receiveTurnChange());
-				System.out.println("threadii");
-				TimeUnit.MILLISECONDS.sleep(1000);
+				System.out.println("kuunnellaan vuoron va");
+				comm.receiveTurnChange();
+				System.out.println("Turn change received");
+				Point p = comm.receiveDropPoint();
+				System.out.println("Point received - x:" + p.x + " y:" + p.y);
+				con.addPlayerPiece(p);
 			}
 
 		comm.closeConnection();

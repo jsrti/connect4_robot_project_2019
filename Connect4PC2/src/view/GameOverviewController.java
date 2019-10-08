@@ -1,5 +1,6 @@
 package view;
 
+import application.CommunicationPC;
 import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -8,14 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import model.CommunicatorTask;
 import model.Determinator;
 import util.Point;
 
 public class GameOverviewController {
 
-	private int i;
-	private boolean playersTurn;
-	private Determinator deter;
+	private int turnNumber;
 
 	@FXML
 	private GridPane pane;
@@ -31,11 +31,14 @@ public class GameOverviewController {
 
 	@FXML
 	private TextField currentTurn;
+	
+	private CommunicationPC comm;
 
 	/**
 	 * The constructor. The constructor is called before the initialize() method.
 	 */
 	public GameOverviewController() {
+		comm = new CommunicationPC();
 
 	}
 
@@ -46,10 +49,32 @@ public class GameOverviewController {
 	@FXML
 	private void initialize() {
 		//currentTurn.setText("Player");
+		CommunicatorTask communicatorTask = new CommunicatorTask(comm, this);
+		Thread communication = new Thread(communicatorTask);
+		communication.start();
+		addPlayerPiece(new Point(5,5));
 	}
 
-	/*
-	private void addGamePiece(Point point) {
+	
+	public void addPlayerPiece(Point point) {
+		int x = point.x;
+		int y = point.y;
+		System.out.println("TESTI 1 -  x: " + x + " y: " + y);
+		Circle circle = new Circle();
+		System.out.println("AAAA");
+		pane.add(circle, x, y);
+		System.out.println("TESTI 2 - x: " + x + " y: " + y);
+		circle.setCenterX(100.0f);
+		circle.setCenterY(100.0f);
+		circle.setRadius(40.0f);
+		circle.setFill(Paint.valueOf("DODGERBLUE"));
+		GridPane.setFillWidth(circle, true);
+		GridPane.setFillHeight(circle, true);
+		System.out.println("added player piece");
+		turnNumber++;
+	}
+	
+	public void addRobotPiece(Point point) {
 		int x = point.x;
 		int y = point.y;
 		
@@ -58,27 +83,18 @@ public class GameOverviewController {
 		circle.setCenterX(100.0f);
 		circle.setCenterY(100.0f);
 		circle.setRadius(40.0f);
-		if (playersTurn) {
-			circle.setFill(Paint.valueOf("DODGERBLUE"));
-		} else {
-			circle.setFill(Paint.valueOf("YELLOW"));
-		}
+		circle.setFill(Paint.valueOf("YELLOW"));
 		GridPane.setFillWidth(circle, true);
 		GridPane.setFillHeight(circle, true);
-		System.out.println("added");
-		i++;
+		System.out.println("added robot piece");
+		turnNumber++;
 	}
-	*/
+	
 
 	@FXML
 	private void changeTurn() {
-		if (playersTurn) {
-			playersTurn = false;
-			currentTurn.setText("Robot");
-		} else {
-			playersTurn = true;
-			currentTurn.setText("Player");
-		}
+		comm.sendTurnChange();
+		currentTurn.setText("Robot");
 	}
 
 	@FXML
@@ -86,9 +102,8 @@ public class GameOverviewController {
 		Node node = pane.getChildren().get(0);
 		pane.getChildren().clear();
 		pane.getChildren().add(0, node);
-		i = 0;
-		turns.setText("" + i);
-		playersTurn = true;
+		turnNumber = 0;
+		turns.setText("" + turnNumber);
 	}
 
 	public void setMainApp(Main main) {
