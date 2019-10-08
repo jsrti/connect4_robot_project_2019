@@ -1,5 +1,6 @@
 package behaviors;
 
+import connect4.Communication;
 import connect4.GameLogic;
 import connect4.MotorFunctions;
 import connect4.PieceXYReadMove;
@@ -22,10 +23,12 @@ public class ReadGamePieces implements Behavior {
 	private MotorFunctions motorFunctions;
 	private GameLogic gameLogic;
 	private PieceXYReadMove pieceXYReadMove;
+	private Communication comm = new Communication();
 
-	public ReadGamePieces(PieceXYReadMove pieceXYReadMove, GameLogic gameLogic) {
+	public ReadGamePieces(PieceXYReadMove pieceXYReadMove, GameLogic gameLogic, Communication comm) {
 		this.pieceXYReadMove = pieceXYReadMove;
 		this.gameLogic = gameLogic;
+		this.comm = comm;
 	}
 
 	@Override
@@ -58,6 +61,8 @@ public class ReadGamePieces implements Behavior {
 					Point currentLocation = gameLogic.getLocation();
 
 					gameLogic.setGameBoardReadComplete(true);
+					comm.sendDropPoint(currentLocation);
+					gameLogic.setDropPointReceived(false);
 					suppressed = true;
 				}
 			}

@@ -28,7 +28,7 @@ public class DispenseGamePieces implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		if (gameLogic.getIsRobotsTurn() && gameLogic.getCalculatedMove() != null)
+		if (gameLogic.getIsRobotsTurn() && gameLogic.getCalculatedDropPoint() != null)
 			return true;
 		return false;
 	}
@@ -44,7 +44,7 @@ public class DispenseGamePieces implements Behavior {
 		// jatketaan pelaajan kuittauksen jälkeen
 		// default behavior: ReturnToStart
 
-		Point target = gameLogic.getCalculatedMove();
+		Point target = gameLogic.getPathToCalculatedPoint();
 		pieceXYReadMove.moveSensor(target);
 		motorFunctions.rotateDispenserMotor(15, false);
 		// TODO: maksimin tarkistus(touchSensor), thread
