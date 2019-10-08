@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import lejos.hardware.Sound;
+import util.Point;
 
 /**
  * Class contains methods for controlling the data streams (sending and
@@ -75,12 +76,12 @@ public class Communication {
 		}
 	}
 	*/
+	
 	/**
 	 * Receives point coordinates sent from the PC
 	 * 
 	 * @return
 	 */
-	/*
 	public Point receiveDropPoint() {
 		Point point = new Point(0, 0);
 		try {
@@ -94,30 +95,14 @@ public class Communication {
 		}
 		return point;
 	}
-	*/
 
-	/**
-	 * 
-	 * @return
-	 */
-	public int receiveGamePieceX() {
-		int gamePieceX = 0;
-
+	
+	public void sendDropPoint(Point point) {
 		try {
-			gamePieceX = in.readInt();
+			oos.writeObject(point);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return gamePieceX;
-	}
-
-	public void sendGamePieceX(int gamePieceX) {
-		try {
-			out.writeInt(gamePieceX);
-			out.flush();
-		} catch (IOException e) {
-			System.err.println(e);
-			System.out.println("Failed to send game piece");
 		}
 	}
 }

@@ -6,6 +6,7 @@ import behaviors.DriveForward;
 import behaviors.EmergencyStop;
 import behaviors.ReadGamePieces;
 import behaviors.ReturnToStart;
+import behaviors.SendPlayerMoveToPC;
 import lejos.hardware.Button;
 import lejos.hardware.Device;
 import lejos.hardware.ev3.LocalEV3;
@@ -22,6 +23,9 @@ public class RobotProgram {
 	public static void main(String[] args) {
 		Arbitrator arbitrator;
 		ArrayList<Behavior> behaviors = new ArrayList<>();
+		
+		Communication comm = new Communication();
+		comm.openConnection();
 
 		// Gets the sensors and motors from the ports
 		Port colorPort = LocalEV3.get().getPort("S1");
@@ -54,6 +58,7 @@ public class RobotProgram {
 			}
 		}
 		//DriveForward driveForward = new DriveForward(motorFunctions);
+		SendPlayerMoveToPC sendPlayerMoveToPC = new SendPlayerMoveToPC(gameLogic, comm);
 		ReadGamePieces readGamePieces = new ReadGamePieces(pieceXYReadMove,gameLogic);
 		EmergencyStop emergencyStop = new EmergencyStop();
 		ReturnToStart returnToStart = new ReturnToStart(motorFunctions, startPositionButton, gameLogic);
@@ -64,6 +69,7 @@ public class RobotProgram {
 		behaviors.add(returnToStart);
 		behaviors.add(dispenseGamePieces);
 		behaviors.add(readGamePieces);
+		behaviors.add(sendPlayerMoveToPC);
 		behaviors.add(emergencyStop);
 		//behaviors.add(driveForward);
 
@@ -80,6 +86,7 @@ public class RobotProgram {
 		Button.ENTER.waitForPressAndRelease();
 		// Starts the bot's default cycle
 		System.out.println("Arbitrator soon!");
+		
 		
 		arbitrator.go();
 

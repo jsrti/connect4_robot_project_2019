@@ -14,9 +14,30 @@ public class GameLogic {
 	private boolean isRobotsTurn = false; // Player's turn by default
 	private boolean gameBoardReadComplete = false;
 
-	private boolean turnCalculationReceived = false;
+	private boolean dropPointReceived = false;
+
 	private boolean hasDroppedPiece = false;
 	private Point calculatedMovePoint = null;
+	
+	private Point playerMove = null;
+	
+	public boolean getDropPointReceived() {
+		return dropPointReceived;
+	}
+
+	public void setDropPointReceived(boolean dropPointReceived) {
+		this.dropPointReceived = dropPointReceived;
+	}
+	
+	public Point getPlayerMove() {
+		Point p = playerMove;
+		playerMove = null;
+		return p;
+	}
+	
+	public void setPlayerMove() {
+		this.playerMove = playerMove;
+	}
 	
 	public boolean getIsRobotsTurn() {
 		return isRobotsTurn;
