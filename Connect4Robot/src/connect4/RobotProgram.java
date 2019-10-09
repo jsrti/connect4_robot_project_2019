@@ -2,12 +2,11 @@ package connect4;
 import java.util.ArrayList;
 
 import behaviors.DispenseGamePieces;
-import behaviors.DriveForward;
 import behaviors.EmergencyStop;
 import behaviors.ReadGamePieces;
+import behaviors.ReceiveRobotMove;
 import behaviors.ReceiveTurnChange;
 import behaviors.ReturnToStart;
-import behaviors.SendPlayerMoveToPC;
 import lejos.hardware.Button;
 import lejos.hardware.Device;
 import lejos.hardware.ev3.LocalEV3;
@@ -60,7 +59,7 @@ public class RobotProgram {
 		}
 		//DriveForward driveForward = new DriveForward(motorFunctions);
 		ReceiveTurnChange receiveTurnChange = new ReceiveTurnChange(gameLogic, comm);
-		SendPlayerMoveToPC sendPlayerMoveToPC = new SendPlayerMoveToPC(gameLogic, comm);
+		ReceiveRobotMove receiveRobotMove = new ReceiveRobotMove(gameLogic, comm);
 		ReadGamePieces readGamePieces = new ReadGamePieces(pieceXYReadMove,gameLogic, comm);
 		EmergencyStop emergencyStop = new EmergencyStop();
 		ReturnToStart returnToStart = new ReturnToStart(motorFunctions, startPositionButton, gameLogic, comm);
@@ -69,12 +68,12 @@ public class RobotProgram {
 		// Adds the behaviors in the order of importance from least to most
 		
 		behaviors.add(returnToStart);
-		behaviors.add(dispenseGamePieces);
 		behaviors.add(readGamePieces);
-		//behaviors.add(sendPlayerMoveToPC);
 		behaviors.add(receiveTurnChange);
+		behaviors.add(receiveRobotMove);
+		behaviors.add(dispenseGamePieces);
+		
 		behaviors.add(emergencyStop);
-		//behaviors.add(driveForward);
 
 		Behavior[] behaviorArray = behaviors.toArray(new Behavior[behaviors.size()]);
 

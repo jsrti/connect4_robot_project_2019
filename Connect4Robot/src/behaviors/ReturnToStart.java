@@ -24,14 +24,14 @@ public class ReturnToStart implements Behavior {
 	
 	@Override
 	public boolean takeControl() {
-		if(gameLogic.getHasDroppedPiece())
+		if(gameLogic.getIsRobotsTurn() && gameLogic.getHasDroppedPiece())
 			return true;
 		return false;
 	}
 
 	@Override
 	public void action() {
-		
+		System.out.println("ReturnToStart started");
 		suppressed = false;
 		//Robotti liikkuu aloitusasemaan (x- siirtymä anturiin asti
 		int movementSpeed = 200;
@@ -39,6 +39,9 @@ public class ReturnToStart implements Behavior {
 			motorFunctions.rotateMovementMotor(movementSpeed, false);
 			// TODO: tarkkaillaan nappulanpainallusta, thread
 			while(!startPositionButton.isButtonPressed());
+			gameLogic.setIsRobotsTurn(false);
+			gameLogic.setHasDroppedPiece(false);
+			
 			motorFunctions.stopMovement();
 			System.out.println("Liikuttu aloituspisteeseen -1");
 			
@@ -51,8 +54,7 @@ public class ReturnToStart implements Behavior {
 			
 			// lähetetään tietokoneelle tieto vuoron vaihtumisesta pelaajalle
 			comm.sendTurnChange();
-			//gameLogic.setIsRobotsTurn(false);
-			gameLogic.setHasDroppedPiece(false);
+			
 			
 			suppressed = true;
 		}

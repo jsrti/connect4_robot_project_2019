@@ -13,7 +13,7 @@ public class GameLogic {
 	// (moottorin oltava ylä-asennossa)
 	private Point currentLocation = new Point(0, 5);
 
-	private boolean isRobotsTurn = false; // Player's turn by default
+	private boolean isRobotsTurn = true; //
 	private boolean gameBoardReadComplete = false;
 
 	private boolean dropPointReceived = false;
@@ -28,6 +28,10 @@ public class GameLogic {
 	}
 
 	public void setDropPointReceived(boolean dropPointReceived) {
+		if (dropPointReceived)
+			System.out.println("dropPointReceived");
+		else
+			System.out.println("dropPointCleared");
 		this.dropPointReceived = dropPointReceived;
 	}
 
@@ -37,15 +41,15 @@ public class GameLogic {
 		return p;
 	}
 
-	public void setPlayerMove() {
-		this.playerMove = playerMove;
-	}
-
 	public boolean getIsRobotsTurn() {
 		return isRobotsTurn;
 	}
 
 	public void setIsRobotsTurn(boolean b) {
+		if (b)
+			System.out.println("Robot turn!");
+		else
+			System.out.println("Player turn!");
 		isRobotsTurn = b;
 	}
 
@@ -58,11 +62,11 @@ public class GameLogic {
 	public void setCalculatedMove(Point point) {
 		calculatedDropPoint = point;
 		// tallennetaan taulukkoon tietokoneelta saatu uusi siirto
-		if(point!=null) {
+		if (point != null) {
 			gameGrid[point.x][point.y] = ColorTester.COLOR_ROBOTPIECE;
 		}
 	}
-	
+
 	public Point getCalculatedDropPoint() {
 		return calculatedDropPoint;
 	}
@@ -72,8 +76,8 @@ public class GameLogic {
 		try {
 			int x = calculatedDropPoint.x - currentLocation.x;
 			int y = calculatedDropPoint.y - currentLocation.y;
-			p = new Point(x,y);
-		}catch(Exception e){
+			p = new Point(x, y);
+		} catch (Exception e) {
 			System.out.println("getCalculatedMove() KABOOM");
 		}
 		return p;
@@ -113,29 +117,35 @@ public class GameLogic {
 	// t�ss� vaiheessa nollasta, eli nollaus ennen t�t�. palautetaan
 	// ensimmäinen löydetty tyhjä
 	private Point checkNextEmptySlot() {
-		Point nextEmptyPoint = null;
+
 		for (int i = currentLocation.x + 1; i < columns; i++) {
 			for (int j = 0; j < rows; j++) {
 				if (gameGrid[i][j] == 0) {
-					nextEmptyPoint = new Point(i, j);
+					Point nextEmptyPoint = new Point(i, j);
 					System.out.println("Next empty slot: " + nextEmptyPoint);
 					return nextEmptyPoint;
 				}
 			}
 		}
-		return nextEmptyPoint;
+		System.out.println("No piece ggwp");
+		return null;
 	}
 
 	// "askeleet" seuraavaan tarkistettavaan pisteeseen anturin nykyisest�
 	// sijainnista
 	public Point stepsToNextEmpty() {
-		Point nextEmpty = checkNextEmptySlot();
 		Point xySteps = new Point();
+		Point nextEmpty = null;
+		try {
+			nextEmpty = checkNextEmptySlot();
 
-		xySteps.x = nextEmpty.x - currentLocation.x;
-		xySteps.y = nextEmpty.y - currentLocation.y;
-		System.out.println("Steps to next empty slot: " + xySteps);
-
+			xySteps.x = nextEmpty.x - currentLocation.x;
+			xySteps.y = nextEmpty.y - currentLocation.y;
+			System.out.println("Steps to next empty slot: " + xySteps);
+		} catch (Exception e) {
+			System.out.println("CurrentLocation: " + currentLocation.x + " " + currentLocation.y);
+			System.out.println("nextEmpty: " + nextEmpty.x + " " + nextEmpty.y);
+		}
 		return xySteps;
 	}
 

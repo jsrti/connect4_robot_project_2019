@@ -17,7 +17,7 @@ public class ReceiveRobotMove implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		if (gameLogic.getIsRobotsTurn() && !gameLogic.getDropPointReceived()) {
+		if (gameLogic.getIsRobotsTurn() && !gameLogic.getDropPointReceived() && gameLogic.getGameBoardReadComplete()) {
 			return true;
 		}
 		return false;
@@ -25,9 +25,12 @@ public class ReceiveRobotMove implements Behavior {
 
 	@Override
 	public void action() {
+		System.out.println("ReceiveRobotMove started");
 		Point p = comm.receiveDropPoint();
+		System.out.println("Move received - x:" + p.x + " y: "+p.y);
 		gameLogic.setCalculatedMove(p);
 		gameLogic.setDropPointReceived(true);
+		gameLogic.setGameBoardReadComplete(false);
 	}
 
 	@Override

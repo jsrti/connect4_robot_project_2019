@@ -20,7 +20,6 @@ public class ReadGamePieces implements Behavior {
 	
 
 	private ColorTester colorTester;
-	private MotorFunctions motorFunctions;
 	private GameLogic gameLogic;
 	private PieceXYReadMove pieceXYReadMove;
 	private Communication comm = new Communication();
@@ -43,10 +42,11 @@ public class ReadGamePieces implements Behavior {
 
 	@Override
 	public void action() {
+		System.out.println("ReadGamePieces started");
+		suppressed = false;
 		while (!suppressed) {
 
 			boolean newPieceFound = false;
-			
 			while(!newPieceFound) {
 				// haetaan tieto stepeistä seuraavaan tyhjään slottiin (gameLogic)
 				Point stepsToNextEmpty = gameLogic.stepsToNextEmpty();
@@ -71,7 +71,6 @@ public class ReadGamePieces implements Behavior {
 
 	@Override
 	public void suppress() {
-		motorFunctions.stopLifter();
 		suppressed = true;
 	}
 

@@ -24,6 +24,7 @@ public class ReceiveTurnChange implements Behavior {
 
 	@Override
 	public void action() {
+		System.out.println("ReceiveTurnChange started");
 		comm.receiveTurnChange();
 		System.out.println("Turn change received");
 		gameLogic.setIsRobotsTurn(true);

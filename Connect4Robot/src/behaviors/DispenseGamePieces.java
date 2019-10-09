@@ -43,6 +43,8 @@ public class DispenseGamePieces implements Behavior {
 		// HUOM: jos osuu kosketusanturiin ääripäässä, ilmoitetaan lataustarve ja
 		// jatketaan pelaajan kuittauksen jälkeen
 		// default behavior: ReturnToStart
+		
+		System.out.println("DispenseGamePieces started");
 
 		Point target = gameLogic.getPathToCalculatedPoint();
 		pieceXYReadMove.moveSensor(target);
@@ -58,8 +60,7 @@ public class DispenseGamePieces implements Behavior {
 		}
 
 		gameLogic.setCalculatedMove(null);
-		gameLogic.setIsRobotsTurn(false);
-		// TODO: vuoron siirto - välitetään tietokoneelle tieto
+		gameLogic.setHasDroppedPiece(true);
 	}
 
 	@Override
