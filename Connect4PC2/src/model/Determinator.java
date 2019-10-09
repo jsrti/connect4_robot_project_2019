@@ -8,6 +8,10 @@ public class Determinator {
 	private int[] nextMoves;	// The next possible moves, used to to check which one is the best. Provided by the Board class
 	private int bot;			// The number that indicates the bot's game pieces
 	private int player;			// The number that indicates the player's game pieces
+	private int botPegValue = 4;
+	private int playerPegValue = 3;
+	private int emptyPegValue = 0;
+	private int power = 2;
 	
 	/**
 	 * 
@@ -90,22 +94,25 @@ public class Determinator {
 				points += getDiagonalLeftValue(i, nextMoves[i]);
 				
 				if (nextMoves[i] < grid[i].length - 1) {
-					points -= getHorizontalValue(i, nextMoves[i] + 1)/2;
-					points -= getVerticalValue(i, nextMoves[i] + 1)/2;
-					points -= getDiagonalRightValue(i, nextMoves[i] + 1)/2;
-					points -= getDiagonalLeftValue(i, nextMoves[i] + 1)/2;
+					points -= getHorizontalValue(i, nextMoves[i] + 1)/3;
+					points -= getVerticalValue(i, nextMoves[i] + 1)/3;
+					points -= getDiagonalRightValue(i, nextMoves[i] + 1)/3;
+					points -= getDiagonalLeftValue(i, nextMoves[i] + 1)/3;
 				}
-				points -= Math.abs(i - 3);
+				points -= Math.abs(i-3)*2;
+
 				movePoints[i] = points;
 			}
+			else movePoints[i] = -1000;
 		}
-		
+		System.out.print(movePoints[0] + " ");
 		for (int i = 1; i < movePoints.length; i++) {
+			System.out.print(movePoints[i] + " ");
 			if (movePoints[i] > movePoints[bestMove]) {
 				bestMove = i;
 			}
 		}
-		
+		System.out.println("\n");
 		Point nextMove = new Point(bestMove, nextMoves[bestMove]);
 		
 		return nextMove;
@@ -124,7 +131,6 @@ public class Determinator {
 		
 		//Left side
 		int read = x;
-		System.out.println("read " + read);
 		if (read > 3) {
 			read = 3;
 		}
@@ -138,7 +144,6 @@ public class Determinator {
 			
 			if (spot != 0 && leftPeg == -1) {
 				leftPeg = spot;
-				System.out.println("leftPeg = " + leftPeg + " at X: " + (x-a) + " Y: " + y);
 			}
 			else if (spot == 0) {
 				noEmpty = false;
@@ -146,28 +151,24 @@ public class Determinator {
 			
 			if (spot == leftPeg) {
 				if (spot == bot) {
-					leftPoints += 3;
-					System.out.println("+3 left");
+					leftPoints += botPegValue;
+					
 				}
 				else if (spot == player) {
-					leftPoints += 2;
-					System.out.println("+2 left");
+					leftPoints += playerPegValue;
+					
 				}
 				
 				if (noEmpty) {
 					leftStreak++;
-					System.out.println("left streak increased");
 				}
 			}
 			else if (spot == 0) {
-				leftPoints++;
-					System.out.println("+1 left");
+				leftPoints += emptyPegValue;
 			}
-			else { System.out.println("left break at " + a + " " + spot); break; }
 			
 		}
 		read = grid.length - 1 - x;
-		System.out.println("read " + read);
 		if (read > 3) {
 			read = 3;
 		}
@@ -182,7 +183,6 @@ public class Determinator {
 			
 			if (spot != 0 && rightPeg == -1) {
 				rightPeg = spot;
-				System.out.println("rightPeg = " + rightPeg + " at X: " + (x+a) + " Y: " + y);
 			}
 			else if (spot == 0) {
 				noEmpty = false;
@@ -190,24 +190,23 @@ public class Determinator {
 			
 			if (spot == rightPeg) {
 				if (spot == bot) {
-					rightPoints += 3;
-					System.out.println("+3 right");
+					rightPoints += botPegValue;
+					
 				}
 				else if (spot == player) {
-					rightPoints += 2;
-					System.out.println("+2 right");
+					rightPoints += playerPegValue;
+					
 				}
 				
 				if (noEmpty) {
 					rightStreak++;
-					System.out.println("right streak increased");
+					
 				}
 			}
 			else if (spot == 0) {
-				rightPoints++;
-					System.out.println("+1 right");
+				rightPoints += emptyPegValue;
+					
 			}
-			else { System.out.println("right break at " + a + " " + spot); break; }
 			
 		}
 		
@@ -245,15 +244,14 @@ public class Determinator {
 			
 			if (spot == firstPeg) {
 				if (spot == bot) {
-					points += 3;
-					System.out.println("+3 right");
+					points += botPegValue;
+					
 				}
 				else if (spot == player) {
-					points += 2;
-					System.out.println("+2 right");
+					points += playerPegValue;
+					
 				}
 			}
-			else { System.out.println("down break at " + a + " " + spot); break; }
 		}
 		
 		points = (int)Math.pow(2, points);
@@ -289,7 +287,6 @@ public class Determinator {
 			
 			if (spot != 0 && leftPeg == -1) {
 				leftPeg = spot;
-				System.out.println("leftPeg = " + leftPeg + " at X: " + (x-a) + " Y: " + (y-a));
 			}
 			else if (spot == 0) {
 				noEmpty = false;
@@ -297,32 +294,27 @@ public class Determinator {
 			
 			if (spot == leftPeg) {
 				if (spot == bot) {
-					leftPoints += 3;
-					System.out.println("+3 left");
+					leftPoints += botPegValue;
+					
 				}
 				else if (spot == player) {
-					leftPoints += 2;
-					System.out.println("+2 left");
+					leftPoints += playerPegValue;
+					
 				}
 				
 				if (noEmpty) {
 					leftStreak++;
-					System.out.println("left streak increased");
 				}
 			}
 			else if (spot == 0) {
-				leftPoints++;
-					System.out.println("+1 left");
+				leftPoints += emptyPegValue;
 			}
-			else { System.out.println("left break at " + a + " " + spot); break; }
 			
 		}
 		read = grid[x].length - 1 - y;
 		if (grid.length - 1 - x < grid[x].length - 1 - y) {
-			System.out.println("aaaa");
 			read = grid.length - 1 - x;
 		}
-		System.out.println("read " + read);
 		if (read > 3) {
 			read = 3;
 		}
@@ -337,7 +329,6 @@ public class Determinator {
 			
 			if (spot != 0 && rightPeg == -1) {
 				rightPeg = spot;
-				System.out.println("rightPeg = " + rightPeg + " at X: " + (x+a) + " Y: " + (y+a));
 			}
 			else if (spot == 0) {
 				noEmpty = false;
@@ -345,24 +336,23 @@ public class Determinator {
 			
 			if (spot == rightPeg) {
 				if (spot == bot) {
-					rightPoints += 3;
-					System.out.println("+3 right");
+					rightPoints += botPegValue;
+					
 				}
 				else if (spot == player) {
-					rightPoints += 2;
-					System.out.println("+2 right");
+					rightPoints += playerPegValue;
+					
 				}
 				
 				if (noEmpty) {
 					rightStreak++;
-					System.out.println("right streak increased");
+					
 				}
 			}
 			else if (spot == 0) {
-				rightPoints++;
-					System.out.println("+1 right");
+				rightPoints += emptyPegValue;
+					
 			}
-			else { System.out.println("right break at " + a + " " + spot); break; }
 			
 		}
 		
@@ -404,7 +394,6 @@ public class Determinator {
 			
 			if (spot != 0 && leftPeg == -1) {
 				leftPeg = spot;
-				System.out.println("leftPeg = " + leftPeg + " at X: " + (x-a) + " Y: " + (y+a));
 			}
 			else if (spot == 0) {
 				noEmpty = false;
@@ -412,31 +401,27 @@ public class Determinator {
 			
 			if (spot == leftPeg) {
 				if (spot == bot) {
-					leftPoints += 3;
-					System.out.println("+3 left");
+					leftPoints += botPegValue;
+					
 				}
 				else if (spot == player) {
-					leftPoints += 2;
-					System.out.println("+2 left");
+					leftPoints += playerPegValue;
+					
 				}
 				
 				if (noEmpty) {
 					leftStreak++;
-					System.out.println("left streak increased");
 				}
 			}
 			else if (spot == 0) {
-				leftPoints++;
-					System.out.println("+1 left");
+				leftPoints += emptyPegValue;
 			}
-			else { System.out.println("left break at " + a + " " + spot); break; }
 			
 		}
 		read = grid.length - 1 - x;
 		if (y < read) {
 			read = y;
 		}
-		System.out.println("read " + read);
 		if (read > 3) {
 			read = 3;
 		}
@@ -451,7 +436,6 @@ public class Determinator {
 			
 			if (spot != 0 && rightPeg == -1) {
 				rightPeg = spot;
-				System.out.println("rightPeg = " + rightPeg + " at X: " + (x+a) + " Y: " + (y-a));
 			}
 			else if (spot == 0) {
 				noEmpty = false;
@@ -459,24 +443,22 @@ public class Determinator {
 			
 			if (spot == rightPeg) {
 				if (spot == bot) {
-					rightPoints += 3;
-					System.out.println("+3 right");
+					rightPoints += botPegValue;
+					
 				}
 				else if (spot == player) {
-					rightPoints += 2;
-					System.out.println("+2 right");
+					rightPoints += playerPegValue;
+					
 				}
 				
 				if (noEmpty) {
 					rightStreak++;
-					System.out.println("right streak increased");
 				}
 			}
 			else if (spot == 0) {
-				rightPoints++;
-					System.out.println("+1 right");
+				rightPoints += emptyPegValue;
+					
 			}
-			else { System.out.println("right break at " + a + " " + spot); break; }
 			
 		}
 		
