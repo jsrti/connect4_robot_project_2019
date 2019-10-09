@@ -23,6 +23,19 @@ public class Tester {
 	}
 	
 	public void playSequence(Point playersMove) {
+		Board board = new Board();
+		int bot = 1;
+		int player = 2;
+		Determinator det = new Determinator(board, bot, player);
+		board.setPiece(playersMove.x, player);
+		Point nextMove = det.getNextMove();
+		int winState = det.checkWins();
+		
+		switch(winState) {
+		case 0:
+			
+		}
+		
 		
 	}
 }

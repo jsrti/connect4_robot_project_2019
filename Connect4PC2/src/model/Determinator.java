@@ -70,14 +70,10 @@ public class Determinator {
 	}
 	
 	/**
-	 * Calculates the next move
-	 * @param botColor the number that indicates bot's color. 
-	 * @param playerColor the number that indicates the player's color
+	 * Calculates the next move based on the colors of the surrounding slots
 	 * @return returns a point object that holds the move's X and Y values
 	 */
-	public Point getNextMove(int botColor, int playerColor) {
-		bot = botColor;
-		player = playerColor;
+	public Point getNextMove() {
 		grid = game.getGrid();
 		int bestMove = 0;
 		
@@ -87,20 +83,21 @@ public class Determinator {
 		
 		for (int i = 0; i < nextMoves.length; i++) {
 			int points = 0;
-			
-			points += getHorizontalValue(i, nextMoves[i]);
-			points += getVerticalValue(i, nextMoves[i]);
-			points += getDiagonalRightValue(i, nextMoves[i]);
-			points += getDiagonalLeftValue(i, nextMoves[i]);
-			
-			if (nextMoves[i] < grid[i].length - 1) {
-				points -= getHorizontalValue(i, nextMoves[i] + 1)/2;
-				points -= getVerticalValue(i, nextMoves[i] + 1)/2;
-				points -= getDiagonalRightValue(i, nextMoves[i] + 1)/2;
-				points -= getDiagonalLeftValue(i, nextMoves[i] + 1)/2;
+			if (nextMoves[i] != -1) {
+				points += getHorizontalValue(i, nextMoves[i]);
+				points += getVerticalValue(i, nextMoves[i]);
+				points += getDiagonalRightValue(i, nextMoves[i]);
+				points += getDiagonalLeftValue(i, nextMoves[i]);
+				
+				if (nextMoves[i] < grid[i].length - 1) {
+					points -= getHorizontalValue(i, nextMoves[i] + 1)/2;
+					points -= getVerticalValue(i, nextMoves[i] + 1)/2;
+					points -= getDiagonalRightValue(i, nextMoves[i] + 1)/2;
+					points -= getDiagonalLeftValue(i, nextMoves[i] + 1)/2;
+				}
+				points -= Math.abs(i - 3);
+				movePoints[i] = points;
 			}
-			points -= Math.abs(i - 3);
-			movePoints[i] = points;
 		}
 		
 		for (int i = 1; i < movePoints.length; i++) {
