@@ -50,7 +50,17 @@ public class DispenseGamePieces implements Behavior {
 		pieceXYReadMove.moveSensor(target);
 		motorFunctions.rotateDispenserMotor(15, false);
 		// TODO: maksimin tarkistus(touchSensor), thread
-		while (colorTester.testColor() == ColorTester.COLOR_EMPTY);
+		while (colorTester.testColor() == ColorTester.COLOR_EMPTY){
+			if (feederEndButton.isButtonPressed()) {
+				motorFunctions.stopDispenser();
+				motorFunctions.rotateDispenserMotor(50, true);
+				Delay.msDelay(6000);
+				motorFunctions.stopDispenser();
+				while(!feederEndButton.isButtonPressed());
+				Delay.msDelay(500);
+				motorFunctions.rotateDispenserMotor(15, false);
+			}
+		}
 		System.out.println("Pudotus tunnistettu!");
 		motorFunctions.stopDispenser();
 
