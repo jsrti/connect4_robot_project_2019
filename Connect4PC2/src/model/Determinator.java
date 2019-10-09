@@ -8,10 +8,10 @@ public class Determinator {
 	private int[] nextMoves;	// The next possible moves, used to to check which one is the best. Provided by the Board class
 	private int bot;			// The number that indicates the bot's game pieces
 	private int player;			// The number that indicates the player's game pieces
-	private int botPegValue = 4;
-	private int playerPegValue = 3;
-	private int emptyPegValue = 0;
-	private int power = 2;
+	private int botPegValue = 4;	// Value of the bot's color in the calculations
+	private int playerPegValue = 3; // Value of the player's color in the calculations
+	private int emptyPegValue = 0;  // Value of the empty spaces in the calculations
+	private int power = 2;			// power^points 
 	
 	/**
 	 * 
@@ -103,7 +103,7 @@ public class Determinator {
 
 				movePoints[i] = points;
 			}
-			else movePoints[i] = -1000;
+			else movePoints[i] = -100000;
 		}
 		System.out.print(movePoints[0] + " ");
 		for (int i = 1; i < movePoints.length; i++) {
@@ -211,10 +211,10 @@ public class Determinator {
 		}
 		
 		if (rightPeg == leftPeg && (noEmpty || rightStreak + leftStreak >= 3)) {
-			points = (int)Math.pow(2, rightPoints + leftPoints);
+			points = (int)Math.pow(power, rightPoints + leftPoints);
 		}
 		else {
-			points = (int)(Math.pow(2, leftPoints) + Math.pow(2, rightPoints));
+			points = (int)(Math.pow(power, leftPoints) + Math.pow(power, rightPoints));
 		}
 		return points;
 	}
@@ -254,7 +254,7 @@ public class Determinator {
 			}
 		}
 		
-		points = (int)Math.pow(2, points);
+		points = (int)Math.pow(power, points);
 		return points;
 	}
 	
@@ -357,10 +357,10 @@ public class Determinator {
 		}
 		
 		if (rightPeg == leftPeg && (noEmpty || rightStreak + leftStreak >= 3)) {
-			points = (int)Math.pow(2, rightPoints + leftPoints);
+			points = (int)Math.pow(power, rightPoints + leftPoints);
 		}
 		else {
-			points = (int)(Math.pow(2, leftPoints) + Math.pow(2, rightPoints));
+			points = (int)(Math.pow(power, leftPoints) + Math.pow(power, rightPoints));
 		}
 		return points;
 	}
@@ -462,11 +462,11 @@ public class Determinator {
 			
 		}
 		
-		if (rightPeg == leftPeg && (noEmpty || rightStreak + leftStreak >= 3)) {
-			points = (int)Math.pow(2, rightPoints + leftPoints);
+		if (rightPeg == leftPeg && (rightStreak + leftStreak >= 3)) {
+			points = (int)Math.pow(power, rightPoints + leftPoints);
 		}
 		else {
-			points = (int)(Math.pow(2, leftPoints) + Math.pow(2, rightPoints));
+			points = (int)(Math.pow(power, leftPoints) + Math.pow(power, rightPoints));
 		}
 		return points;
 	}
